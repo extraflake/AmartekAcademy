@@ -15,4 +15,5 @@ public class StatusDTO {
 
     public String hr_id;
     public String trainer_id;
+    public String url;
 }

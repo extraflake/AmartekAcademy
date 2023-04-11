@@ -76,6 +76,7 @@ public class ArrangeInterviewRestController {
                 try {
                     User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
                     Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
+                    Biodata BioHr = biodataService.getid(setrecruitment.getHr().getId());
                     System.out.println(BioUser.getFullname());
                     Map<String, Object> AddMap = new HashMap<String,Object>();
                     System.out.println(user.getEmail());
@@ -86,8 +87,11 @@ public class ArrangeInterviewRestController {
                     for (String sendto : to) {
         
                     AddMap.put("name", BioUser.getFullname());
-                    AddMap.put("url", setrecruitment);
-                    AddMap.put("tanggal", adddate.dateInterviewTrainer);
+                    AddMap.put("url", adddate.url);
+                    AddMap.put("time", adddate.dateInterviewTrainer);
+                    AddMap.put("interviewuser", "HR");
+                    AddMap.put("userinterview", BioHr.getFullname());
+
                     Email email = new Email();
                     email.setFrom("farhanaziz939@gmail.com");
                     email.setTemplate("interview-email.html");
@@ -102,7 +106,6 @@ public class ArrangeInterviewRestController {
                 iArrangeInterviewService.Save(setrecruitment);
                 return ResponseHandler.generateResponse("Data status HR terupdatee", HttpStatus.OK);
             }catch (MessagingException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
                 return ResponseHandler.generateResponse("Error: " +e, HttpStatus.BAD_REQUEST);
             }
@@ -124,6 +127,7 @@ public class ArrangeInterviewRestController {
             try {
             User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
             Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
+            Biodata BioTrainer =  biodataService.getid(setrecruitment.getTrainer().getId());
             System.out.println(BioUser.getFullname());
             Map<String, Object> AddMap = new HashMap<String,Object>();
             System.out.println(user.getEmail());
@@ -132,10 +136,12 @@ public class ArrangeInterviewRestController {
             to.add(setrecruitment.getTrainer().getEmail());
 
             for (String sendto : to) {
+                AddMap.put("name", BioUser.getFullname());
+                AddMap.put("url", adddate.url);
+                AddMap.put("time", adddate.dateInterviewTrainer);
+                AddMap.put("interviewuser", "User");
+                AddMap.put("userinterview", BioTrainer.getFullname());
 
-            AddMap.put("name", BioUser.getFullname());
-            AddMap.put("url", setrecruitment);
-            AddMap.put("tanggal", adddate.dateInterviewTrainer);
             Email email = new Email();
             email.setFrom("farhanaziz939@gmail.com");
             email.setTemplate("interview-email.html");
@@ -150,7 +156,7 @@ public class ArrangeInterviewRestController {
                 iArrangeInterviewService.Save(setrecruitment);
                 return ResponseHandler.generateResponse("Data status Trainer terupdatee", HttpStatus.OK);
             } catch (MessagingException e) {
-                // TODO Auto-generated catch block
+
                 e.printStackTrace();
                 return ResponseHandler.generateResponse("Error: " +e, HttpStatus.BAD_REQUEST);
             }
