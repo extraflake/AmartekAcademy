@@ -73,12 +73,40 @@ public class ArrangeInterviewRestController {
                 return ResponseHandler.generateResponse("Data status HR terupdate", HttpStatus.OK);
 
             }else if( adddate.dateInterviewHr != null && adddate.hr_id != null) {
-
+                try {
+                    User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
+                    Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
+                    System.out.println(BioUser.getFullname());
+                    Map<String, Object> AddMap = new HashMap<String,Object>();
+                    System.out.println(user.getEmail());
+                    List<String> to = new ArrayList<>();
+                    to.add(user.getEmail());
+                    to.add(setrecruitment.getHr().getEmail());
+        
+                    for (String sendto : to) {
+        
+                    AddMap.put("name", BioUser.getFullname());
+                    AddMap.put("url", setrecruitment);
+                    AddMap.put("tanggal", adddate.dateInterviewTrainer);
+                    Email email = new Email();
+                    email.setFrom("farhanaziz939@gmail.com");
+                    email.setTemplate("interview-email.html");
+                    email.setSubject("Interview HR - PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
+                    email.setTo(sendto);
+                    email.setProperties(AddMap);
+        
+                        emailSender.sendHtmlMessage(email);
+                    }
                 setrecruitment.setHr(userServiceImpl.getById(adddate.hr_id));
                 setrecruitment.setDateInterviewHr(adddate.dateInterviewHr);
                 iArrangeInterviewService.Save(setrecruitment);
                 return ResponseHandler.generateResponse("Data status HR terupdatee", HttpStatus.OK);
+            }catch (MessagingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return ResponseHandler.generateResponse("Error: " +e, HttpStatus.BAD_REQUEST);
             }
+        }
             return ResponseHandler.generateResponse("Data tidak terupdate", HttpStatus.BAD_REQUEST);
     }
 
@@ -92,7 +120,7 @@ public class ArrangeInterviewRestController {
             iArrangeInterviewService.Save(setrecruitment);
             return ResponseHandler.generateResponse("Data status HR terupdate", HttpStatus.OK);
 
-        }else if( adddate.dateInterviewHr != null && adddate.trainer_id != null) {
+        }else if( adddate.dateInterviewTrainer != null && adddate.trainer_id != null) {
             try {
             User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
             Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
@@ -111,7 +139,7 @@ public class ArrangeInterviewRestController {
             Email email = new Email();
             email.setFrom("farhanaziz939@gmail.com");
             email.setTemplate("interview-email.html");
-            email.setSubject("Welcome Email from CodingNConcepts");
+            email.setSubject("Interview trainer - PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
             email.setTo(sendto);
             email.setProperties(AddMap);
 
