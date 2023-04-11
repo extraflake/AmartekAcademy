@@ -30,6 +30,7 @@ const APICV = {
     getMajor: () =>{
         return axios.get("cv/major")
     }
+    
 }
 
 export default APICV;

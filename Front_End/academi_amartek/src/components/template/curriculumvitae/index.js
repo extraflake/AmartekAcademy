@@ -3,8 +3,12 @@ import 'bootstrap/dist/js/bootstrap.min.js';
 import "./index.css";
 import APICV from '../../../services/curriculumvitae';
 import { useState, useEffect } from "react";
+import { BiodataModal } from '../../molecule/modal/biodatamodal'; 
 import React from 'react'; // impor file CSS Bootstrap
 import { Card, CardImg, CardBody, CardTitle, CardText } from 'react-bootstrap'; // impor komponen Card Bootstrap
+import { EducationModal } from '../../molecule/modal/educationmodal';
+import { ProjectModal } from '../../molecule/modal/projectmodal';
+import Swal from "sweetalert2";
 
 
 function CurriculumVitae(){
@@ -16,10 +20,64 @@ function CurriculumVitae(){
         "list-style-type": "none"
     }
     const [dataBiodata, setDataBiodata] = useState(null);
-    const [dataeducation, setDataEducation] = useState(null);
+    const [dataEducation, setDataEducation] = useState(null);
     const [dataProject, setDataProject] = useState(null);
     const [dataUserSkill, setDataUserSkill] = useState(null);
     const [httpStatus, setHttpStatus] = useState(null);
+    const [methodReq, setMethodReq] = useState("");
+    const [bioById, setbioById] = useState(null);
+    const [eduById, seteduById] = useState(null);
+    const [proById, setproById] = useState(null);
+
+    const [showBioModal, setShowBioModal] = useState(false);
+    const [showEduModal, setShowEduModal] = useState(false);
+    const [showProModal, setShowProModal] = useState(false);
+
+    const handleCloseBioModal = () => {
+        setShowBioModal(false);
+    //   setRegionById(null);
+    };
+    const handleCloseEduModal = () => {
+        setShowEduModal(false);
+    //   setRegionById(null);
+    };
+    const handleCloseProModal = () => {
+        setShowProModal(false);
+    //   setRegionById(null);
+    };
+    const handleShowBioModal = () => {
+        setShowBioModal(true);
+      };
+    const handleShowEduModal = () => {
+        setShowEduModal(true);
+    };
+    const handleShowProModal = () => {
+        setShowProModal(true);
+    };
+    
+    const handleDeleteProject = (id) => {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You will not be able to recover this item!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No, cancel",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            API.deleteRegion(id).then((res) => {
+              Swal.fire({
+                icon: "success",
+                title: "Berhasil!",
+                text: "Data berhasil dihapus!",
+              })
+              setHttpStatus(result.status);
+            });
+          }
+        });
+      };
 
     useEffect(() => {
         APICV.getBiodata().then((response) => {
@@ -45,83 +103,142 @@ function CurriculumVitae(){
         <div class="row justify-content-center">
             <div class="card isi-konten">    
                     <div className="card-body">
-                    <div className="text-center mb-3">
-                        <div className="rounded"><img className="rounded-circle img-fluid img-thumbnail"
+                        <div className="rounded text-center"><img className="rounded-circle img-fluid img-thumbnail"
                                 style={styleimg} alt="avatar2" src=""></img></div>
                                 {dataBiodata && dataBiodata.data.map((data) => {
                                     return (
-                                        <div>
-                                            <h4>{data.id}</h4>
-                                            <h4>{data.fullname}</h4>
-                                            <h4>{data.birth_date}</h4>
-                                            <h4>{data.no_telp}</h4>
-                                            <h4>{data.summary}</h4>
-                                            <h4>{data.address}</h4>
-                                        </div>
+                                          
+                        <div>
+                                    <h4 className="card-title mt-2 text-center">{data.fullname}</h4>
+                        <table>
+                            <tr>
+                                <td style={{ paddingRight: "10px" }}><strong>Date of Birth </strong></td><td> {data.birth_date}
+                            </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <strong>Phone</strong> </td><td> {data.no_telp} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                <strong>Address</strong> </td><td> {data.address}
+                                </td>
+                            </tr>
+                        </table>
+                        <button className="btn btn-success btn-sm" onClick={handleShowBioModal}>Edit Biodata</button>
+                        <hr></hr>
+                        <h4 class="card-title">Summary</h4>
+                    <p className="card-text">{data.summary}</p>
+                        </div>
                                     );
                                 })}
-                        <h4 className="card-title mt-2">ILHAM BUONO PUTRA</h4>
-                    </div>
-                    <ul>
-                        <li style={styleli}><strong>Date of Birth:</strong> 2000</li>
-                        <li style={styleli}><strong>Email:</strong> ilhambuono@gmail.com</li>
-                        <li style={styleli}><strong>Phone:</strong> (+62)87877480715</li>
-                        <li style={styleli}><strong>Address:</strong> Kemayoran, Jakarta, Indonesia</li>
-                    </ul>
-                    <p className="card-text">.</p>
+                
                 </div>
                 </div>
         </div>
         <div class="row justify-content-center">
             <div class="card isi-konten" id="experience" >
                 <div class="card-body">
-                    <h5 class="card-title">Experience</h5>
-                    <p class="card-text"> Agate Academy Studi Independen Aug 2021 - Jan 2022</p>
-                    <p>Game Producer, Product Management - Internship </p>
-                    <p>Attended and completed the MSIB Kampus merdeka Program (Independent Study at Agate Academy - Game
-                        development) as Game Producer and Product Management role to learn and develop a Project where
-                        the final project of this program is a prototype game Revenge of Hero:</p>
-                    <ul>
-                        <li>Created Pre-Production and Production plans including task/feature breakdowns, development
-                            plans, sprint plans, and sprint backlogs</li>
-                        <li>Reviewed and approve Game Design Documents, Asset Management, Quality Assurance</li>
-                        <li>Was a team representative, ensure a well-developed product according to the timeline and
-                            sprint backlogs</li>
-                        <li>Led briefings and daily scrum discussions, Sprint Plans, Sprint Review, Sprint Retrospective
-                            with the team and directing the work of each team member according to the Task backlog,
-                            sprint plans, and game design document</li>
-                    </ul>
-                    <hr></hr>
-                    <p>Lembaga Layanan Pendidikan Tinggi (LLDIKTI) Wilayah III Mar 2021 - Jul 2021</p>
-                    <p>Kelembagaan dan Sistem Informasi - Internship</p>
-                    <p>Completed a 4 months internship program that has jobs description:</p>
-                    <ul>
-                        <li>Did Data Input</li>
-                        <li>Performed Data Validation</li>
-                        <li>Helped to create and print letters</li>
-                        </ul>
+                    <h5 className="card-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>Project Experience</h5>
+                    <button className="btn btn-success btn-sm" onClick={handleShowProModal}>Add Project Experience</button>
+                    <table>
+                        {dataProject && dataProject.data.map((data) => {
+                            return(
+                                <tr>
+                        <td hidden>{data.id}</td>
+                        <td width={"94%"} className="tabletd" >
+                        <p class="card-text"><strong> {data.projectName}</strong></p>
+                        <p>{data.projectStart} to {data.projectEnd} </p>
+                        <p>{data.projectDesc}</p>
+
+                        <hr></hr>
+                                </td>
+                                <td width={"6%"}>
+                                    <button>Edit</button>
+                                    <button className="btn btn-danger btn-sm" onclick={() => handleDeleteProject(data.id)}></button>
+                                </td>
+                            </tr>
+                            );
+                        })}
+                       
+                    </table>
                 </div>
             </div>
         </div>
-<table className="" border={1}>
-    <thead>
-        <tr>
-            <td>Education</td>
-        </tr>
-    </thead>
-    <tr>
-        <td>s
-            <p>test</p>
-        </td>
-        <td>s</td>
-    </tr>
-    <tr>
-        <td>wkwkwkkw</td>
-    </tr>
-</table>
+        <div class="row justify-content-center">
+            <div class="card isi-konten" id="education" >
+                <div class="card-body">
+                    <h5 class="card-title">Education</h5>
+                    <button className="btn btn-success btn-sm" onClick={handleShowEduModal}>Add Education</button>
+                    <table>
+                        {dataEducation && dataEducation.data.map((data) => {
+                            return(
+                        <tr>
+                            <td hidden>{data.id}</td>
+                        <td width={"94%"} className="tabletd" >
+                        <p class="card-text"><strong> {data.univ_name}</strong></p>
+                        <p>{data.major_name}, {data.degree_name}</p>
+                        <p>{data.gpa}</p>
+                        <hr></hr>
+                                </td>
+                                <td width={"6%"}>
+                                <button>Edit</button>
+                                    <button>Delete</button>
+                                </td>
+                            </tr>
+                            );
+                        })}
+                       
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="card isi-konten" id="userskill" >
+                <div class="card-body">
+                    <h5 class="card-title">Skills</h5>
+                    <table>
+                        {dataUserSkill && dataUserSkill.data.map((data) => {
+                            return(
+                                <tr>
+                        <td width={"94%"} className="tabletd" >
+                        <p class="card-text"><strong> {data.skillName}</strong></p>
+                        <hr></hr>
+                                </td>
+                                <td width={"6%"}>
+                                <button>Edit</button>
+                                    <button>Delete</button>
+                                </td>
+                            </tr>
+                            );
+                        })}
+                       
+                    </table>
+                </div>
+            </div>
+        </div>
 
 
-
+<BiodataModal
+    show={showBioModal}
+    hide={handleCloseBioModal}
+    bioById={bioById}
+    methodreqBioModal={methodReq}
+    httpStatus={setHttpStatus}
+/>
+<EducationModal
+    show={showEduModal}
+    hide={handleCloseEduModal}
+    eduById={eduById}
+    httpstatus={setHttpStatus}
+/>
+<ProjectModal
+    show={showProModal}
+    hide={handleCloseProModal}
+    proById={proById}
+    httpstatus={setHttpStatus}
+/>
 </div>        
     )
 }
