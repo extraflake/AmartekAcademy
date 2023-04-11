@@ -1,6 +1,12 @@
 package com.academic.amartek.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,8 +21,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.academic.amartek.dto.ResponseHandler;
 import com.academic.amartek.dto.StatusDTO;
+import com.academic.amartek.models.Biodata;
+import com.academic.amartek.models.Email;
 import com.academic.amartek.models.Recruitment;
+import com.academic.amartek.models.User;
+import com.academic.amartek.repositories.BiodataRepository;
 import com.academic.amartek.services.ArrangeInterviewService;
+import com.academic.amartek.services.BiodataService;
+import com.academic.amartek.services.BiodataServiceImpl;
+import com.academic.amartek.services.EmailSenderService;
 import com.academic.amartek.services.UserServiceImpl;
 
 @CrossOrigin()
@@ -26,10 +39,15 @@ public class ArrangeInterviewRestController {
     @Autowired
     private ArrangeInterviewService iArrangeInterviewService;
     private UserServiceImpl userServiceImpl;
+    private BiodataService biodataService;
+    private BiodataRepository biodataRepository;
+    private EmailSenderService emailSender;
 
-    public ArrangeInterviewRestController(ArrangeInterviewService iArrangeInterviewService, UserServiceImpl userServiceImpl){
+    public ArrangeInterviewRestController(ArrangeInterviewService iArrangeInterviewService, UserServiceImpl userServiceImpl, BiodataService biodataService, EmailSenderService emailSender){
         this.iArrangeInterviewService = iArrangeInterviewService;
         this.userServiceImpl = userServiceImpl;
+        this.biodataService = biodataService;
+        this.emailSender = emailSender;
     }
 
     @GetMapping("interview")
@@ -75,11 +93,41 @@ public class ArrangeInterviewRestController {
             return ResponseHandler.generateResponse("Data status HR terupdate", HttpStatus.OK);
 
         }else if( adddate.dateInterviewHr != null && adddate.trainer_id != null) {
-            
-            setrecruitment.setTrainer(userServiceImpl.getid(adddate.trainer_id));
-            setrecruitment.setDateInterviewTrainer(adddate.dateInterviewTrainer);
-            iArrangeInterviewService.Save(setrecruitment);
-            return ResponseHandler.generateResponse("Data status Trainer terupdatee", HttpStatus.OK);
+            try {
+            User user = userServiceImpl.getid(setrecruitment.getApplicant().getId());
+            Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
+            System.out.println(BioUser.getFullname());
+            Map<String, Object> AddMap = new HashMap<String,Object>();
+            System.out.println(user.getEmail());
+            List<String> to = new ArrayList<>();
+            to.add(user.getEmail());
+            to.add(setrecruitment.getTrainer().getEmail());
+
+            for (String sendto : to) {
+
+            AddMap.put("name", BioUser.getFullname());
+            AddMap.put("url", setrecruitment);
+            AddMap.put("tanggal", adddate.dateInterviewTrainer);
+            Email email = new Email();
+            email.setFrom("farhanaziz939@gmail.com");
+            email.setTemplate("interview-email.html");
+            email.setSubject("Welcome Email from CodingNConcepts");
+            email.setTo(sendto);
+            email.setProperties(AddMap);
+
+                emailSender.sendHtmlMessage(email);
+            }
+                setrecruitment.setTrainer(userServiceImpl.getid(adddate.trainer_id));
+                setrecruitment.setDateInterviewTrainer(adddate.dateInterviewTrainer);
+                iArrangeInterviewService.Save(setrecruitment);
+                return ResponseHandler.generateResponse("Data status Trainer terupdatee", HttpStatus.OK);
+            } catch (MessagingException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return ResponseHandler.generateResponse("Error: " +e, HttpStatus.BAD_REQUEST);
+            }
+
+
         }
         return ResponseHandler.generateResponse("Data tidak terupdate", HttpStatus.BAD_REQUEST);
     }
