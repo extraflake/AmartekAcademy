@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:remove="all">Approved Email</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <p>
+            <b>Dear, <span th:text="${name}"></span>!</b>
+        </p>
+        <p>
+            <b>Congratulations!</b>
+        </p>
+        <p>
+            I am pleased to offer you an employment on behalf of PT Bumi Amartha Teknologi Mandiri (AMARTEK). <br/>
+            You have been selected for <b>Graduate Development</b> Program Position. <br/>
+            We believe that your knowledge, skills, and experiences would be an ideal fit for our team. <br/>
+            We hope you will enjoy your role and make a significant contribution to the overall success of AMARTEK. <br/>            
+        </p>
+        <p>
+            Please take the time to review our offer. It included important details about your compensation, <br/>
+            Benefits, with the term & conditions :
+        </p>
+        <p>
+            Position    : <span th:text="${position}"></span> <br/>
+            Location    : <span th:text="${location}"></span>
+        </p>
+        <p>
+            We look forward to welcoming you to the AMARTEK team, <br/>
+            Please confirm by replying this email to continue hiring process and please also send your ID card through this email. <br/>
+            If you have any questions or need additional information, please dont hesitate to contact me. <br/>
+            Thank you.
+        </p>        
+        <p>
+            Best Regards, <br/>
+            <em>Talent Acquisition</em> <br/>
+            <em>PT. Bumi Amartha Teknologi Mandiri</em>
+        </p>
+    </body>
+</html>
