@@ -1,15 +1,16 @@
 package com.academic.amartek;
 
-// import java.time.LocalDate;
-// import java.util.Arrays;
-// import java.util.HashMap;
-// import java.util.Map;
+import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
-// import javax.mail.MessagingException;
+import javax.mail.MessagingException;
 
 // import org.assertj.core.api.Assertions;
-// import org.junit.jupiter.api.Test;
-// import org.springframework.beans.factory.annotation.Autowired;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 // import java.util.ArrayList;
 // import java.util.List;
@@ -19,8 +20,8 @@ package com.academic.amartek;
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-// import com.academic.amartek.models.Email;
-// import com.academic.amartek.services.EmailSenderService;
+import com.academic.amartek.models.Email;
+import com.academic.amartek.services.EmailSenderService;
 
 // import com.academic.amartek.models.Recruitment;
 // import com.academic.amartek.models.Skill;
@@ -29,24 +30,27 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class AmartekApplicationTests {
-// 	@Autowired
-//     private EmailSenderService emailSenderService;
+	@Autowired
+    private EmailSenderService emailSenderService;
 
-//     @Test
-//     public void sendHtmlMessageTest() throws MessagingException {
-//         Email email = new Email();
-//         email.setTo("androrif29@gmail.com");
-//         email.setFrom("farhanaziz939@gmail.com");
-//         email.setSubject("Welcome Email from CodingNConcepts");
-//         email.setTemplate("welcome-email.html");
-//         Map<String, Object> properties = new HashMap<>();
-//         properties.put("name", "Ashish");
-//         properties.put("subscriptionDate", LocalDate.now().toString());
-//         properties.put("technologies", Arrays.asList("Python", "Go", "C#"));
-//         email.setProperties(properties);
+    @Test
+    public void sendHtmlMessageTest() throws MessagingException {
+        Email email = new Email();
+        email.setTo("androrif28@gmail.com");
+        email.setFrom("farhanaziz939@gmail.com");
+        email.setSubject("Offering from PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
+        email.setTemplate("welcome-email.html");
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("name", "Farhan");
+		properties.put("status", "Congratulations!");
+		properties.put("position", "Graduate Development Program");
+		properties.put("location", "Jakarta Selatan");
+        // properties.put("subscriptionDate", LocalDate.now().toString());
+        // properties.put("technologies", Arrays.asList("Python", "Go", "C#"));
+        email.setProperties(properties);
 
-//         Assertions.assertThatThrownBy(() -> emailSenderService.sendHtmlMessage(email));		
-//     }
+		Assertions.assertDoesNotThrow(() -> emailSenderService.sendHtmlMessage(email));
+    }
 	// private ISkillService iSkillService;
 	// private IArrangeInterviewService iArrangeInterviewService;
 
