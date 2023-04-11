@@ -19,7 +19,7 @@ public class ThymeleafTemplateConfig {
 
     public ClassLoaderTemplateResolver emailTemplateResolver() {
         ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
-        emailTemplateResolver.setPrefix("/templates/");
+        emailTemplateResolver.setPrefix("/templates/email/");
         emailTemplateResolver.setSuffix(".html");
         emailTemplateResolver.setTemplateMode(TemplateMode.HTML);
         emailTemplateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
