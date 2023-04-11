@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.academic.amartek.dto.RecruitmentDTO;
 import com.academic.amartek.dto.ResponseHandler;
 import com.academic.amartek.models.Recruitment;
@@ -49,7 +48,7 @@ public class RecruitmentRestController {
     @PostMapping("recruitment")
     public ResponseEntity<Object> post(@RequestBody RecruitmentDTO recruitment){                  
         Recruitment setRecruitment = new Recruitment();
-        setRecruitment.setApplicant(iUserService.getid("USR1"));        
+        setRecruitment.setApplicant(iUserService.getById("USR230201"));        
         setRecruitment.setJob(iJobService.Get(recruitment.job));        
         setRecruitment.setStatusTrainer("reviewing");        
         setRecruitment.setStatusHr("reviewing");

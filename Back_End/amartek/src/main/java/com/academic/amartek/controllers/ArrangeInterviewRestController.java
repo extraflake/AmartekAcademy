@@ -56,7 +56,7 @@ public class ArrangeInterviewRestController {
 
             }else if( adddate.dateInterviewHr != null && adddate.hr_id != null) {
 
-                setrecruitment.setHr(userServiceImpl.getid(adddate.hr_id));
+                setrecruitment.setHr(userServiceImpl.getById(adddate.hr_id));
                 setrecruitment.setDateInterviewHr(adddate.dateInterviewHr);
                 iArrangeInterviewService.Save(setrecruitment);
                 return ResponseHandler.generateResponse("Data status HR terupdatee", HttpStatus.OK);
@@ -76,7 +76,7 @@ public class ArrangeInterviewRestController {
 
         }else if( adddate.dateInterviewHr != null && adddate.trainer_id != null) {
             
-            setrecruitment.setTrainer(userServiceImpl.getid(adddate.trainer_id));
+            setrecruitment.setTrainer(userServiceImpl.getById(adddate.trainer_id));
             setrecruitment.setDateInterviewTrainer(adddate.dateInterviewTrainer);
             iArrangeInterviewService.Save(setrecruitment);
             return ResponseHandler.generateResponse("Data status Trainer terupdatee", HttpStatus.OK);
