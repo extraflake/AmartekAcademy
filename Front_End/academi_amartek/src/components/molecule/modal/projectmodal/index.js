@@ -9,8 +9,8 @@ import APICV from '../../../../services/curriculumvitae';
 export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus}){
     const [name, setname] = useState("");
     const [projectdesc, setprojectdesc] = useState("");
-    const [startDate, setStartDate] = useState(new Date());
-	const [endDate, setEndDate] = useState(new Date());
+    const [projectStart, setprojectStart] = useState(new Date());
+	const [projectEnd, setprojectEnd] = useState(new Date());
     const [closeModalAfterInsertEduModal, setCloseModalAfterInsertEduModal] = useState(true);
 
     const handleKeyDown = (e) => {
