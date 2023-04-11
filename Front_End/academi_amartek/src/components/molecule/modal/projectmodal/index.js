@@ -1,16 +1,16 @@
 import 'bootstrap';
 import { Modal, Form, Button } from "react-bootstrap";
 import { useState } from "react";
-//import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import APICV from '../../../../services/curriculumvitae';
 
 export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus}){
-    const [univname, setunivname] = useState("");
-    const [majorname, setmajorname] = useState("");
-    const [degreename, setdegreename] = useState("");
-    const [gpa, setgpa] = useState("");
+    const [name, setname] = useState("");
+    const [projectdesc, setprojectdesc] = useState("");
     const [startDate, setStartDate] = useState(new Date());
+	const [endDate, setEndDate] = useState(new Date());
     const [closeModalAfterInsertEduModal, setCloseModalAfterInsertEduModal] = useState(true);
 
     const handleKeyDown = (e) => {
@@ -20,6 +20,24 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
       };
     const handleSubmit = (e) => {
 		e.preventDefault();
+		APICV.saveProject(name, startDate, endDate, projectdesc)
+				.then((res) => {
+					hide();
+					setprojectname("");
+					setprojectdesc("");
+					setStartDate(new Date());
+					setEndDate(new Date());
+
+					Swal.fire({
+						icon: "success",
+						title: "Berhasil!",
+						text: "Data berhasil ditambahkan!",
+					})
+					httpstatus(res.status);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
 	};
     return(
         <div>
@@ -48,27 +66,27 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
 							<Form.Label>Project Name</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Insert new Region Name"
+								placeholder="Insert new Project Name"
 								name="getname"
-								value="{name}"
-								// onChange={(e) => setName(e.target.value)}
+								value={name}
+								onChange={(e) => setprojectname(e.target.value)}
 							/>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Project Date</Form.Label>
 							<DatePicker selected={startDate} onChange={(date) => setStartDate(date)} 
-                             dateFormat="dd/MM/yyyy" /> to <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} 
+                             dateFormat="dd/MM/yyyy" /> to <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} 
                              dateFormat="dd/MM/yyyy" />
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Project Description</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Insert new Region Name"
+								placeholder="Insert Project Description"
 								name="getname"
-								value="{name}"
+								value={projectdesc}
                                 as="textarea" rows={3}
-								// onChange={(e) => setName(e.target.value)}
+								onChange={(e) => setprojectdesc(e.target.value)}
 							/>
 						</Form.Group>
 					</Form>

@@ -67,7 +67,30 @@ function CurriculumVitae(){
           cancelButtonColor: "#d33",
         }).then((result) => {
           if (result.isConfirmed) {
-            API.deleteRegion(id).then((res) => {
+            APICV.deleteProject(id).then((res) => {
+              Swal.fire({
+                icon: "success",
+                title: "Berhasil!",
+                text: "Data berhasil dihapus!",
+              })
+              setHttpStatus(result.status);
+            });
+          }
+        });
+      };
+      const handleDeleteEducation = (id) => {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You will not be able to recover this item!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No, cancel",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            APICV.deleteEducation(id).then((res) => {
               Swal.fire({
                 icon: "success",
                 title: "Berhasil!",
@@ -155,8 +178,8 @@ function CurriculumVitae(){
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                    <button>Edit</button>
-                                    <button className="btn btn-danger btn-sm" onclick={() => handleDeleteProject(data.id)}></button>
+                                    <button className="btn btn-success btn-sm">Edit</button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteProject(data.id)}>Delete</button>
                                 </td>
                             </tr>
                             );
@@ -184,7 +207,7 @@ function CurriculumVitae(){
                                 </td>
                                 <td width={"6%"}>
                                 <button>Edit</button>
-                                    <button>Delete</button>
+                                <button className="btn btn-danger btn-sm" onClick={() => handleDeleteEducation(data.id)}>Delete</button>
                                 </td>
                             </tr>
                             );
