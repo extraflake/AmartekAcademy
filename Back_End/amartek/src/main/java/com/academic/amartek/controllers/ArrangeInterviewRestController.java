@@ -74,7 +74,7 @@ public class ArrangeInterviewRestController {
 
             }else if( adddate.dateInterviewHr != null && adddate.hr_id != null) {
 
-                setrecruitment.setHr(userServiceImpl.getid(adddate.hr_id));
+                setrecruitment.setHr(userServiceImpl.getById(adddate.hr_id));
                 setrecruitment.setDateInterviewHr(adddate.dateInterviewHr);
                 iArrangeInterviewService.Save(setrecruitment);
                 return ResponseHandler.generateResponse("Data status HR terupdatee", HttpStatus.OK);
@@ -94,7 +94,7 @@ public class ArrangeInterviewRestController {
 
         }else if( adddate.dateInterviewHr != null && adddate.trainer_id != null) {
             try {
-            User user = userServiceImpl.getid(setrecruitment.getApplicant().getId());
+            User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
             Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
             System.out.println(BioUser.getFullname());
             Map<String, Object> AddMap = new HashMap<String,Object>();
@@ -117,7 +117,7 @@ public class ArrangeInterviewRestController {
 
                 emailSender.sendHtmlMessage(email);
             }
-                setrecruitment.setTrainer(userServiceImpl.getid(adddate.trainer_id));
+                setrecruitment.setTrainer(userServiceImpl.getById(adddate.trainer_id));
                 setrecruitment.setDateInterviewTrainer(adddate.dateInterviewTrainer);
                 iArrangeInterviewService.Save(setrecruitment);
                 return ResponseHandler.generateResponse("Data status Trainer terupdatee", HttpStatus.OK);
@@ -126,8 +126,6 @@ public class ArrangeInterviewRestController {
                 e.printStackTrace();
                 return ResponseHandler.generateResponse("Error: " +e, HttpStatus.BAD_REQUEST);
             }
-
-
         }
         return ResponseHandler.generateResponse("Data tidak terupdate", HttpStatus.BAD_REQUEST);
     }

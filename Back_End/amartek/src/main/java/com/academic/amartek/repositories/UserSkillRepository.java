@@ -16,7 +16,7 @@ import com.academic.amartek.models.UserSkill;
 @Repository
 public interface UserSkillRepository extends JpaRepository<UserSkill, Integer> {
     
-    @Query(value = "SELECT u.id, u.user_id AS userId, s.skill_name AS skillName FROM tb_tr_userskill u " +
+    @Query(value = "SELECT u.id, u.user_id AS userId, s.id AS skillId, s.skill_name AS skillName FROM tb_tr_userskill u " +
     "JOIN tb_m_skill s ON u.skill_id = s.id " +
     "WHERE u.user_id =:userId", nativeQuery = true)
     public List<Map<String, Object>> getUserSkill(@Param("userId") String userId);
