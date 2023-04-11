@@ -1,0 +1,97 @@
+/* styling card container */
+.card{
+  width: 350px;
+}
+
+/* styling image untuk zoom ketika card di hover */
+.card:hover .card-info .img-card img{
+  transform: scale(1.1);
+}
+
+/* styling card info container */
+.card .card-info{
+  display: flex;
+  flex-direction: column;
+  gap: 15px 0;
+  margin-bottom: 40px;
+}
+
+/* styling card image container */
+.card .card-info .img-card{
+  overflow: hidden;
+}
+
+/* styling card image unit */
+.card .card-info .img-card img{
+  transition: .5s;
+  width: 100%;
+}
+
+/* styling card judul href unit */
+.card .card-info .judul-card a{
+  font-size: 1.3em;
+  color: var(--main-color);
+  transition: .5s !important;
+  text-decoration: none !important;
+}
+
+/* styling card judul unit ketika di hover */
+.card .card-info .judul-card a:hover{
+  color: var(--hover-color) !important;
+}
+
+/* styling card deskripsi unit */
+.card .card-info .desc-card span {
+  color: #5d5f61;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  line-height: 25px;
+  max-height: 72px;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* styling card tanggal container */
+.card .card-info .tanggal-card {
+  display: flex;
+  align-items: center;
+  gap: 0 6px;
+  font-weight: bold;
+}
+
+/* styling card tanggal icon */
+.card .card-info .tanggal-card svg{
+  font-size: 1.4em;
+}
+
+/* styling card button href unit */
+.card .button-card a{
+  padding: 10px 40px 10px 40px;
+  text-transform: capitalize;
+  background-color: var(--main-color);
+  border: 1px solid var(--main-color);
+  cursor: pointer;
+  color: white !important;
+  font-size: .9em;
+  border-radius: 2px;
+  outline: none;
+  transition: .3s;
+  font-weight: 600;
+  text-decoration: none !important;
+}
+
+/* styling card button href ketika di hover */
+.card .button-card a:hover{
+  background-color: white;
+  color: var(--main-color) !important;
+  border: 1px solid var(--main-color);
+}
+
+/* Responsive Breakpoints */
+/* for mobile */
+@media screen and (max-width: 576px){
+  .card{
+    width: 300px;
+  }
+}
