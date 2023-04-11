@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title th:remove="all">Rejected Email</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    </head>
+    <body>
+        <p>
+            <b>Dear, <span th:text="${name}"></span>!</b>
+        </p>
+        <p>
+            Thank you for your application at PT. Bumi Amartha Teknologi Mandiri.
+        </p>
+        <p>            
+            After careful consideration, unfortunately, we decided not to proceed with your application as <span th:text="${position}"></span> in PT. Bumi Amartha Teknologi Mandiri. <br/>
+            This decision was made because we have selected the candidate whom we believe is more suitable for this <span th:text="${position}"></span>. <br/>
+            We really appreciate your interest in joining our company and we want to thank you for the time and energy you invested in our recruitment process.             
+        </p>
+        <p>
+            Nevertheless, we would like to inform you that we are keeping your resume for potential future opportunities. <br/>
+            We wish you the best of luck in your endeavors.
+        </p>                
+        <p>
+            Best Regards, <br/>
+            <em>Talent Acquisition</em> <br/>
+            <em>PT. Bumi Amartha Teknologi Mandiri</em>
+        </p>
+    </body>
+</html>
