@@ -5,8 +5,8 @@ body{
 .isi-konten {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 3px;
+    margin-bottom: 3px;
     width: 70%;
     
 }
@@ -20,4 +20,12 @@ body{
 p{
     margin: 0;
     padding: 0;
+}
+.tabletd{
+    padding-top: 10px;
+    padding-right: 15px;
+    padding-bottom: 10px;
+}
+.tombolkanan{
+    margin-left: 0px;
 }

@@ -29,7 +29,20 @@ const APICV = {
     },
     getMajor: () =>{
         return axios.get("cv/major")
+    },
+    saveProject: (name, projectDesc, projectStart, projectEnd) =>{
+        return axios.post("cv/project", name, projectStart, projectEnd, projectDesc)
+    },
+    deleteProject: (id) =>{
+        return axios.delete("cv/project/" + id)
+    },
+    deleteEducation: (id) =>{
+        return axios.delete("cv/education/" + id)
+    },
+    deleteUserSkill: (id) =>{
+        return axios.delete("cv/userskill/" + id)
     }
+    
 }
 
 export default APICV;
