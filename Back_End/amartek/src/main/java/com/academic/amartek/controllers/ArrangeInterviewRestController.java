@@ -74,7 +74,7 @@ public class ArrangeInterviewRestController {
 
             }else if( adddate.dateInterviewHr != null && adddate.hr_id != null) {
 
-                setrecruitment.setHr(userServiceImpl.getid(adddate.hr_id));
+                setrecruitment.setHr(userServiceImpl.getById(adddate.hr_id));
                 setrecruitment.setDateInterviewHr(adddate.dateInterviewHr);
                 iArrangeInterviewService.Save(setrecruitment);
                 return ResponseHandler.generateResponse("Data status HR terupdatee", HttpStatus.OK);
@@ -126,8 +126,6 @@ public class ArrangeInterviewRestController {
                 e.printStackTrace();
                 return ResponseHandler.generateResponse("Error: " +e, HttpStatus.BAD_REQUEST);
             }
-
-
         }
         return ResponseHandler.generateResponse("Data tidak terupdate", HttpStatus.BAD_REQUEST);
     }
