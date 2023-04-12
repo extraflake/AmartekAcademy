@@ -16,7 +16,7 @@ import com.academic.amartek.models.Education;
 public interface EducationRepository extends JpaRepository<Education, Integer> {
 
 
-    @Query(value = "SELECT e.id, e.user_id, e.gpa, d.id AS degreeName, d.degree_name, u.id AS univId, u.univ_name, m.id AS majorId, m.major_name " +
+    @Query(value = "SELECT e.id, e.user_id, e.gpa, d.id AS degreeId, d.degree_name, u.id AS univId, u.univ_name, m.id AS majorId, m.major_name " +
     "FROM tb_tr_education e " +
     "LEFT JOIN tb_m_degree d ON e.degree_id = d.id " +
     "LEFT JOIN tb_m_univ u ON e.univ_id = u.id " +
@@ -46,5 +46,12 @@ public interface EducationRepository extends JpaRepository<Education, Integer> {
     public void deleteEducation(@Param("id") Integer id);
 
     public List<Education> findByUserId(String userId);
+
+    @Query(value = "SELECT e.id, e.user_id, e.gpa, d.id AS degreeId, d.degree_name, u.id AS univId, u.univ_name, m.id AS majorId, m.major_name " +
+    "FROM tb_tr_education e " +
+    "LEFT JOIN tb_m_degree d ON e.degree_id = d.id " +
+    "LEFT JOIN tb_m_univ u ON e.univ_id = u.id " +
+    "LEFT JOIN tb_m_major m ON e.major_id = m.id WHERE e.id =:id", nativeQuery = true)
+    public Map<String, Object> getEducationByid(@Param("id") Integer id);
     
 }

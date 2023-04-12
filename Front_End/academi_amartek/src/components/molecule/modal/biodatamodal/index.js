@@ -13,6 +13,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
     const [summary, setSummary] = useState("");
     const [startDate, setStartDate] = useState(new Date());
     const [closeModalAfterInsertBioModal, setCloseModalAfterInsertBioModal] = useState(true);
+	console.log(bioById);
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
           handleSubmit(e);
@@ -20,6 +21,8 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
       };
     const handleSubmit = (e) => {
 		e.preventDefault();
+
+		
 	};
 
     return(
@@ -29,7 +32,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 				<Modal.Title>Biodata</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{/* {regById && regById ? ( */}
+			 {bioById && bioById ? (
 					<Form onKeyDown={handleKeyDown}>
 						<Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Full Name</Form.Label>
@@ -37,7 +40,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 								type="text"
 								placeholder="Update the Region Name"
 								name="getname"
-								defaultValue="{regById.data.name}"
+								defaultValue={bioById.data[0].fullname}
 								// value={empById.data.fullname || ""}
 								// onChange={(e) => setName(e.target.value)}
 							/>
@@ -48,14 +51,14 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 								type="number"
 								placeholder="Update the Region Name"
 								name="getname"
-								defaultValue="{regById.data.name}"
+								defaultValue={bioById.data[0].no_telp}
 								// value={empById.data.fullname || ""}
 								// onChange={(e) => setName(e.target.value)}
 							/>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Birth Date</Form.Label>
-                            <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} 
+                            <DatePicker className="form-control" selected={new Date(bioById.data[0].birth_date)} onChange={(date) => setStartDate(date)} 
                              dateFormat="dd/MM/yyyy" />
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
@@ -64,7 +67,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 								type="text"
 								placeholder="Update the Region Name"
 								name="getname"
-								defaultValue="{regById.data.name}"
+								defaultValue={bioById.data[0].address}
                                 as="textarea" rows={3}
 								// value={empById.data.fullname || ""}
 								// onChange={(e) => setName(e.target.value)}
@@ -76,13 +79,68 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 								type="text"
 								placeholder="Update the Region Name"
 								name="getname"
-								defaultValue="{regById.data.name}"
+								defaultValue={bioById.data[0].summary}
                                 as="textarea" rows={3}
 								// value={empById.data.fullname || ""}
 								// onChange={(e) => setName(e.target.value)}
 							/>
 						</Form.Group>
 					</Form>
+			 ) :(
+				<Form onKeyDown={handleKeyDown}>
+						<Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>Full Name</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Insert Name"
+								name="getname"
+								value=""
+								// value={empById.data.fullname || ""}
+								// onChange={(e) => setName(e.target.value)}
+							/>
+						</Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>Phone Number</Form.Label>
+							<Form.Control
+								type="number"
+								placeholder="Insert"
+								name="getname"
+								value=""
+								// value={empById.data.fullname || ""}
+								// onChange={(e) => setName(e.target.value)}
+							/>
+						</Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>Birth Date</Form.Label>
+                            <DatePicker className="form-control" selected={birthdate} onChange={(date) => setStartDate(date)} 
+                             dateFormat="dd/MM/yyyy" />
+						</Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>Address</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="insert"
+								name="getname"
+								value=""
+                                as="textarea" rows={3}
+								// value={empById.data.fullname || ""}
+								// onChange={(e) => setName(e.target.value)}
+							/>
+						</Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>Summary</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Insert"
+								name="getname"
+								value=""
+                                as="textarea" rows={3}
+								// value={empById.data.fullname || ""}
+								// onChange={(e) => setName(e.target.value)}
+							/>
+						</Form.Group>
+					</Form>
+			 )};
 			</Modal.Body>
 			<Modal.Footer>
 				<Button variant="success" onClick={handleSubmit} type="submit">

@@ -38,6 +38,10 @@ public class EducationRestController {
     public ResponseEntity<Object> getEducation(@PathVariable(required = true) String userId){
         return ResponseHandler.getResponse("Data Ditemukan", HttpStatus.OK, educationRepository.getEducations(userId));
     }
+    @GetMapping("cv/educationid/{id}")
+    public ResponseEntity<Object> getEducationId(@PathVariable(required = true) Integer id){
+        return ResponseHandler.getResponse("Data Ditemukan", HttpStatus.OK, educationRepository.getEducationByid(id));
+    }
     @PostMapping("cv/education")
     public ResponseEntity<Object> saveEducation(@RequestBody EducationRequestDTO educationRequestDTO){
         // User user = userRepository.getById(educationRequestDTO.getUser());
@@ -54,10 +58,10 @@ public class EducationRestController {
         major.setId(educationRequestDTO.getMajorId());
         Education education = new Education();
         education.setUser(user);
-        education.setDegree(degree);
         education.setUniv(univ);
-        education.setGpa(educationRequestDTO.getGpa());
+        education.setDegree(degree);
         education.setMajor(major);
+        education.setGpa(educationRequestDTO.getGpa());
         educationRepository.save(education);
 
         return ResponseHandler.generateResponse("Data Berhasil Disimpan", HttpStatus.OK);

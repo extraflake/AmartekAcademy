@@ -7,9 +7,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import APICV from '../../../../services/curriculumvitae';
 
 export function EducationModal({show, hide, eduById, methodreqEduModal, httpstatus}){
-    const [univId, setUnivId] = useState();
-    const [majorId, setMajorId] = useState();
-    const [degreeId, setDegreeId] = useState();
+    const [univId, setUnivId] = useState(null);
+    const [majorId, setMajorId] = useState(null);
+    const [degreeId, setDegreeId] = useState(null);
     const [gpa, setgpa] = useState("");
     // const [startDate, setStartDate] = useState(new Date());
 	const [univData, setUnivData] = useState("");
@@ -36,7 +36,8 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
       };
     const handleSubmit = (e) => {
 		e.preventDefault();
-		APICV.saveEducation(univId, majorId, degreeId, gpa)
+		if (methodreqEduModal === "post") {
+		APICV.saveEducation(univId, degreeId, majorId, gpa)
 				.then((res) => {
 					hide();
 
@@ -53,7 +54,27 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 				.catch((err) => {
 					console.log(err);
 				});
+			} else if (methodreqEduModal === "put"){
+				APICV.updateEducation(eduById.data.id, {univId, majorId, degreeId, gpa})
+				.then((res) => {
+					hide();
+
+					Swal.fire({
+						text: "Data berhasil ditambahkan!",
+						position: 'top-end',
+  						icon: 'success',
+  						title: 'Your Data has been saved',
+  						showConfirmButton: false,
+  						timer: 1500
+					})
+					httpstatus(res.status);
+				})
+				.catch((err) => {
+					console.log(err);
+				});
+			}
 	};
+	console.log(eduById)
     return(
         <div>
             <Modal show={closeModalAfterInsertEduModal ? show : closeModalAfterInsertEduModal} onHide={hide}>
@@ -61,57 +82,89 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 				<Modal.Title>Education Data</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{/* {regById && regById ? ( */}
-					{/* <Form onKeyDown={handleKeyDown}>
+				{/* {eduById && eduById ? (
+				<Form onKeyDown={handleKeyDown}> 
 						<Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Region Name</Form.Label>
-							<Form.Control
-								type="text"
-								placeholder="Update the Region Name"
-								name="getname"
-								defaultValue="{regById.data.name}"
-								// value={empById.data.fullname || ""}
-								// onChange={(e) => setName(e.target.value)}
-                                required/>
-						</Form.Group>
-					</Form> */}
-				{/* ) : ( */}
-					<Form onKeyDown={handleKeyDown}> 
-						<Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Universitas or Campus Name</Form.Label>
+							<Form.Label> Edit Universitas or Campus Name</Form.Label>
+							
+							<Form.Select defaultValue={eduById.data.univId} onChange={(e) => setUnivId(e.target.value)}>
+							<option>Open this select menu</option>
 							{univData && univData.data.map((data) =>{
 								return(
-							<Form.Select defaultValue={univId} onChange={(e) => setUnivId(e.target.value)}>
-                            <option>Open this select menu</option>
                             <option key={data.id} value={data.id}>{data.univ_name}</option>
-                            </Form.Select>
+                            
 								);
 							})}
-							
+							</Form.Select>
 						</Form.Group>
-                        <Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Major Name</Form.Label>
-							
-							<Form.Select defaultValue={majorId} onChange={(e) => setMajorId(e.target.value)}>
-                            <option>Open this select menu</option>
+						<Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label> Edit Major Name</Form.Label>
+							<Form.Select defaultValue={eduById.data.major_Id} onChange={(e) => setMajorId(e.target.value)}>
+							<option>Open this select menu</option>
 							{majorData && majorData.data.map((data) =>{
 								return(
                             <option key={data.id} value={data.id}>{data.major_name}</option>
+                            
+								);
+							})}
+							</Form.Select>
+						</Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>Degree Name</Form.Label>
+							
+							<Form.Select defaultValue={eduById.data.degreeId} onChange={(e) => setDegreeId(e.target.value)}>
+							<option>Open this select menu</option>
+							{degreeData && degreeData.data.map((data) =>{
+								return(
+                            <option key={data.id} value={data.id}>{data.degree_name}</option>
                             
 							);
 						})}
 							</Form.Select>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>GPA</Form.Label>
+							<Form.Control
+								type="text"
+								placeholder="Insert your GPA"
+								name="gpa"
+								defaultValue={eduById.data.gpa}
+								onChange={(e) => setgpa(e.target.value)}
+							/>
+						</Form.Group>
+
+					</Form>
+				) : ( */}
+					<Form onKeyDown={handleKeyDown}> 
+						<Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>Universitas or Campus Name</Form.Label>
+							<Form.Select defaultValue={univId} onChange={(e) => setUnivId(e.target.value)}>
+    						<option>Open this select menu</option>
+    						{univData && univData.data.map((data) => (
+        					<option key={data.id} value={data.id} selected={data.id === univId}>{data.univ_name}</option>
+    							))}
+							</Form.Select>
+
+
+						</Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicFullname">
+							<Form.Label>Major Name</Form.Label>
+							<Form.Select defaultValue={majorId} onChange={(e) => setMajorId(e.target.value)}>
+    						<option>Open this select menu</option>
+    						{majorData && majorData.data.map((data) => (
+        					<option key={data.id} value={data.id} selected={data.id === majorId}>{data.major_name}</option>
+    							))}
+							</Form.Select>
+							
+						</Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Degree Name</Form.Label>
-							{degreeData && degreeData.data.map((data) =>{
-								return(
 							<Form.Select defaultValue={degreeId} onChange={(e) => setDegreeId(e.target.value)}>
-                            <option>Open this select menu</option>
-                            <option key={data.id} value={data.id}>{data.degree_name}</option>
-                            </Form.Select>
-							);
-						})}
+    						<option>Open this select menu</option>
+    						{degreeData && degreeData.data.map((data) => (
+        					<option key={data.id} value={data.id} selected={data.id === degreeId}>{data.degree_name}</option>
+    							))}
+							</Form.Select>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>GPA</Form.Label>
@@ -125,7 +178,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 						</Form.Group>
 
 					</Form>
-				{/* )} */}
+				 {/* )} */}
 			</Modal.Body>
 			<Modal.Footer>
 				<Button variant="success" onClick={handleSubmit} type="submit">

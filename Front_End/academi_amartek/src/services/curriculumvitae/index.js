@@ -7,7 +7,7 @@ const APICV = {
         return axios.get( "/cv/assemble/USR001" )
     },
     getBiodata: ( id ) => {
-        return axios.get( "cv/biodata/" + id )
+        return axios.get( "cv/biodata/USR001" )
     },
     getProject: () => {
         return axios.get( "cv/project/USR001" )
@@ -40,13 +40,13 @@ const APICV = {
             projectDesc: projectDesc
         } );
     },
-    saveEducation: (degreeId, univId, majorId, gpa) => {
+    saveEducation: (univId, degreeId, majorId, gpa) => {
         let user = "USR001";
         return axios.post("cv/education", {
             user: user,
             univId: univId,
-            majorId: majorId,
             degreeId: degreeId,
+            majorId: majorId,
             gpa: gpa
         });
 
@@ -61,6 +61,9 @@ const APICV = {
     updateProject: (id, data) => {
         return axios.put("cv/project/"+id, data);
 
+    },
+    updateEducation: (id, data) => {
+        return axios.put("cv/education/"+id, data);
     },
 
     deleteProject: (id) =>{

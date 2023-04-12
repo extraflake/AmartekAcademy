@@ -34,6 +34,7 @@ function CurriculumVitae(){
     const [httpStatus, setHttpStatus] = useState(null);
     const [methodReq, setMethodReq] = useState("");
     const [methodProReq, setMethodProReq] = useState("");
+    const [methodEduReq, setMethodEduReq] = useState("");
     const [bioById, setbioById] = useState("");
     const [eduById, seteduById] = useState(null);
     const [proById, setproById] = useState(null);
@@ -46,10 +47,13 @@ function CurriculumVitae(){
 
     const handleCloseBioModal = () => {
         setShowBioModal(false);
+        setbioById(null);
+        
     //   setRegionById(null);
     };
     const handleCloseEduModal = () => {
         setShowEduModal(false);
+        seteduById(null);
     //   setRegionById(null);
     };
     const handleCloseProModal = () => {
@@ -66,6 +70,7 @@ function CurriculumVitae(){
       };
     const handleShowEduModal = () => {
         setShowEduModal(true);
+        setMethodEduReq("post");
     };
     const handleShowProModal = () => {
         setShowProModal(true);
@@ -197,7 +202,22 @@ function CurriculumVitae(){
                                 </td>
                             </tr>
                         </table>
-                        <button className="btn btn-success btn-sm" onClick={handleShowBioModal}><RiEditBoxLine/></button>
+                        <button className="btn btn-success btn-sm"
+                         onClick={() => {
+                            setShowBioModal(true);
+                            // setMethodEduReq("put");
+                            axios.get(`http://localhost:8088/api/cv/biodata/${data.id}`, {
+                                    responseType: "json",
+                                })
+                                .then((res) => {
+                                    setbioById(res.data);
+                                
+                                })
+                                .catch((err) => {
+                                    console.log(err);
+                                });
+                        }}
+                        ><RiEditBoxLine/></button>
                         <PDFDownloadLink document={<PdfDocument/>} fileName='CV'>
                             {({loading}) => (loading ? <button  className="btn btn-success btn-sm">Loading Document</button> : <button className="btn btn-success btn-sm"><FaDownload/></button>)}
                         </PDFDownloadLink>
@@ -276,7 +296,22 @@ function CurriculumVitae(){
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                <button className="btn btn-success btn-sm"><RiEditBoxLine /></button>
+                                <button className="btn btn-success btn-sm" 
+                                 onClick={() => {
+                                    setShowEduModal(true);
+                                    setMethodEduReq("put");
+                                    axios.get(`http://localhost:8088/api/cv/educationid/${data.id}`, {
+                                            responseType: "json",
+                                        })
+                                        .then((res) => {
+                                            seteduById(res.data);
+                                        
+                                        })
+                                        .catch((err) => {
+                                            console.log(err);
+                                        });
+                                }}
+                                ><RiEditBoxLine /></button>
                                 <button className="btn btn-danger btn-sm" onClick={() => handleDeleteEducation(data.id)}><MdOutlineDeleteOutline /></button>
                                 </td>
                             </tr>
@@ -326,6 +361,7 @@ function CurriculumVitae(){
 <EducationModal
     show={showEduModal}
     hide={handleCloseEduModal}
+    methodreqEduModal={methodEduReq}
     eduById={eduById}
     httpstatus={setHttpStatus}
 />
