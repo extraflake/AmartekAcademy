@@ -10,7 +10,7 @@ const APIINTERVIEW = {
         return axios.get( "interview/" + id )
     },
 
-    putInterviewHr: ( id ) => {
+    putInterviewHr: ( id, time, hr_id ) => {
         return axios.put( "interview/hr" + id )
     },
 
@@ -21,6 +21,10 @@ const APIINTERVIEW = {
     getBiodatabyid: ( id ) => {
         return axios.get( "cv/biodata/" + id )
     },
+
+    getUserAll: () => {
+        return axios.get( "users" )
+    }
 
 }
 

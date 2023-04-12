@@ -76,7 +76,7 @@ public class ArrangeInterviewRestController {
                 try {
                     User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
                     Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
-                    Biodata BioHr = biodataService.getid(setrecruitment.getHr().getId());
+                    Biodata BioHr = biodataService.getid(adddate.hr_id);
                     System.out.println(BioUser.getFullname());
                     Map<String, Object> AddMap = new HashMap<String,Object>();
                     System.out.println(user.getEmail());

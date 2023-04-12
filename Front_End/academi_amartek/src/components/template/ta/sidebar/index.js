@@ -8,9 +8,9 @@ function Sidebar () {
 	return (
 		<div className="dash-sidebar">
 			<NavLink exact="true" to="/ta/arrangeInterview" className="dash-dashboard">
-				Dashboard
+				SetInterview
 			</NavLink>
-			<div className="accord-sidebar">
+			{/* <div className="accord-sidebar">
 				<Accordion className="accord-container">
 					<AccordionSummary
 						expandIcon={ <MdExpandMore size={ 23 } color="white" /> }
@@ -21,14 +21,9 @@ function Sidebar () {
 							<p>Data</p>
 						</div>
 					</AccordionSummary>
-					<NavLink exact="true" to="/user">
-						<AccordionDetails>
-							<AiOutlineUser />
-							User
-						</AccordionDetails>
-					</NavLink>
+
 				</Accordion>
-			</div>
+			</div> */}
 		</div>
 	);
 }

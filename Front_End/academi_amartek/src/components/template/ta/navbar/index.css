@@ -98,6 +98,7 @@
 /* sticky navbar ketika di scroll */
 .sticky-nav {
   position: fixed;
+  z-index: "100";
   top: 0;
   padding-bottom: 10px;
   background-color: white;

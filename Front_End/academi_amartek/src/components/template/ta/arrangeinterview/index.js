@@ -9,10 +9,13 @@ import { useState, useEffect } from "react";
 import Button from '@mui/material/Button';
 import Backdrop from '@mui/material/Backdrop';
 import Typography from '@mui/material/Typography';
-
-
 import Modal from '@mui/material/Modal';
 import APIINTERVIEW from '../../../../services/arrangeinterview';
+import { TextField } from "@mui/material";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { InterviewModal } from "../../molecule/modal/Interviewmodal";
 
 const style = {
     position: 'absolute',
@@ -31,15 +34,40 @@ function TemplateArrangeinterview () {
     const [ getFullname, setfullname ] = useState( null );
     const [ getHttpstatus, sethttpstatus ] = useState( null );
     const [ open, setOpen ] = useState( false );
+    const [ getRole, setRole ] = useState( null );
     const handleOpen = () => setOpen( true );
     const handleClose = () => setOpen( false );
+    const [ selectedDate, setSelectedDate ] = useState( {} );
+    const [ getid, setid ] = useState( null );
+
+
+    const handleDateChange = ( name, newValue ) => {
+        setSelectedDate( ( prev ) => ( { ...prev, [ name ]: newValue } ) );
+        sethttpstatus( true );
+    };
+
+    const handleChangeid = ( id ) => {
+        setid( id );
+    }
+
 
     useEffect( () => {
         APIINTERVIEW.getallInterview().then( ( response ) => {
             setdatainterview( response.data );
+            // console.log( response.data.data[ 0 ].applicant.id );
+            APIINTERVIEW.getBiodatabyid( response.data.data[ 0 ].applicant.id ).then( ( response ) => {
+                setfullname( response.data.data[ 0 ].fullname );
+                // console.log( response.data.data[ 0 ].fullname );
+            } )
         } );
+        return () => {
+            sethttpstatus( null );
+
+        };
+
     }, [ getHttpstatus ] );
 
+    console.log( selectedDate );
 
     return (
         <div>
@@ -52,15 +80,16 @@ function TemplateArrangeinterview () {
                     <Container maxWidth="xlg" sx={ {
                         bgcolor: "red",
                         marginTop: "30px",
-                        bgcolor: "background.paper"
+                        bgcolor: "background.paper",
+                        height: "100hv"
                     } }>
                         <div className="accord-sidebar">
 
                             { alldatainterview && alldatainterview.data.map( ( item, index ) => {
-                                APIINTERVIEW.getBiodatabyid( item.applicant.id ).then( ( response ) => {
-                                    setfullname( response.data );
-                                    // console.log( response.data );
-                                } )
+                                // APIINTERVIEW.getBiodatabyid( item.applicant.id ).then( ( response ) => {
+                                //     setfullname( response.data );
+                                //     console.log( response.data );
+                                // } )
 
                                 return (
                                     <Accordion className="accord-container" >
@@ -70,11 +99,9 @@ function TemplateArrangeinterview () {
                                             id="panel1a-header"
                                         >
                                             <div>
-                                                <p>{ getFullname && getFullname.data.map( ( item ) => { console.log( item.fullname ); } ) }
-                                                    <Button color="success" dir="rtl" variant="contained" fontSize="small" size="small" sx={ {
-                                                        flexDirection: 'row-reverse',
-                                                        p: 1,
-                                                        m: 1,
+                                                <p style={ { margin: "0 25px 0 25px" } }>  <span style={ { margin: " 0 25px 0 0" } }> { getFullname }</span>
+                                                    <Button color="success" dir="rtl" variant="outlined" fontSize="small" size="small" sx={ {
+
                                                     } } >View CV</Button>
                                                 </p>
                                             </div>
@@ -84,17 +111,11 @@ function TemplateArrangeinterview () {
                                             color: "black"
                                         } }>
                                             <AiOutlineUser />
-                                            Status HR : <span>{ item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" onClick={ handleOpen } sx={ {
-                                                flexDirection: 'row-reverse',
-                                                p: 1,
-                                                m: 1,
-                                            } } >Set Time Interview</Button>
-                                            <p>
+                                            Status HR  <span style={ { margin: "0 0 0 36px" } }>: { item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" onClick={ handleOpen } >Set Time Interview</Button>
+                                            <p style={ { margin: "10px 0 0 0" } }>
                                                 <AiOutlineUser />
                                                 Status Trainer <span style={ { margin: "0,0,100px,150px" } }>: { item.statusTrainer }</span>  <Button size="small" dir="rtl" variant="outlined" sx={ {
                                                     flexDirection: 'row-reverse',
-                                                    p: 1,
-                                                    m: 1,
                                                 } } >Set Time Interview</Button>
 
                                                 <div>
@@ -123,18 +144,36 @@ function TemplateArrangeinterview () {
                 >
                     <Box sx={ style }>
                         <Typography id="modal-modal-title" variant="h6" component="h2">
-                            Text in a modal
+                            Set Interview
                         </Typography>
                         <Typography id="modal-modal-description" sx={ { mt: 2 } }>
-                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+
+                            <LocalizationProvider dateAdapter={ AdapterDayjs }>
+                                <DatePicker
+                                    inputFormat="MM/DD/YYYY"
+                                    value={ selectedDate }
+                                    onChange={ handleDateChange }
+                                    renderInput={ ( params ) => (
+                                        <TextField  { ...params } />
+                                    ) }
+                                />
+                            </LocalizationProvider>
+                            <Button onClick={ handleSubmit } />
                         </Typography>
                     </Box>
 
                 </Modal>
 
             </div>
+
+            <InterviewModal
+                show={ handleOpen }
+                httpstatus={ getHttpstatus }
+            />
         </div >
     );
+
+
 }
 
 export default TemplateArrangeinterview;
