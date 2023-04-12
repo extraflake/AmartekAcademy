@@ -11,11 +11,18 @@ const APIINTERVIEW = {
     },
 
     putInterviewHr: ( id, time, hr_id ) => {
-        return axios.put( "interview/hr" + id )
+        return axios.put( "interview/hr" + id, {
+            dateInterviewHr: time,
+            hr_id: hr_id
+        } )
     },
 
-    putInterviewTrainer: ( id ) => {
-        return axios.put( "interview/trainer" + id )
+    putInterviewTrainer: ( id, time, trainer_id ) => {
+        return axios.put( "interview/trainer" + id, {
+            id: id,
+            dateInterviewHr: time,
+            trainer_id: trainer_id
+        } )
     },
 
     getBiodatabyid: ( id ) => {

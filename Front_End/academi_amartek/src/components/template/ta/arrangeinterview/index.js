@@ -15,7 +15,7 @@ import { TextField } from "@mui/material";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import { InterviewModal } from "../../molecule/modal/Interviewmodal";
+import { InterviewModal } from "../../../molecule/modal/Interviewmodal";
 
 const style = {
     position: 'absolute',
@@ -35,7 +35,7 @@ function TemplateArrangeinterview () {
     const [ getHttpstatus, sethttpstatus ] = useState( null );
     const [ open, setOpen ] = useState( false );
     const [ getRole, setRole ] = useState( null );
-    const handleOpen = () => setOpen( true );
+    const handleOpen = () => { setOpen( true ) }
     const handleClose = () => setOpen( false );
     const [ selectedDate, setSelectedDate ] = useState( {} );
     const [ getid, setid ] = useState( null );
@@ -90,7 +90,7 @@ function TemplateArrangeinterview () {
                                 //     setfullname( response.data );
                                 //     console.log( response.data );
                                 // } )
-
+                                console.log( item );
                                 return (
                                     <Accordion className="accord-container" >
                                         <AccordionSummary
@@ -101,7 +101,6 @@ function TemplateArrangeinterview () {
                                             <div>
                                                 <p style={ { margin: "0 25px 0 25px" } }>  <span style={ { margin: " 0 25px 0 0" } }> { getFullname }</span>
                                                     <Button color="success" dir="rtl" variant="outlined" fontSize="small" size="small" sx={ {
-
                                                     } } >View CV</Button>
                                                 </p>
                                             </div>
@@ -116,7 +115,7 @@ function TemplateArrangeinterview () {
                                                 <AiOutlineUser />
                                                 Status Trainer <span style={ { margin: "0,0,100px,150px" } }>: { item.statusTrainer }</span>  <Button size="small" dir="rtl" variant="outlined" sx={ {
                                                     flexDirection: 'row-reverse',
-                                                } } >Set Time Interview</Button>
+                                                } } onClick={ () => { setRole( "hr" ); setOpen( true ); } } >Set Time Interview</Button>
 
                                                 <div>
                                                 </div>
@@ -136,7 +135,7 @@ function TemplateArrangeinterview () {
                     </Container>
 
                 </Container>
-                <Modal
+                {/* <Modal
                     open={ open }
                     onClose={ handleClose }
                     aria-labelledby="modal-modal-title"
@@ -158,16 +157,16 @@ function TemplateArrangeinterview () {
                                     ) }
                                 />
                             </LocalizationProvider>
-                            <Button onClick={ handleSubmit } />
+                            <Button />
                         </Typography>
                     </Box>
 
-                </Modal>
+                </Modal> */}
 
             </div>
 
             <InterviewModal
-                show={ handleOpen }
+                show={ open }
                 httpstatus={ getHttpstatus }
             />
         </div >
