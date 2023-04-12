@@ -18,7 +18,7 @@ import com.academic.amartek.models.Recruitment;
  
 @Repository
 public interface ArrangeInterviewRepository extends JpaRepository<Recruitment, Integer>  {
-    @Query(value = "select * from tb_tr_recruitments", nativeQuery = true)
+    @Query(value = "select * from tb_tr_recruitment rec inner join tb_m_user user on rec.aaplicant_id = user_id", nativeQuery = true)
     public  List<Recruitment> Getall();
 
     // @Query(value = "Update tb_tr_recruitments set date_interview_trainer = :datehr where id = :id)", nativeQuery = true)

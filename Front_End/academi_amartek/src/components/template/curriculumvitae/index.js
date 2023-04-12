@@ -72,6 +72,11 @@ function CurriculumVitae(){
                 icon: "success",
                 title: "Berhasil!",
                 text: "Data berhasil dihapus!",
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your work has been deleted!',
+                showConfirmButton: false,
+                timer: 1500
               })
               setHttpStatus(result.status);
             });
@@ -126,8 +131,8 @@ function CurriculumVitae(){
         <div class="row justify-content-center">
             <div class="card isi-konten">    
                     <div className="card-body">
-                        <div className="rounded text-center"><img className="rounded-circle img-fluid img-thumbnail"
-                                style={styleimg} alt="avatar2" src=""></img></div>
+                        <div className="rounded text-center"><img className="rounded-circle img-fluid img-thumbnail styleimgprofil"
+                             alt="avatar2" src="https://i.ibb.co/WtD2tb9/GDP.jpg"></img></div>
                                 {dataBiodata && dataBiodata.data.map((data) => {
                                     return (
                                           
@@ -206,7 +211,7 @@ function CurriculumVitae(){
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                <button>Edit</button>
+                                <button className="btn btn-success btn-sm">Edit</button>
                                 <button className="btn btn-danger btn-sm" onClick={() => handleDeleteEducation(data.id)}>Delete</button>
                                 </td>
                             </tr>
@@ -230,8 +235,8 @@ function CurriculumVitae(){
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                <button>Edit</button>
-                                    <button>Delete</button>
+                                <button className="btn btn-success btn-sm">Edit</button>
+                                    <button className="btn btn-danger btn-sm">Delete</button>
                                 </td>
                             </tr>
                             );

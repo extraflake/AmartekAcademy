@@ -12,5 +12,6 @@ public class Email {
     String subject;    
     String text;
     String template;
+    String cc;
     Map<String, Object> properties;
 }

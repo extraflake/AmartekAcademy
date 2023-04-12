@@ -55,7 +55,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Birth Date</Form.Label>
-                            <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} 
+                            <DatePicker className="form-control" selected={startDate} onChange={(date) => setStartDate(date)} 
                              dateFormat="dd/MM/yyyy" />
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
