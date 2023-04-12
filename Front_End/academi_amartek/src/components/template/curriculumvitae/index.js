@@ -10,6 +10,8 @@ import { EducationModal } from '../../molecule/modal/educationmodal';
 import { ProjectModal } from '../../molecule/modal/projectmodal';
 import Swal from "sweetalert2";
 import { SkillModal } from '../../molecule/modal/skillmodal';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import PdfDocument from './printCV';
 
 
 function CurriculumVitae(){
@@ -26,9 +28,10 @@ function CurriculumVitae(){
     const [dataUserSkill, setDataUserSkill] = useState(null);
     const [httpStatus, setHttpStatus] = useState(null);
     const [methodReq, setMethodReq] = useState("");
-    const [bioById, setbioById] = useState(null);
+    const [bioById, setbioById] = useState("");
     const [eduById, seteduById] = useState(null);
     const [proById, setproById] = useState(null);
+    const [uskillById, setuskillById] = useState(null);
 
     const [showBioModal, setShowBioModal] = useState(false);
     const [showEduModal, setShowEduModal] = useState(false);
@@ -188,6 +191,9 @@ function CurriculumVitae(){
                             </tr>
                         </table>
                         <button className="btn btn-success btn-sm" onClick={handleShowBioModal}>Edit Biodata</button>
+                        <PDFDownloadLink document={<PdfDocument/>} fileName='CV'>
+                            {({loading}) => (loading ? <button  className="btn btn-success btn-sm">Loading Document</button> : <button className="btn btn-success btn-sm">Download CV</button>)}
+                        </PDFDownloadLink>
                         <hr></hr>
                         <h4 class="card-title">Summary</h4>
                     <p className="card-text">{data.summary}</p>
