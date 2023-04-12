@@ -1,0 +1,167 @@
+/* footer container */
+.footer{
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px 30px 20px;
+}
+
+/* footer image */
+.footer .foot-img img{
+  width: 300px;
+}
+
+/* footer flex view info container */
+.footer .flex-foot-info {
+  display: flex;
+  gap: 0 30px;
+}
+
+/* footer info container */
+.footer .flex-foot-info .foot-info{
+  display: flex;
+  flex-direction: column;
+  gap: 20px 0;
+  margin-bottom: 40px;
+  margin-top: 30px;
+  width: 55%;
+}
+
+/* footer info unit container */
+.footer .flex-foot-info .foot-info .alamat, .no-telp, .email{
+  display: flex;
+  align-items: center;
+  gap: 0 15px;
+}
+
+/* footer info unit href */
+.footer .flex-foot-info .foot-info .email a{
+  color: var(--main-color);
+  font-size: .9em;
+}
+
+/* footer info unit paragraf */
+.footer .flex-foot-info .foot-info p {
+  color: #707B8E;
+  font-size: .9em;
+}
+
+/* footer navbar container */
+.footer .flex-foot-info .foot-nav{
+  margin-top: 30px;
+}
+
+/* footer navbar container list */
+.footer .flex-foot-info .foot-nav ul{
+  display: flex;
+  flex-direction: column;
+  gap: 20px 0;
+  list-style: none;
+}
+
+/* footer navbar unit */
+.footer .flex-foot-info .foot-nav ul li::before{
+  content: "\2022";
+  color: var(--main-color);
+  font-weight: bold;
+  display: inline-block;
+  width: 1em;
+  margin-right: 5px;
+}
+
+/* footer navbar unit href */
+.footer .flex-foot-info .foot-nav a{
+  text-decoration: none !important;
+  color: #707B8E !important;
+  font-weight: normal !important;
+  transition: .3s !important;
+}
+
+/* footer navbar unit href ketika di hover */
+.footer .flex-foot-info .foot-nav a:hover{
+  color: var(--main-color) !important;
+}
+
+/* footer social media container */
+.footer .social-media{
+  display: flex;
+  align-items: center;
+  gap: 0 15px;
+}
+
+/* footer social media unit container */
+.footer .social-media .instagram, .linkedin{
+  background-color: rgba(217, 215, 215, 0.674);
+  padding: 10px;
+}
+
+/* footer social media unit href */
+.footer .social-media a{
+  display: flex;
+  align-items: center;
+  transition: .3s;
+}
+
+/* footer social media unit href ketika di hover */
+.footer .social-media a:hover{
+  background-color: var(--main-color);
+}
+
+/* footer social media icon */
+.footer .social-media a svg{
+  color: #707B8E;
+  transition: .3s;
+}
+
+/* footer social media unit icon ketika di hover */
+.footer .social-media a:hover svg{
+  color: white;
+}
+
+/* footer copyright */
+.footer .copyright{
+  margin-top: 50px;
+  color: #707B8E;
+  font-size: .9em;
+  text-align: center;
+}
+
+/* Responsive Breakpoints */
+/* for tablet */
+@media screen and (max-width: 768px){
+  .footer .foot-img img{
+    width: 250px;
+  }
+
+  .footer .flex-foot-info {
+    flex-direction: column;
+    gap: 0 0;
+  }
+
+  .footer .flex-foot-info .foot-info{
+    gap: 20px 0;
+    width: 100%;
+  }
+
+  .footer .flex-foot-info .foot-nav{
+    display: none;
+  }
+}
+
+/* for mobile */
+@media screen and (max-width: 576px){
+  .footer .foot-img img{
+    width: 200px;
+  }
+
+  .footer .flex-foot-info .foot-info p, .email a {
+    font-size: .8em;
+  }
+
+  .footer .flex-foot-info .foot-info .email a{
+    font-size: .8em;
+  }
+
+  .footer .copyright{
+    font-size: .8em;
+  }
+}
