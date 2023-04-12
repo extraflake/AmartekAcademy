@@ -4,12 +4,14 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import CurriculumVitae from "./components/template/curriculumvitae";
+import LowonganKerja from "./components/template/user_management/lowongan_kerja";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
 	<React.StrictMode>
 		<App />
 		{/* <CurriculumVitae/> */}
+		{/* <LowonganKerja/> */}
 	</React.StrictMode>
 );
 

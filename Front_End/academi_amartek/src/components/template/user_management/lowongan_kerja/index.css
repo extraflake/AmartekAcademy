@@ -1,0 +1,19 @@
+.lowongan{    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2%;
+}
+.lowongan img{
+    height: 720px;
+    width: 720px;    
+}
+.lowongan p{
+    font-size: 30px;
+    font-family: Arial, sans-serif;
+    color: blue;  
+    font-weight: bold;
+    margin-top: 30px;
+    text-align: left;
+}

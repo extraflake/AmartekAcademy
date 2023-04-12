@@ -8,8 +8,8 @@ function TemplateCardLowongan() {
 			{/* container card info */}
 			<div className="card-info">
 				{/* container card image */}
-				<div className="img-card">
-					<img src="/dummyimg-card.jpg" alt="Gambar Lowongan Pekerjan" />
+				<div className="img-card">				
+					<img src="https://i.ibb.co/MZn1w9s/image0.jpg" alt="Gambar Lowongan Pekerjan" />
 				</div>
 
 				{/* container card judul */}
