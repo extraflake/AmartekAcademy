@@ -80,27 +80,29 @@ public class ArrangeInterviewRestController {
                     System.out.println(BioUser.getFullname());
                     Map<String, Object> AddMap = new HashMap<String,Object>();
                     System.out.println(user.getEmail());
-                    List<String> to = new ArrayList<>();
-                    to.add(user.getEmail());
-                    to.add(setrecruitment.getHr().getEmail());
+                    String[] to = {setrecruitment.getHr().getEmail(), setrecruitment.getHr().getEmail()};
+
+                    // List<String> to = new ArrayList<>();
+                    // to.add(user.getEmail());
+                    // to.add(setrecruitment.getHr().getEmail());
         
-                    for (String sendto : to) {
+                    // for (String sendto : to) {
         
                     AddMap.put("name", BioUser.getFullname());
                     AddMap.put("url", adddate.url);
-                    AddMap.put("time", adddate.dateInterviewTrainer);
+                    AddMap.put("time", adddate.dateInterviewHr);
                     AddMap.put("interviewuser", "HR");
-                    AddMap.put("userinterview", BioHr.getFullname());
-
+                    AddMap.put("nameinterview", BioHr.getFullname());
+                    
                     Email email = new Email();
                     email.setFrom("farhanaziz939@gmail.com");
                     email.setTemplate("interview-email.html");
                     email.setSubject("Interview HR - PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
-                    email.setTo(sendto);
+                    email.setTo(user.getEmail());
                     email.setProperties(AddMap);
-        
+                    // email.setCc(to);
                         emailSender.sendHtmlMessage(email);
-                    }
+                    // }
                 setrecruitment.setHr(userServiceImpl.getById(adddate.hr_id));
                 setrecruitment.setDateInterviewHr(adddate.dateInterviewHr);
                 iArrangeInterviewService.Save(setrecruitment);
@@ -127,30 +129,32 @@ public class ArrangeInterviewRestController {
             try {
             User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
             Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
-            Biodata BioTrainer =  biodataService.getid(setrecruitment.getTrainer().getId());
+            Biodata BioTrainer =  biodataService.getid(adddate.trainer_id);
             System.out.println(BioUser.getFullname());
             Map<String, Object> AddMap = new HashMap<String,Object>();
             System.out.println(user.getEmail());
-            List<String> to = new ArrayList<>();
-            to.add(user.getEmail());
-            to.add(setrecruitment.getTrainer().getEmail());
+            String[] to = new String[2];
+            to[0] = setrecruitment.getHr().getEmail();
+            // List<String> to = new ArrayList<>();
+            // to.add(user.getEmail());
+            // to.add(setrecruitment.getTrainer().getEmail());
 
-            for (String sendto : to) {
+            // for (String sendto : to) {
                 AddMap.put("name", BioUser.getFullname());
                 AddMap.put("url", adddate.url);
                 AddMap.put("time", adddate.dateInterviewTrainer);
                 AddMap.put("interviewuser", "User");
-                AddMap.put("userinterview", BioTrainer.getFullname());
+                AddMap.put("nameinterview", BioTrainer.getFullname());
 
             Email email = new Email();
             email.setFrom("farhanaziz939@gmail.com");
             email.setTemplate("interview-email.html");
             email.setSubject("Interview trainer - PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
-            email.setTo(sendto);
+            email.setTo(user.getEmail());
             email.setProperties(AddMap);
 
                 emailSender.sendHtmlMessage(email);
-            }
+            // }
                 setrecruitment.setTrainer(userServiceImpl.getById(adddate.trainer_id));
                 setrecruitment.setDateInterviewTrainer(adddate.dateInterviewTrainer);
                 iArrangeInterviewService.Save(setrecruitment);

@@ -1,36 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <title th:remove="all">Template for HTML email</title>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    </head>
-    <body>
-        <p>
-            <b>Dear, <span th:text="${name}"></span>!</b>
-        </p>
-        <p>
-            <b>You are invited for Online Interview <b th:text="${interviewuser}"> </b> at:</b>
-        </p>
+  <head>
+    <title th:remove="all">Template for HTML email</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <p>
+      <b>Dear, <span th:text="${name}"></span>!</b>
+    </p>
+    <p>
+      <b>You are invited for Online Interview <b th:text="${interviewuser}"> </b> at:</b>
+    </p>
 
-        <p>
-            Time   : <span th:text="${time}"></span> <br/>
-            URL    : <span th:text="${url}"></span> <br/>
-            User   : <span th:text="${userinterview}"></span>
+    <p>
+      Time : <span th:text="${time}"></span> <br />
+      URL : <span th:text="${url}"></span> <br />
+      User : <span th:text="${nameinterview}"></span>
+    </p>
 
-        </p>
+    <p>
+      Please confirm by replying this email to continue Interview process.<br />
+      If you have any questions or need additional information, please dont hesitate to contact me. <br />
+      Thank you.
+    </p>
 
-        <p>
-            Please confirm by replying this email to continue Interview process.<br/>
-            If you have any questions or need additional information, please dont hesitate to contact me. <br/>
-            Thank you.
-        </p>
-
-        <p>
-            Best Regards, <br/>
-            <em>Talent Acquisition</em> <br/>
-            <em>PT. Bumi Amartha Teknologi Mandiri</em>
-        </p>
-
-    </body>
-
+    <p>
+      Best Regards, <br />
+      <em>Talent Acquisition</em> <br />
+      <em>PT. Bumi Amartha Teknologi Mandiri</em>
+    </p>
+  </body>
 </html>
