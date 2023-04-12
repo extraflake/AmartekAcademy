@@ -4,7 +4,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import APIINTERVIEW from '../../../../services/arrangeinterview';
 import Swal from "sweetalert2";
-export function InterviewModal ( { show, hide, eduById, methodreqEduModal, httpstatus, status } ) {
+export function InterviewModal ( { show, hide, eduById, methodreq, httpstatus, status } ) {
     const [ selectedDate, setSelectedDate ] = useState( {} );
     const [ getUser, setSelectedUser ] = useState();
     const [ alldatainterview, setdatainterview ] = useState( null );
@@ -88,6 +88,7 @@ export function InterviewModal ( { show, hide, eduById, methodreqEduModal, https
                         ) }
                     />
                 </LocalizationProvider>
+
                 { alldatainterview && alldatainterview.data.map( ( item, index ) => {
                     if ( item.name === "Trainer" )
                     {
