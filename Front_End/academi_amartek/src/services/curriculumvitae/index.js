@@ -31,7 +31,13 @@ const APICV = {
         return axios.get("cv/major")
     },
     saveProject: (name, projectDesc, projectStart, projectEnd) =>{
-        return axios.post("cv/project", name, projectStart, projectEnd, projectDesc)
+        let user = "USR001";
+        return axios.post("cv/project", {
+           user: user, 
+            name: name,
+            projectStart: projectStart, 
+            projectEnd: projectEnd, 
+            projectDesc: projectDesc});
     },
     deleteProject: (id) =>{
         return axios.delete("cv/project/" + id)
