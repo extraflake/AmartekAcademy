@@ -34,6 +34,10 @@ public class ProjectRestController {
     public ResponseEntity<Object> getProject(@PathVariable(required = true) String userId){
         return ResponseHandler.getResponse("Data Ditemukan", HttpStatus.OK, projectRepository.getProject(userId));
     }
+    @GetMapping("cv/projectid/{id}")
+    public ResponseEntity<Object> getProjectId(@PathVariable(required = true) Integer id){
+        return ResponseHandler.getResponse("Data Ditemukan", HttpStatus.OK, projectRepository.getProjectById(id));
+    }
     @PostMapping("cv/project")
     public ResponseEntity<Object> saveProject(@RequestBody ProjectRequestDTO projectRequestDTO){
         //User user = userRepository.getById(projectRequestDTO.getUser());

@@ -12,6 +12,11 @@ import Swal from "sweetalert2";
 import { SkillModal } from '../../molecule/modal/skillmodal';
 import { PDFDownloadLink } from '@react-pdf/renderer';
 import PdfDocument from './printCV';
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { RiEditBoxLine } from "react-icons/ri"
+import axios from "axios";
+import { MdOutlineDeleteOutline, MdOutlineAddBox } from "react-icons/md";
+import {FaDownload} from "react-icons/fa";
 
 
 function CurriculumVitae(){
@@ -28,6 +33,7 @@ function CurriculumVitae(){
     const [dataUserSkill, setDataUserSkill] = useState(null);
     const [httpStatus, setHttpStatus] = useState(null);
     const [methodReq, setMethodReq] = useState("");
+    const [methodProReq, setMethodProReq] = useState("");
     const [bioById, setbioById] = useState("");
     const [eduById, seteduById] = useState(null);
     const [proById, setproById] = useState(null);
@@ -48,6 +54,7 @@ function CurriculumVitae(){
     };
     const handleCloseProModal = () => {
         setShowProModal(false);
+        setproById(null);
     //   setRegionById(null);
     };
     const handleCloseSkillModal = () => {
@@ -62,6 +69,7 @@ function CurriculumVitae(){
     };
     const handleShowProModal = () => {
         setShowProModal(true);
+        setMethodProReq("post");
     };
     const handleShowSkillModal = () => {
         setShowSkillModal(true);
@@ -160,7 +168,6 @@ function CurriculumVitae(){
           setHttpStatus(null)
         };
       }, [httpStatus]);
-      console.log(dataBiodata)
 
     return(
 <div>
@@ -174,7 +181,7 @@ function CurriculumVitae(){
                                           
                         <div>
                                     <h4 className="card-title mt-2 text-center">{data.fullname}</h4>
-                        <table>
+                        <table width={"100%"}>
                             <tr>
                                 <td style={{ paddingRight: "10px" }}><strong>Date of Birth </strong></td><td> {data.birth_date}
                             </td>
@@ -190,12 +197,12 @@ function CurriculumVitae(){
                                 </td>
                             </tr>
                         </table>
-                        <button className="btn btn-success btn-sm" onClick={handleShowBioModal}>Edit Biodata</button>
+                        <button className="btn btn-success btn-sm" onClick={handleShowBioModal}><RiEditBoxLine/></button>
                         <PDFDownloadLink document={<PdfDocument/>} fileName='CV'>
-                            {({loading}) => (loading ? <button  className="btn btn-success btn-sm">Loading Document</button> : <button className="btn btn-success btn-sm">Download CV</button>)}
+                            {({loading}) => (loading ? <button  className="btn btn-success btn-sm">Loading Document</button> : <button className="btn btn-success btn-sm"><FaDownload/></button>)}
                         </PDFDownloadLink>
                         <hr></hr>
-                        <h4 class="card-title">Summary</h4>
+                        <h5 class="card-title"><strong>Summary</strong></h5>
                     <p className="card-text">{data.summary}</p>
                         </div>
                                     );
@@ -207,9 +214,11 @@ function CurriculumVitae(){
         <div class="row justify-content-center">
             <div class="card isi-konten" id="experience" >
                 <div class="card-body">
-                    <h5 className="card-title" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>Project Experience</h5>
-                    <button className="btn btn-success btn-sm" onClick={handleShowProModal}>Add Project Experience</button>
-                    <table>
+                <h5 class="card-title" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "10px" }}>
+                <span><strong>Project Experience</strong></span>
+                <button className="btn btn-success" onClick={handleShowProModal}><MdOutlineAddBox /></button>
+                </h5>
+                    <table width={"100%"}>
                         {dataProject && dataProject.data.map((data) => {
                             return(
                                 <tr>
@@ -222,8 +231,23 @@ function CurriculumVitae(){
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                    <button className="btn btn-success btn-sm">Edit</button>
-                                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteProject(data.id)}>Delete</button>
+                                    <button className="btn btn-success btn-sm"
+                                    onClick={() => {
+                                        setShowProModal(true);
+                                        setMethodProReq("put");
+                                        axios.get(`http://localhost:8088/api/cv/projectid/${data.id}`, {
+                                                responseType: "json",
+                                            })
+                                            .then((res) => {
+                                                setproById(res.data);
+                                            
+                                            })
+                                            .catch((err) => {
+                                                console.log(err);
+                                            });
+                                    }}
+                                    ><RiEditBoxLine /></button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteProject(data.id)}><MdOutlineDeleteOutline /></button>
                                 </td>
                             </tr>
                             );
@@ -236,9 +260,11 @@ function CurriculumVitae(){
         <div class="row justify-content-center">
             <div class="card isi-konten" id="education" >
                 <div class="card-body">
-                    <h5 class="card-title">Education</h5>
-                    <button className="btn btn-success btn-sm" onClick={handleShowEduModal}>Add Education</button>
-                    <table>
+                <h5 class="card-title" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "10px" }}>
+                <span><strong>Education</strong></span>
+                    <button className="btn btn-success" onClick={handleShowEduModal}><MdOutlineAddBox /></button>
+                    </h5>
+                    <table width={"100%"}>
                         {dataEducation && dataEducation.data.map((data) => {
                             return(
                         <tr>
@@ -250,8 +276,8 @@ function CurriculumVitae(){
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                <button className="btn btn-success btn-sm">Edit</button>
-                                <button className="btn btn-danger btn-sm" onClick={() => handleDeleteEducation(data.id)}>Delete</button>
+                                <button className="btn btn-success btn-sm"><RiEditBoxLine /></button>
+                                <button className="btn btn-danger btn-sm" onClick={() => handleDeleteEducation(data.id)}><MdOutlineDeleteOutline /></button>
                                 </td>
                             </tr>
                             );
@@ -264,19 +290,21 @@ function CurriculumVitae(){
         <div class="row justify-content-center">
             <div class="card isi-konten" id="userskill" >
                 <div class="card-body">
-                    <h5 class="card-title">Skills</h5>
-                    <button className="btn btn-success btn-sm" onClick={handleShowSkillModal}>Add Skills</button>
-                    <table>
+                <h5 class="card-title" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "10px" }}>
+                <span><strong>Skills</strong></span>
+                    <button className="btn btn-success" onClick={handleShowSkillModal}><MdOutlineAddBox /></button></h5>
+                    <table width={"100%"}>
                         {dataUserSkill && dataUserSkill.data.map((data) => {
                             return(
                                 <tr>
                         <td width={"94%"} className="tabletd" >
-                        <p class="card-text"><strong> {data.skillName}</strong></p>
+                        <p class="card-text">
+                            <ul>
+                                <li>{data.skillName}</li></ul> </p>
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                <button className="btn btn-success btn-sm">Edit</button>
-                                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteUserSkill(data.id)}>Delete</button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteUserSkill(data.id)}><MdOutlineDeleteOutline /></button>
                                 </td>
                             </tr>
                             );
@@ -304,6 +332,7 @@ function CurriculumVitae(){
 <ProjectModal
     show={showProModal}
     hide={handleCloseProModal}
+    methodreqProModal={methodProReq}
     proById={proById}
     httpstatus={setHttpStatus}
 />

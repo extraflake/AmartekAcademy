@@ -57,6 +57,11 @@ const APICV = {
             skill: skillId
         })
     },
+    updateProject: (id, data) => {
+        return axios.put("cv/project/"+id, data);
+
+    },
+
     deleteProject: (id) =>{
         return axios.delete("cv/project/" + id)
     },

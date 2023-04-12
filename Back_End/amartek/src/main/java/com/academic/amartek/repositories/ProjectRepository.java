@@ -26,4 +26,9 @@ public interface ProjectRepository extends JpaRepository<Project, Integer> {
     public void deleteProject(@Param("id") Integer id);
 
     public List<Project> findByUserId(String userId);
+
+    @Query(value = "SELECT p.id, p.user_id AS userId, p.name AS projectName, p.project_start AS projectStart, "+
+    "p.project_end AS projectEnd, p.project_desc AS projectDesc FROM tb_m_project p " +
+    "WHERE p.id =:id", nativeQuery = true)
+    public Map<String, Object> getProjectById(@Param("id") Integer id);
 }
