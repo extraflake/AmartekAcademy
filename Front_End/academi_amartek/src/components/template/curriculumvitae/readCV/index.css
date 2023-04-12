@@ -1,0 +1,35 @@
+body{
+   
+    font-family: 'Quicksand', sans-serif;
+}
+.isi-konten {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 70%;
+    
+}
+.isi-konten:hover{
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+    
+}
+.isi-konten p {
+    text-align: justify;
+}
+p{
+    margin: 0;
+    padding: 0;
+}
+.tabletd{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.tombolkanan{
+    margin-left: 0px;
+}
+.styleimgprofil{
+    width : 4cm;
+    height : 4cm;
+
+}

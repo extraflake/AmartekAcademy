@@ -39,6 +39,24 @@ const APICV = {
             projectEnd: projectEnd, 
             projectDesc: projectDesc});
     },
+    saveEducation: (degreeId, univId, majorId, gpa) => {
+        let user = "USR001";
+        return axios.post("cv/education", {
+            user: user,
+            univId: univId,
+            majorId: majorId,
+            degreeId: degreeId,
+            gpa: gpa
+        });
+
+    },
+    saveUserSkill: (skillId) => {
+        let user = "USR001";
+        return axios.post("cv/userskill", {
+            user: user,
+            skill: skillId
+        })
+    },
     deleteProject: (id) =>{
         return axios.delete("cv/project/" + id)
     },

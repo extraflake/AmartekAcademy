@@ -9,6 +9,7 @@ import { Card, CardImg, CardBody, CardTitle, CardText } from 'react-bootstrap'; 
 import { EducationModal } from '../../molecule/modal/educationmodal';
 import { ProjectModal } from '../../molecule/modal/projectmodal';
 import Swal from "sweetalert2";
+import { SkillModal } from '../../molecule/modal/skillmodal';
 
 
 function CurriculumVitae(){
@@ -32,6 +33,7 @@ function CurriculumVitae(){
     const [showBioModal, setShowBioModal] = useState(false);
     const [showEduModal, setShowEduModal] = useState(false);
     const [showProModal, setShowProModal] = useState(false);
+    const [showSkillModal, setShowSkillModal] = useState(false);
 
     const handleCloseBioModal = () => {
         setShowBioModal(false);
@@ -45,6 +47,10 @@ function CurriculumVitae(){
         setShowProModal(false);
     //   setRegionById(null);
     };
+    const handleCloseSkillModal = () => {
+        setShowSkillModal(false);
+    //   setRegionById(null);
+    };
     const handleShowBioModal = () => {
         setShowBioModal(true);
       };
@@ -53,6 +59,9 @@ function CurriculumVitae(){
     };
     const handleShowProModal = () => {
         setShowProModal(true);
+    };
+    const handleShowSkillModal = () => {
+        setShowSkillModal(true);
     };
     
     const handleDeleteProject = (id) => {
@@ -69,12 +78,9 @@ function CurriculumVitae(){
           if (result.isConfirmed) {
             APICV.deleteProject(id).then((res) => {
               Swal.fire({
-                icon: "success",
-                title: "Berhasil!",
-                text: "Data berhasil dihapus!",
                 position: 'top-end',
                 icon: 'success',
-                title: 'Your work has been deleted!',
+                title: 'Your Data has been deleted!',
                 showConfirmButton: false,
                 timer: 1500
               })
@@ -97,9 +103,36 @@ function CurriculumVitae(){
           if (result.isConfirmed) {
             APICV.deleteEducation(id).then((res) => {
               Swal.fire({
-                icon: "success",
-                title: "Berhasil!",
-                text: "Data berhasil dihapus!",
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your Data has been deleted!',
+                showConfirmButton: false,
+                timer: 1500
+              })
+              setHttpStatus(result.status);
+            });
+          }
+        });
+      };
+      const handleDeleteUserSkill = (id) => {
+        Swal.fire({
+          title: "Are you sure?",
+          text: "You will not be able to recover this item!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonText: "Yes, delete it!",
+          cancelButtonText: "No, cancel",
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            APICV.deleteUserSkill(id).then((res) => {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Your Data has been deleted!',
+                showConfirmButton: false,
+                timer: 1500
               })
               setHttpStatus(result.status);
             });
@@ -226,6 +259,7 @@ function CurriculumVitae(){
             <div class="card isi-konten" id="userskill" >
                 <div class="card-body">
                     <h5 class="card-title">Skills</h5>
+                    <button className="btn btn-success btn-sm" onClick={handleShowSkillModal}>Add Skills</button>
                     <table>
                         {dataUserSkill && dataUserSkill.data.map((data) => {
                             return(
@@ -236,7 +270,7 @@ function CurriculumVitae(){
                                 </td>
                                 <td width={"6%"}>
                                 <button className="btn btn-success btn-sm">Edit</button>
-                                    <button className="btn btn-danger btn-sm">Delete</button>
+                                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteUserSkill(data.id)}>Delete</button>
                                 </td>
                             </tr>
                             );
@@ -265,6 +299,11 @@ function CurriculumVitae(){
     show={showProModal}
     hide={handleCloseProModal}
     proById={proById}
+    httpstatus={setHttpStatus}
+/>
+<SkillModal
+    show={showSkillModal}
+    hide={handleCloseSkillModal}
     httpstatus={setHttpStatus}
 />
 </div>        
