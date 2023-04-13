@@ -5,7 +5,7 @@ import ArrangeInterview from "./components/page/ta/arrangeinterview";
 // import HRInterview from "./components/page/hr/interview";
 // import TrainerInterview from "./components/page/trainer/interview";
 import LowonganKerja from "./components/template/user_management/lowongan_kerja";
-
+import InterviewhrPage from "./components/page/hr/Interviewhr"
 // ini untuk route url aplikasi
 function App () {
 	return (
@@ -15,6 +15,7 @@ function App () {
 				<Route path="/job-vacancy" element={<LowonganKerja />} />
 				<Route path="/about" element={ <Tentang /> } />
 				<Route path="/ta/arrangeInterview" element={ <ArrangeInterview /> } />
+				<Route path="/hr/interview" element={ <InterviewhrPage /> }/>
 				{/* <Route path="/hr/ArrangeInterview" element={ <HRInterview /> } />  */ }
 				{/* <Route path="/trainer/ArrangeInterview" element={ <TrainerInterview /> } /> */ }
 			</Routes>
