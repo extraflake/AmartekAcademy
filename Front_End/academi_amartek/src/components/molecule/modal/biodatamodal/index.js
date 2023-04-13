@@ -9,6 +9,7 @@ import APICV from '../../../../services/curriculumvitae';
 export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus}){
     const [fullname, setFullname] = useState("");
     const [birthdate, setBirthdate] = useState(new Date());
+	const [birthdateedit, setBirthdateedit] = useState(bioById && new Date(bioById.data[0].birth_date));
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [summary, setSummary] = useState("");
@@ -81,8 +82,8 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Birth Date</Form.Label>
                             <DatePicker className="form-control" 
-							value={new Date(bioById.data[0].birth_date)} 
-							selected={birthdate}
+							// value={new Date(bioById.data[0].birth_date)} 
+							selected={birthdateedit}
 							onChange={(date) => setBirthdate(date)} 
                              dateFormat="dd/MM/yyyy" />
 						</Form.Group>
@@ -102,7 +103,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 							<Form.Label>Update Summary</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Update Summary Name"
+								placeholder="Update the Region Name"
 								name="getname"
 								defaultValue={bioById.data[0].summary}
                                 as="textarea" rows={3}

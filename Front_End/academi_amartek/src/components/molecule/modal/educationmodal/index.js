@@ -12,9 +12,9 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
     const [degreeId, setDegreeId] = useState(null);
     const [gpa, setgpa] = useState("");
     // const [startDate, setStartDate] = useState(new Date());
-	const [univData, setUnivData] = useState("");
-	const [degreeData, setDegreeData] = useState("");
-	const [majorData, setMajorData] = useState("");
+	const [univData, setUnivData] = useState();
+	const [degreeData, setDegreeData] = useState();
+	const [majorData, setMajorData] = useState();
     const [closeModalAfterInsertEduModal, setCloseModalAfterInsertEduModal] = useState(true);
 
 	useEffect(() => {
@@ -55,7 +55,12 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 					console.log(err);
 				});
 			} else if (methodreqEduModal === "put"){
-				APICV.updateEducation(eduById.data.id, {univId, majorId, degreeId, gpa})
+				APICV.updateEducation(eduById.data.id, {
+					user: eduById.data.user_id,
+					univId: univId ? univId: (eduById.data.univId), 
+					majorId: majorId ? majorId: (eduById.data.majorId), 
+					degreeId: degreeId ? degreeId: (eduById.data.degreeId), 
+					gpa: gpa? gpa: (eduById.data.gpa)})
 				.then((res) => {
 					hide();
 
@@ -82,7 +87,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 				<Modal.Title>Education Data</Modal.Title>
 			</Modal.Header>
 			<Modal.Body>
-				{/* {eduById && eduById ? (
+				{eduById && eduById ? (
 				<Form onKeyDown={handleKeyDown}> 
 						<Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label> Edit Universitas or Campus Name</Form.Label>
@@ -91,7 +96,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 							<option>Open this select menu</option>
 							{univData && univData.data.map((data) =>{
 								return(
-                            <option key={data.id} value={data.id}>{data.univ_name}</option>
+                            <option key={data.id} value={data.id} selected={data.id === eduById.data.univId}>{data.univ_name}</option>
                             
 								);
 							})}
@@ -103,7 +108,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 							<option>Open this select menu</option>
 							{majorData && majorData.data.map((data) =>{
 								return(
-                            <option key={data.id} value={data.id}>{data.major_name}</option>
+                            <option key={data.id} value={data.id} selected={data.id === eduById.data.majorId}>{data.major_name}</option>
                             
 								);
 							})}
@@ -116,7 +121,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 							<option>Open this select menu</option>
 							{degreeData && degreeData.data.map((data) =>{
 								return(
-                            <option key={data.id} value={data.id}>{data.degree_name}</option>
+                            <option key={data.id} value={data.id} selected={data.id === eduById.data.degreeId}>{data.degree_name}</option>
                             
 							);
 						})}
@@ -134,7 +139,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 						</Form.Group>
 
 					</Form>
-				) : ( */}
+				) : (
 					<Form onKeyDown={handleKeyDown}> 
 						<Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Universitas or Campus Name</Form.Label>
@@ -178,7 +183,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 						</Form.Group>
 
 					</Form>
-				 {/* )} */}
+				 )}
 			</Modal.Body>
 			<Modal.Footer>
 				<Button variant="success" onClick={handleSubmit} type="submit">
