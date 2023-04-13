@@ -27,16 +27,7 @@ export function RegisterModal({
         </Modal.Header>
         <Modal.Body>
           <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc at
-            arcu nulla. Donec tellus nisl, sollicitudin in dui non, tincidunt
-            pulvinar nibh. Sed quis molestie odio, non molestie ligula. Duis
-            commodo suscipit elit eu eleifend. Vestibulum vel libero diam. In
-            condimentum augue at tempus maximus. Aenean quis purus a lectus
-            fermentum interdum quis et augue. Donec viverra nulla lorem, ac
-            vestibulum orci dapibus quis. Donec at molestie neque, at pretium
-            ipsum. Vestibulum laoreet in nisl pulvinar aliquam. Donec dignissim
-            erat mauris, quis auctor lectus ultricies eget. Integer blandit nunc
-            ex,
+          Anda akan dialihkan ke halaman pendaftaran akun <b>Amartek Academy</b>, Silahkan mendaftar akun di <b>Amartek Academy</b>, kemudian kembali ke Login dan mendaftar lowongan.
           </p>
         </Modal.Body>
         <Modal.Footer>

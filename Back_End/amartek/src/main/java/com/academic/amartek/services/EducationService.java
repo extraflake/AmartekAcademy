@@ -7,5 +7,6 @@ import com.academic.amartek.models.Education;
 
 public interface EducationService {
     public List<Education> GetAll();
+    public Boolean save(Education education);
    // public Education GetbyUserId(String userId);
 }

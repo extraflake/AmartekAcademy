@@ -23,6 +23,12 @@ public class EducationServiceImpl implements EducationService{
       return educationRepository.findAll();
     }
 
+    @Override
+    public Boolean save(Education education) {
+      educationRepository.save(education);
+      return educationRepository.findById(education.getId()).isPresent();
+    }
+
   
 
     // @Override
