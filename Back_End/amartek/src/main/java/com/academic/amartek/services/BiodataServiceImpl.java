@@ -12,6 +12,12 @@ public class BiodataServiceImpl implements BiodataService{
     private BiodataRepository biodataRepository;
 
     @Override
+    public Boolean save(Biodata biodata){
+        biodataRepository.save(biodata);
+        return biodataRepository.findById(biodata.getId()).isPresent();
+    }
+
+    @Override
     public Biodata getid(String id) {
         
        return biodataRepository.findById(id).orElseThrow(() -> new IllegalStateException("data not found"));

@@ -6,13 +6,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,21 +24,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.academic.amartek.dto.LoginDTO;
 import com.academic.amartek.dto.RegisterDTO;
+import com.academic.amartek.models.Biodata;
+import com.academic.amartek.models.Education;
+import com.academic.amartek.models.Major;
 import com.academic.amartek.models.Role;
+import com.academic.amartek.models.Univ;
 import com.academic.amartek.models.User;
+import com.academic.amartek.repositories.MajorRepository;
 import com.academic.amartek.repositories.RoleRepository;
+import com.academic.amartek.repositories.UnivRepository;
 import com.academic.amartek.repositories.UserRepository;
+import com.academic.amartek.services.BiodataService;
+import com.academic.amartek.services.EducationService;
 import com.academic.amartek.services.UserService;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
+@CrossOrigin()
 @RestController
 @RequestMapping("api")
 public class UserRestController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private BiodataService biodataService;
+
+    @Autowired
+    private EducationService educationService;
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -46,10 +62,13 @@ public class UserRestController {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private RoleRepository roleRepository;
+    private UnivRepository univRepository;
 
     @Autowired
-    private EntityManager entityManager;
+    private MajorRepository majorRepository;
+
+    @Autowired
+    private RoleRepository roleRepository;
     
     @Autowired
     private UserRepository userRepository;
@@ -58,28 +77,62 @@ public class UserRestController {
     byte[] keyBytes = Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded();
 
     @PostMapping("auth/register")
-    public ResponseEntity<Object> registerUser(@RequestBody RegisterDTO regist){
-       
-        Boolean foundEmail = userRepository.existsByEmail(regist.getEmail());
-        if(foundEmail){
-            Map<String, Object> customResponse = new HashMap<String, Object>();
-            customResponse.put("statusCode", HttpStatus.BAD_REQUEST.value());
-            customResponse.put("message","Email Already Exists!");
-            return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
-        }
-        Role roleId = roleRepository.findByName("Admin");
-        User setUser = new User();
-        setUser.setEmail(regist.getEmail());
-        setUser.setPassword(passwordEncoder.encode(regist.getEmail()));
-        setUser.setRole(roleId);
-        setUser.setId("USR");
-        Boolean saveUser = userService.save(setUser);
-        // System.out.println(saveUser);
+public ResponseEntity<Object> registerUser(@RequestBody RegisterDTO regist){
+
+    Boolean foundEmail = userRepository.existsByEmail(regist.getEmail());
+    if(foundEmail){
         Map<String, Object> customResponse = new HashMap<String, Object>();
-        customResponse.put("statusCode", HttpStatus.OK.value());
-        customResponse.put("message","Berhasil Registrasi");
-        return new ResponseEntity<>(customResponse, HttpStatus.OK);
+        customResponse.put("statusCode", HttpStatus.BAD_REQUEST.value());
+        customResponse.put("message","Email Already Exists!");
+        return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
     }
+    if(!regist.getPassword().equals(regist.getReTypePassword())){
+        System.out.println(regist.getPassword());
+        System.out.println(regist.getReTypePassword());
+        Map<String, Object> customResponse = new HashMap<String, Object>();
+        customResponse.put("statusCode", HttpStatus.BAD_REQUEST.value());
+        customResponse.put("message","Password dan Re-Type Password tidak sama");
+        return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
+    }
+    Role roleId = roleRepository.findByName("Admin");
+    User setUser = new User();
+    setUser.setEmail(regist.getEmail());
+    setUser.setPassword(passwordEncoder.encode(regist.getPassword()));
+    setUser.setRole(roleId);
+    // setUser.setId("USR");
+    Boolean saveUser = userService.save(setUser);
+    if(saveUser){
+        Biodata setBiodata = new Biodata();
+        setBiodata.setId(setUser.getId());
+        // setBiodata.setId("USR1");
+        setBiodata.setFullname(regist.getFullName());
+        setBiodata.setDatebirth(regist.getDateBith());
+        setBiodata.setNoTelp(regist.getNoTelp());
+        Boolean saveBiodata = biodataService.save(setBiodata);
+        if(saveBiodata){
+            Major majorId = majorRepository.getReferenceById(regist.getMajor());
+            Univ univId = univRepository.getReferenceById(regist.getUniv());
+            Education setEducation = new Education();
+            setEducation.setUniv(univId);
+            setEducation.setUser(setUser); // Set the saved User object as a reference in the Education object
+            setEducation.setMajor(majorId);
+            educationService.save(setEducation);
+            Map<String, Object> customResponse = new HashMap<String, Object>();
+            customResponse.put("statusCode", HttpStatus.OK.value());
+            customResponse.put("message","Berhasil Registrasi");
+            return new ResponseEntity<>(customResponse, HttpStatus.OK);
+        }
+        Map<String, Object> customResponse = new HashMap<String, Object>();
+        customResponse.put("statusCode", HttpStatus.BAD_REQUEST.value());
+        customResponse.put("message","Gagal Menyimpan Biodata");
+        return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
+    }
+    Map<String, Object> customResponse = new HashMap<String, Object>();
+    customResponse.put("statusCode", HttpStatus.BAD_REQUEST.value());
+    customResponse.put("message","Gagal Menyimpan User");
+    return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
+}
+
 
     @PostMapping("auth/login")
     public ResponseEntity<Object> loginUser(@RequestBody LoginDTO login){
@@ -94,9 +147,9 @@ public class UserRestController {
         if(!passwordEncoder.matches(login.getPassword(), dbUser.getPassword())) {
             // Handle error condition
             Map<String, Object> customResponse = new HashMap<String, Object>();
-            customResponse.put("statusCode", HttpStatus.NOT_FOUND.value());
-            customResponse.put("message :" , "Password Not Match" );
-            return new ResponseEntity<>(customResponse, HttpStatus.NOT_FOUND);
+            customResponse.put("statusCode", HttpStatus.UNAUTHORIZED.value());
+            customResponse.put("message", "Incorrect password");
+            return new ResponseEntity<>(customResponse, HttpStatus.UNAUTHORIZED);
         }
         // MASIH HARUS DI FIX 
         // Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login.getEmail(), login.getPassword()));
@@ -128,7 +181,7 @@ public class UserRestController {
         // return userService.getAllUsers();
     }
 
-    @PutMapping("users/{id}")
+    @PutMapping(path="users/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Object> updateUser(@PathVariable String id, @RequestBody User user) {
         User getUser = userService.getById(id);
         user.setId(id);

@@ -3,6 +3,9 @@ package com.academic.amartek.models;
 import java.util.Set;
 import javax.persistence.*;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -10,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Table(name = "tb_m_user")
 public class User {
     @Id
+    @GeneratedValue(generator = "myGenerator")
+    @GenericGenerator(name = "myGenerator", strategy = "com.academic.amartek.config.StringSequenceGenerator")
     private String id;
 
     @Column(name = "email")
