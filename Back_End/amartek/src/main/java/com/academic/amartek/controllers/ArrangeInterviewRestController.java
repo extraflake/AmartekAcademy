@@ -103,7 +103,7 @@ public class ArrangeInterviewRestController {
                     // to.add(setrecruitment.getHr().getEmail());
         
                     // for (String sendto : to) {
-        
+                        System.out.println(adddate.url);
                     AddMap.put("name", BioUser.getFullname());
                     AddMap.put("url", adddate.url);
                     AddMap.put("time", adddate.dateInterviewHr);

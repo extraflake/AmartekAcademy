@@ -67,57 +67,30 @@ function TemplateInterviewhr () {
         setid( id );
     }
     const hendlestatus = () => {
-        if ( statusinterview != "reject" )
-        {
-            Swal.fire( {
-                title: "Are you sure?",
-                text: "please change the status of the applicant",
-                // icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Accept",
-                cancelButtonText: "Cancel",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-            } ).then( ( result ) => {
-                if ( result.isConfirmed )
-                {
-                    setstatus( "accept" );
-                    APIINTERVIEW.putInterviewHrstatus( getrecId, getstatus ).then( ( res ) => {
-                        Swal.fire( {
-                            icon: "success",
-                            title: "Berhasil!",
-                            text: "Data di update!",
-                        } )
-                        sethttpStatus( res.status );
-                    } );
-                }
-            } );
-        } else if ( statusinterview != "accept" )
-        {
-            Swal.fire( {
-                title: "Are you sure?",
-                text: "please change the status of the applicant",
-                // icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Accept",
-                cancelButtonText: "Cancel",
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-            } ).then( ( result ) => {
-                if ( result.isConfirmed )
-                {
-                    setstatus( "reject" );
-                    APIINTERVIEW.putInterviewHrstatus( getrecId, getstatus ).then( ( res ) => {
-                        Swal.fire( {
-                            icon: "success",
-                            title: "Berhasil!",
-                            text: "Data di update!",
-                        } )
-                        sethttpStatus( res.status );
-                    } );
-                }
-            } );
-        }
+
+        Swal.fire( {
+            title: "Are you sure?",
+            text: "please change the status of the applicant",
+            // icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Accept",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+        } ).then( ( result ) => {
+            if ( result.isConfirmed )
+            {
+                APIINTERVIEW.putInterviewHrstatus( getrecId, statusinterview ).then( ( res ) => {
+                    Swal.fire( {
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: "Data di update!",
+                    } )
+                    sethttpStatus( res.status );
+                    setstatusinterview( "" )
+                } );
+            }
+        } );
     }
 
 
@@ -297,6 +270,7 @@ function TemplateInterviewhr () {
                                         <em>None</em>
                                     </MenuItem>
                                     { getUserAll && getUserAll.data.map( ( item, index ) => {
+                                        // APIINTERVIEW.getBiodatabyid( id )
                                         if ( item.role.name == getRole )
                                         {
                                             return (
