@@ -33,7 +33,7 @@ public class Biodata {
     private Date datebirth;
 
     @Column(name = "no_telp")
-    private Integer noTelp;
+    private Long noTelp;
 
     @Column(name = "address")
     private String address;
@@ -73,11 +73,11 @@ public class Biodata {
         this.datebirth = datebirth;
     }
 
-    public Integer getNoTelp() {
+    public Long getNoTelp() {
         return noTelp;
     }
 
-    public void setNoTelp(Integer noTelp) {
+    public void setNoTelp(Long noTelp) {
         this.noTelp = noTelp;
     }
 

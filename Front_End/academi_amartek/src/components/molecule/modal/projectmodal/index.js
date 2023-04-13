@@ -9,9 +9,9 @@ import APICV from '../../../../services/curriculumvitae';
 export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus}){
     const [name, setname] = useState("");
     const [projectDesc, setprojectDesc] = useState("");
-    const [projectStart, setprojectStart] = useState(new Date());
+    const [projectStart, setprojectStart] = useState("");
 	const [projetName, setprojetName] = useState();
-	const [projectEnd, setprojectEnd] = useState(new Date());
+	const [projectEnd, setprojectEnd] = useState("");
     const [closeModalAfterInsertEduModal, setCloseModalAfterInsertEduModal] = useState(true);
 	console.log(proById);
 
@@ -28,6 +28,8 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
 					hide();
 					setname("");
 					setprojectDesc("");
+					setprojectStart("");
+					setprojectEnd("");
 
 					Swal.fire({
 						icon: "success",
@@ -45,19 +47,23 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
 					console.log(err);
 				});
 			}else if (methodreqProModal === "put"){
-				APICV.updateProject(proById.data.id, {projetName, projectDesc, projectStart, projectEnd})
+				APICV.updateProject(proById.data.id, {
+					user: proById.data.userId,
+					name: name ? name: (proById.data.projectName), 
+					projectDesc: projectDesc? projectDesc: (proById.data.projectDesc) , 
+					projectStart: projectStart? projectStart: (proById.data.projectStart), 
+					projectEnd: projectEnd? projectEnd: (proById.data.projectEnd)})
 				.then((res) => {
 					hide();
 					setname("");
 					setprojectDesc("");
+					setprojectStart("");
+					setprojectEnd("");
 
 					Swal.fire({
-						icon: "success",
-						title: "Berhasil!",
-						text: "Data berhasil ditambahkan!",
 						position: 'top-end',
   						icon: 'success',
-  						title: 'Your work has been saved',
+  						title: 'Your work has been updated',
   						showConfirmButton: false,
   						timer: 1500
 					})
@@ -79,10 +85,10 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
 				{proById && proById ? (
 				<Form onKeyDown={handleKeyDown}> 
 						<Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Edit Project Name</Form.Label>
+							<Form.Label>Update Project Name</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="update new Project Name"
+								placeholder="update Project Name"
 								name="getname"
 								defaultValue={proById.data.projectName}
 								//value={proById.data.projectName}
@@ -90,18 +96,25 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
 							/>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Project Date</Form.Label>
-							<DatePicker className="form-control" selected={new Date(proById.data.projectStart)} onChange={(date) => setprojectStart(date)} 
+							<Form.Label>Update Project Date</Form.Label>
+							{/* <DatePicker className="form-control" selected={new Date(proById.data.projectStart)} onChange={(date) => setprojectStart(date)} 
                              dateFormat="dd/MM/yyyy" /> to <DatePicker className="form-control" selected={new Date(proById.data.projectEnd)} onChange={(date) => setprojectEnd(date)} 
-                             dateFormat="dd/MM/yyyy" />
+                             dateFormat="dd/MM/yyyy" /> */}
+							 <input className="form-control" type="date"
+							 defaultValue={proById.data.projectStart}
+							 onChange={(e) => setprojectStart(e.target.value)}
+							 /> to  <input className="form-control" type="date"
+							 defaultValue={proById.data.projectEnd}
+							 onChange={(e) => setprojectEnd(e.target.value)}
+							 />
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Project Description</Form.Label>
+							<Form.Label>Update Project Description</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Insert Project Description"
+								placeholder="Update Project Description"
 								name="getname"
-								value={proById.data.projectDesc}
+								defaultValue={proById.data.projectDesc}
                                 as="textarea" rows={3}
 								onChange={(e) => setprojectDesc(e.target.value)}
 							/>
@@ -121,9 +134,13 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Project Date</Form.Label>
-							<DatePicker className="form-control" selected={projectStart} onChange={(date) => setprojectStart(date)} 
-                             dateFormat="dd/MM/yyyy" /> to <DatePicker className="form-control" selected={projectEnd} onChange={(date) => setprojectEnd(date)} 
-                             dateFormat="dd/MM/yyyy" />
+							<input className="form-control" type="date"
+							 value={projectStart}
+							 onChange={(e) => setprojectStart(e.target.value)}
+							 /> to  <input className="form-control" type="date"
+							 value={projectEnd}
+							 onChange={(e) => setprojectEnd(e.target.value)}
+							 />
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Project Description</Form.Label>

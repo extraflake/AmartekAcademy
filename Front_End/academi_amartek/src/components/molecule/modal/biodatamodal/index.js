@@ -5,16 +5,18 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // Import CSS untuk styling
 import Swal from "sweetalert2";
 import APICV from '../../../../services/curriculumvitae';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus}){
     const [fullname, setFullname] = useState("");
-    const [birthdate, setBirthdate] = useState(new Date());
-	const [birthdateedit, setBirthdateedit] = useState(bioById && new Date(bioById.data[0].birth_date));
+    const [birthdate, setBirthdate] = useState("");
+	// const [birthdateedit, setBirthdateedit] = useState(bioById && new Date(bioById.data[0].birth_date));
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [summary, setSummary] = useState("");
 	
-    const [startDate, setStartDate] = useState(new Date());
+    //const [startDate, setStartDate] = useState(new Date());
     const [closeModalAfterInsertBioModal, setCloseModalAfterInsertBioModal] = useState(true);
 	console.log(bioById);
     const handleKeyDown = (e) => {
@@ -34,7 +36,6 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 				.then((res) => {
 					hide();
 					Swal.fire({
-						text: "Data berhasil ditambahkan!",
 						position: 'top-end',
   						icon: 'success',
   						title: 'Your Data has been updated',
@@ -58,7 +59,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 			 {bioById && bioById ? (
 					<Form onKeyDown={handleKeyDown}>
 						<Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>FullName</Form.Label>
+							<Form.Label>Update FullName</Form.Label>
 							<Form.Control
 								type="text"
 								placeholder="Update Full Name"
@@ -69,7 +70,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 							/>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Phone Number</Form.Label>
+							<Form.Label>Update Phone Number</Form.Label>
 							<Form.Control
 								type="number"
 								placeholder="Update Phone Number"
@@ -80,15 +81,22 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 							/>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Birth Date</Form.Label>
-                            <DatePicker className="form-control" 
+							<Form.Label>Update Birth Date</Form.Label>
+                            {/* <DatePicker className="form-control" 
 							// value={new Date(bioById.data[0].birth_date)} 
-							selected={birthdateedit}
+							selected={birthdate}
 							onChange={(date) => setBirthdate(date)} 
-                             dateFormat="dd/MM/yyyy" />
+                             dateFormat="dd/MM/yyyy" /> */}
+							 <input className="form-control" type="date"
+							 defaultValue={bioById.data[0].birth_date}
+							 onChange={(e) => setBirthdate(e.target.value)}
+							 />
+							 {/* <Calendar 
+							 defaultValue={new Date (bioById.data[0].birth_date)} 
+							 onChange={(date) => setBirthdate(date)}/> */}
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Address</Form.Label>
+							<Form.Label>Update Address</Form.Label>
 							<Form.Control
 								type="text"
 								placeholder="Update Address"
@@ -138,8 +146,8 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Birth Date</Form.Label>
-                            <DatePicker className="form-control" selected={birthdate} onChange={(date) => setStartDate(date)} 
-                             dateFormat="dd/MM/yyyy" />
+                            {/* <DatePicker className="form-control" selected={birthdate} onChange={(date) => setStartDate(date)} 
+                             dateFormat="dd/MM/yyyy" /> */}
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Address</Form.Label>
@@ -166,7 +174,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 							/>
 						</Form.Group>
 					</Form>
-			 )};
+			 )}
 			</Modal.Body>
 			<Modal.Footer>
 				<Button variant="success" onClick={handleSubmit} type="submit">

@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class BiodataRequestDTO {
     private String user, fullname, address, summary;
-    private Integer noTelp;
+    private Long noTelp;
     private Date dateBirth;
     
     public String getUser() {
@@ -31,10 +31,10 @@ public class BiodataRequestDTO {
     public void setSummary(String summary) {
         this.summary = summary;
     }
-    public Integer getNoTelp() {
+    public Long getNoTelp() {
         return noTelp;
     }
-    public void setNoTelp(Integer noTelp) {
+    public void setNoTelp(Long noTelp) {
         this.noTelp = noTelp;
     }
     public Date getDateBirth() {

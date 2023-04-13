@@ -5,18 +5,16 @@ import APICV from '../../../services/curriculumvitae';
 import { useState, useEffect } from "react";
 import { BiodataModal } from '../../molecule/modal/biodatamodal'; 
 import React from 'react'; // impor file CSS Bootstrap
-import { Card, CardImg, CardBody, CardTitle, CardText } from 'react-bootstrap'; // impor komponen Card Bootstrap
 import { EducationModal } from '../../molecule/modal/educationmodal';
 import { ProjectModal } from '../../molecule/modal/projectmodal';
 import Swal from "sweetalert2";
 import { SkillModal } from '../../molecule/modal/skillmodal';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import PdfDocument from './printCV';
-import { IoIosAddCircleOutline } from "react-icons/io";
 import { RiEditBoxLine } from "react-icons/ri"
 import axios from "axios";
 import { MdOutlineDeleteOutline, MdOutlineAddBox } from "react-icons/md";
+import "./cetakcv/index.js";
 import {FaDownload} from "react-icons/fa";
+import { NavLink } from 'react-router-dom';
 
 
 function CurriculumVitae(){
@@ -45,6 +43,13 @@ function CurriculumVitae(){
     const [showProModal, setShowProModal] = useState(false);
     const [showSkillModal, setShowSkillModal] = useState(false);
 
+    const handlePrint = () => {
+        // setTimeout(() => {
+           
+        //       }, 2000); 
+        window.open('/cetakcv');
+    
+      }
     const handleCloseBioModal = () => {
         setShowBioModal(false);
         setbioById(null);
@@ -169,6 +174,7 @@ function CurriculumVitae(){
         APICV.getUserSkill().then((response) => {
             setDataUserSkill(response.data);
         });
+        document.title = "Curriculum Vitae";
         return () =>{
           setHttpStatus(null)
         };
@@ -188,21 +194,21 @@ function CurriculumVitae(){
                                     <h4 className="card-title mt-2 text-center">{data.fullname}</h4>
                         <table width={"100%"}>
                             <tr>
-                                <td width={"12%"}><strong>Date of Birth </strong></td><td> {data.birth_date}
+                                <td width={"11%"}><strong>Date of Birth </strong></td><td width={"1%"}><strong>:</strong></td><td> {data.birth_date}
                             </td>
                             </tr>
                             <tr>
                                 <td>
-                                <strong>Phone</strong> </td><td> {data.no_telp} 
+                                <strong>Phone</strong></td><td><strong>:</strong></td><td> 0{data.no_telp} 
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                <strong>Address</strong> </td><td> {data.address}
+                                <strong>Address</strong> </td><td><strong>:</strong></td><td> {data.address}
                                 </td>
                             </tr>
                         </table>
-                        <button className="btn btn-success btn-sm"
+                        <button className="btn"
                          onClick={() => {
                             setShowBioModal(true);
                             // setMethodEduReq("put");
@@ -217,10 +223,12 @@ function CurriculumVitae(){
                                     console.log(err);
                                 });
                         }}
-                        ><RiEditBoxLine/></button>
-                        <PDFDownloadLink document={<PdfDocument/>} fileName='CV'>
-                            {({loading}) => (loading ? <button  className="btn btn-success btn-sm">Loading Document</button> : <button className="btn btn-success btn-sm"><FaDownload/></button>)}
-                        </PDFDownloadLink>
+                        ><RiEditBoxLine  style={{ fontSize: '30px' }}/></button>
+                        {/* <PDFDownloadLink document={<PdfDocument/>} fileName='CV'>
+                            {({loading}) => (loading ? <button  className="btn">Loading Document</button> : <button className="btn"><FaDownload  style={{ fontSize: '24px' }}/></button>)}
+                        </PDFDownloadLink> */}
+                        <button onClick={handlePrint} className='btn'><FaDownload style={{ fontSize: '24px' }}/></button>
+                    {/* <NavLink to="/cetakcv"><FaDownload style={{ fontSize: '24px' }}/></NavLink> */}
                         <hr></hr>
                         <h5 class="card-title"><strong>Summary</strong></h5>
                     <p className="card-text">{data.summary}</p>
@@ -236,7 +244,7 @@ function CurriculumVitae(){
                 <div class="card-body">
                 <h5 class="card-title" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "10px" }}>
                 <span><strong>Project Experience</strong></span>
-                <button className="btn btn-success" onClick={handleShowProModal}><MdOutlineAddBox /></button>
+                <button className="btn" onClick={handleShowProModal}><MdOutlineAddBox  style={{ fontSize: '40px' }}/></button>
                 </h5>
                     <table width={"100%"}>
                         {dataProject && dataProject.data.map((data) => {
@@ -251,7 +259,7 @@ function CurriculumVitae(){
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                    <button className="btn btn-success btn-sm"
+                                    <button className="btn"
                                     onClick={() => {
                                         setShowProModal(true);
                                         setMethodProReq("put");
@@ -266,8 +274,8 @@ function CurriculumVitae(){
                                                 console.log(err);
                                             });
                                     }}
-                                    ><RiEditBoxLine /></button>
-                                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteProject(data.id)}><MdOutlineDeleteOutline /></button>
+                                    ><RiEditBoxLine  style={{ fontSize: '28px' }} /></button>
+                                    <button className="btn" onClick={() => handleDeleteProject(data.id)}><MdOutlineDeleteOutline  style={{ fontSize: '29px' }} /></button>
                                 </td>
                             </tr>
                             );
@@ -282,7 +290,7 @@ function CurriculumVitae(){
                 <div class="card-body">
                 <h5 class="card-title" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "10px" }}>
                 <span><strong>Education</strong></span>
-                    <button className="btn btn-success" onClick={handleShowEduModal}><MdOutlineAddBox /></button>
+                    <button className="btn" onClick={handleShowEduModal}><MdOutlineAddBox  style={{ fontSize: '40px' }} /></button>
                     </h5>
                     <table width={"100%"}>
                         {dataEducation && dataEducation.data.map((data) => {
@@ -296,7 +304,7 @@ function CurriculumVitae(){
                         <hr></hr>
                                 </td>
                                 <td width={"6%"}>
-                                <button className="btn btn-success btn-sm" 
+                                <button className="btn" 
                                  onClick={() => {
                                     setShowEduModal(true);
                                     setMethodEduReq("put");
@@ -311,8 +319,8 @@ function CurriculumVitae(){
                                             console.log(err);
                                         });
                                 }}
-                                ><RiEditBoxLine /></button>
-                                <button className="btn btn-danger btn-sm" onClick={() => handleDeleteEducation(data.id)}><MdOutlineDeleteOutline /></button>
+                                ><RiEditBoxLine  style={{ fontSize: '28px' }}/></button>
+                                <button className="btn" onClick={() => handleDeleteEducation(data.id)}><MdOutlineDeleteOutline  style={{ fontSize: '29px' }} /></button>
                                 </td>
                             </tr>
                             );
@@ -327,25 +335,15 @@ function CurriculumVitae(){
                 <div class="card-body">
                 <h5 class="card-title" style={{ display: "grid", gridTemplateColumns: "1fr auto", gap: "10px" }}>
                 <span><strong>Skills</strong></span>
-                    <button className="btn btn-success" onClick={handleShowSkillModal}><MdOutlineAddBox /></button></h5>
-                    <table width={"100%"}>
+                    <button className="btn" onClick={handleShowSkillModal}><MdOutlineAddBox style={{ fontSize: '40px' }} /></button></h5>
+                    <ul className='ulskill'>
                         {dataUserSkill && dataUserSkill.data.map((data) => {
-                            return(
-                                <tr>
-                        <td width={"94%"} className="tabletd" >
-                        <p class="card-text">
-                            <ul>
-                                <li>{data.skillName}</li></ul> </p>
-                        <hr></hr>
-                                </td>
-                                <td width={"6%"}>
-                                    <button className="btn btn-danger btn-sm" onClick={() => handleDeleteUserSkill(data.id)}><MdOutlineDeleteOutline /></button>
-                                </td>
-                            </tr>
+                            return(  
+                        <li><strong> {data.skillName}</strong> <button className="btn" onClick={() => handleDeleteUserSkill(data.id)}>
+                            <MdOutlineDeleteOutline style={{ fontSize: '18px' }}/></button></li>
                             );
                         })}
-                       
-                    </table>
+                    </ul>
                 </div>
             </div>
         </div>

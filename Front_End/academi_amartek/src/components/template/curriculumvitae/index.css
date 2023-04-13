@@ -17,6 +17,16 @@ body{
 .isi-konten p {
     text-align: justify;
 }
+.isi-konten-print{
+    margin-top: 3px;
+    margin-bottom: 3px;
+    border-radius: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    width: 97%;
+}
+.isi-konten-print p{
+    text-align: justify;
+}
 p{
     margin: 0;
     padding: 0;
@@ -33,4 +43,9 @@ p{
     width : 4cm;
     height : 4cm;
 
+}
+.ulskill{
+    columns: 3;
+    -webkit-columns: 3;
+    -moz-columns: 3;
 }

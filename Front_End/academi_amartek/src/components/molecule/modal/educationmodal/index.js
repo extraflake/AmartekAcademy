@@ -90,7 +90,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 				{eduById && eduById ? (
 				<Form onKeyDown={handleKeyDown}> 
 						<Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label> Edit Universitas or Campus Name</Form.Label>
+							<Form.Label> Update Universitas Name</Form.Label>
 							
 							<Form.Select defaultValue={eduById.data.univId} onChange={(e) => setUnivId(e.target.value)}>
 							<option>Open this select menu</option>
@@ -103,7 +103,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 							</Form.Select>
 						</Form.Group>
 						<Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label> Edit Major Name</Form.Label>
+							<Form.Label> Update Major Name</Form.Label>
 							<Form.Select defaultValue={eduById.data.major_Id} onChange={(e) => setMajorId(e.target.value)}>
 							<option>Open this select menu</option>
 							{majorData && majorData.data.map((data) =>{
@@ -115,7 +115,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 							</Form.Select>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Degree Name</Form.Label>
+							<Form.Label>Update Degree Name</Form.Label>
 							
 							<Form.Select defaultValue={eduById.data.degreeId} onChange={(e) => setDegreeId(e.target.value)}>
 							<option>Open this select menu</option>
