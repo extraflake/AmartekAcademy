@@ -1,8 +1,10 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8088/api/"
+axios.defaults.baseURL = "http://localhost:8088/api/";
+var userses = sessionStorage.getItem("userId");
 
 const APICV = {
+    
     getAllCv: () => {
         return axios.get( "/cv/assemble/USR001" )
     },

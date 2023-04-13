@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import React from 'react'; // impor file CSS Bootstrap
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
 import Swal from "sweetalert2";
+import { Helmet } from 'react-helmet';
 
 
 function CurriculumVitaeCetak(){
@@ -42,7 +43,7 @@ function CurriculumVitaeCetak(){
         APICV.getUserSkill().then((response) => {
             setDataUserSkill(response.data);
         });
-        document.title = "Curriculum Vitae";
+        // document.title = "Curriculum Vitae";
         return() =>{
             setTimeout(() => {
                 window.print(); // Memicu pencetakan setelah 3 detik
@@ -67,6 +68,9 @@ function CurriculumVitaeCetak(){
                                     return (
                                           
                         <div>
+                            <Helmet>
+                                <title>CurriculumVitae of {data.fullname} </title>
+                            </Helmet>
                                     <h4 className="card-title mt-2 text-center">{data.fullname}</h4>
                                     <table width={"100%"}>
                             <tr>

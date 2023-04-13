@@ -15,6 +15,7 @@ import { MdOutlineDeleteOutline, MdOutlineAddBox } from "react-icons/md";
 import "./cetakcv/index.js";
 import {FaDownload} from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 
 function CurriculumVitae(){
@@ -174,7 +175,7 @@ function CurriculumVitae(){
         APICV.getUserSkill().then((response) => {
             setDataUserSkill(response.data);
         });
-        document.title = "Curriculum Vitae";
+       // document.title = "Curriculum Vitae";
         return () =>{
           setHttpStatus(null)
         };
@@ -191,6 +192,9 @@ function CurriculumVitae(){
                                     return (
                                           
                         <div>
+                             <Helmet>
+                                <title>CurriculumVitae of {data.fullname} </title>
+                            </Helmet>
                                     <h4 className="card-title mt-2 text-center">{data.fullname}</h4>
                         <table width={"100%"}>
                             <tr>
