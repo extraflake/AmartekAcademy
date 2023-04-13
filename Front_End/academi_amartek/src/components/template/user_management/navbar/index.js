@@ -2,6 +2,7 @@
 import "bootstrap";
 
 import "./index.css";
+import jwtDecode from "jwt-decode"
 import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { GrClose } from "react-icons/gr";
@@ -13,6 +14,7 @@ function Navbar({ setShowLoginModal, setShowRegisterModal }) {
 
   // state untuk toggle hamburger menu navbar versi mobile phone
   const [toggleHamburgerMenu, setToggleHamburgerMenu] = useState(false);
+  const [dataUser, setDataUSer] = useState(null)
 
   const handleShowLogin = () => {
     setShowLoginModal(true);
@@ -20,6 +22,24 @@ function Navbar({ setShowLoginModal, setShowRegisterModal }) {
   const handleShowRegister = () => {
     setShowRegisterModal(true);
   };
+
+  const handleLogOut = () => {
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("isLoggedIn")
+    window.location.reload()
+  } 
+
+  //ambil id dr token(session)
+  useEffect(() => {
+    const token = sessionStorage.getItem("token")
+    if(token){
+      const decodedValue = jwtDecode(token)
+      // console.log(decodedValue)
+      setDataUSer(decodedValue)
+    }
+
+    
+  }, [])
 
   useEffect(() => {
     // untuk menambahkan event scroll
@@ -65,10 +85,19 @@ function Navbar({ setShowLoginModal, setShowRegisterModal }) {
               </NavLink>
             </li>
           </ul>
-          <div className="nav-button">
-            <NavLink onClick={handleShowLogin}>Masuk</NavLink>
-            <NavLink onClick={handleShowRegister}>Daftar</NavLink>
-          </div>
+
+          {!dataUser?.id ?
+            (<div className="nav-button">
+              <NavLink onClick={handleShowLogin}>Masuk</NavLink>
+              <NavLink onClick={handleShowRegister}>Daftar</NavLink>
+            </div>) :
+            (<>
+              <p>Welcome ! <br />{dataUser?.id}</p>
+              <button onClick={handleLogOut} className="btn btn-primary">Logout </button>
+            </>
+            )}
+
+
         </div>
 
         {/* navbar hamburger menu */}

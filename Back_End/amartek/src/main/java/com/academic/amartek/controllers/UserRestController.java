@@ -76,7 +76,7 @@ public class UserRestController {
     private static final long EXPIRATION_TIME = 864_000_000; // 10 days
     byte[] keyBytes = Keys.secretKeyFor(SignatureAlgorithm.HS512).getEncoded();
 
-    @PostMapping("auth/register")
+@PostMapping("auth/register")
 public ResponseEntity<Object> registerUser(@RequestBody RegisterDTO regist){
 
     Boolean foundEmail = userRepository.existsByEmail(regist.getEmail());
@@ -94,7 +94,7 @@ public ResponseEntity<Object> registerUser(@RequestBody RegisterDTO regist){
         customResponse.put("message","Password dan Re-Type Password tidak sama");
         return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
     }
-    Role roleId = roleRepository.findByName("Admin");
+    Role roleId = roleRepository.findByName(regist.getRole());
     User setUser = new User();
     setUser.setEmail(regist.getEmail());
     setUser.setPassword(passwordEncoder.encode(regist.getPassword()));
@@ -156,7 +156,12 @@ public ResponseEntity<Object> registerUser(@RequestBody RegisterDTO regist){
         // System.out.println(authentication.getPrincipal());
         // MyUserDetail userDetail = (MyUserDetail) authentication.getPrincipal();
 
-        String token = Jwts.builder().setSubject(login.getEmail()).setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).signWith(SignatureAlgorithm.HS512, keyBytes).compact();
+        Map<String, Object> claims = new HashMap<String, Object>();
+        claims.put("id", dbUser.getId() );
+        claims.put("email", dbUser.getEmail());
+        claims.put("role_id", dbUser.getRole());
+
+        String token = Jwts.builder().addClaims(claims).setSubject(login.getEmail()).setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME)).signWith(SignatureAlgorithm.HS512, keyBytes).compact();
 
         Map<String, Object> customResponse = new HashMap<String, Object>();
         customResponse.put("statusCode", HttpStatus.OK.value());

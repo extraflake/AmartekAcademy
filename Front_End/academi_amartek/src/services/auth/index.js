@@ -10,22 +10,22 @@ const APIAUTH = {
   register: (
     email,
     password,
+    reTypePassword,
     fullname,
     birthdate,
-    retypepassword,
     noTelp,
-    universitas,
-    jurusan
+    univ,
+    major
   ) => {
     return axios.post("auth/register", {
       email,
       password,
+      reTypePassword,
       fullname,
       birthdate,
-      retypepassword,
       noTelp,
-      universitas,
-      jurusan,
+      univ,
+      major,
     });
   },
 };
