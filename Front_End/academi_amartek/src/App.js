@@ -38,7 +38,8 @@ function App() {
         <Route path="/find-job" element={<CariLowongan />} />
         <Route path="/job-vacancy" element={<LowonganKerja />} />
         <Route path="/about" element={<Tentang />} />
-        <Route path="/ta/arrangeInterview" element={<ArrangeInterview />} />
+        <Route path="/interview/ta" element={<ArrangeInterview />} />
+        <Route path="/interview/hr" element={ <InterviewhrPage /> }/>
         <Route path="/cv" element={ <CurriculumVitae/> } />
         <Route path="/cv/print" element={ <CurriculumVitaeCetak/>} />
         {/* <Route path="/hr/ArrangeInterview" element={ <HRInterview /> } />  */}

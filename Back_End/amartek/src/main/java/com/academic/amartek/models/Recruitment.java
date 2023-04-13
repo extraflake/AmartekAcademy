@@ -42,14 +42,12 @@ public class Recruitment {
     private Job job;
 
     @Column(name="date_interview_trainer")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateInterviewTrainer;
 
     @Column(name="status_trainer")
     private String statusTrainer;
   
     @Column(name="date_interview_hr")
-    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateInterviewHr;
   
     @Column(name = "status_hr")

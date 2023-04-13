@@ -26,10 +26,12 @@ import com.academic.amartek.models.Email;
 import com.academic.amartek.models.Recruitment;
 import com.academic.amartek.models.User;
 import com.academic.amartek.repositories.BiodataRepository;
+import com.academic.amartek.repositories.UserRepository;
 import com.academic.amartek.services.ArrangeInterviewService;
 import com.academic.amartek.services.BiodataService;
 import com.academic.amartek.services.BiodataServiceImpl;
 import com.academic.amartek.services.EmailSenderService;
+import com.academic.amartek.services.UserService;
 import com.academic.amartek.services.UserServiceImpl;
 
 @CrossOrigin()
@@ -42,12 +44,16 @@ public class ArrangeInterviewRestController {
     private BiodataService biodataService;
     private BiodataRepository biodataRepository;
     private EmailSenderService emailSender;
+     private UserService userService;
 
-    public ArrangeInterviewRestController(ArrangeInterviewService iArrangeInterviewService, UserServiceImpl userServiceImpl, BiodataService biodataService, EmailSenderService emailSender){
+    public ArrangeInterviewRestController(ArrangeInterviewService iArrangeInterviewService, 
+    UserServiceImpl userServiceImpl, BiodataService biodataService, 
+    EmailSenderService emailSender, UserService userService){
         this.iArrangeInterviewService = iArrangeInterviewService;
         this.userServiceImpl = userServiceImpl;
         this.biodataService = biodataService;
         this.emailSender = emailSender;
+        this.userService = userService;
     }
 
     @GetMapping("interview")
@@ -62,11 +68,20 @@ public class ArrangeInterviewRestController {
         return recruitment;
     }
 
+    @GetMapping("usersx")
+    public ResponseEntity<Object> getAllUsersx(){
+        List<User> user = userService.getAllUsers();
+        return ResponseHandler.getResponse("Data di temukan", HttpStatus.OK, user);
+        // return userService.getAllUsers();
+    }
+
+
 
         @PutMapping("interview/hr/{id}")
         public ResponseEntity<Object> SaveInterviewHr(@RequestBody StatusDTO adddate, @PathVariable(required = true) Integer id) {
-        Recruitment setrecruitment = iArrangeInterviewService.Get(id);
-            if (adddate.statusHr != null && adddate.dateInterviewHr != null && adddate.hr_id != null) {
+            System.out.println(adddate.hr_id + adddate.dateInterviewHr);
+            Recruitment setrecruitment = iArrangeInterviewService.Get(id);
+            if (adddate.statusHr != null && adddate.hr_id != null) {
 
                 setrecruitment.setStatusHr(adddate.statusHr);
                 iArrangeInterviewService.Save(setrecruitment);
@@ -76,12 +91,13 @@ public class ArrangeInterviewRestController {
                 try {
                     User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
                     Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
-                    Biodata BioHr = biodataService.getid(setrecruitment.getHr().getId());
+                    Biodata BioHr = biodataService.getid(adddate.hr_id);
                     System.out.println(BioUser.getFullname());
+                    setrecruitment.setHr(userServiceImpl.getById(adddate.hr_id));
+                    setrecruitment.setDateInterviewHr(adddate.dateInterviewHr);
+                    iArrangeInterviewService.Save(setrecruitment);
+                    
                     Map<String, Object> AddMap = new HashMap<String,Object>();
-                    System.out.println(user.getEmail());
-                    String[] to = {setrecruitment.getHr().getEmail(), setrecruitment.getHr().getEmail()};
-
                     // List<String> to = new ArrayList<>();
                     // to.add(user.getEmail());
                     // to.add(setrecruitment.getHr().getEmail());
@@ -103,9 +119,9 @@ public class ArrangeInterviewRestController {
                     // email.setCc(to);
                         emailSender.sendHtmlMessage(email);
                     // }
-                setrecruitment.setHr(userServiceImpl.getById(adddate.hr_id));
-                setrecruitment.setDateInterviewHr(adddate.dateInterviewHr);
-                iArrangeInterviewService.Save(setrecruitment);
+
+                System.out.println(setrecruitment.getDateInterviewHr());
+
                 return ResponseHandler.generateResponse("Data status HR terupdatee", HttpStatus.OK);
             }catch (MessagingException e) {
                 e.printStackTrace();
@@ -131,6 +147,11 @@ public class ArrangeInterviewRestController {
             Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
             Biodata BioTrainer =  biodataService.getid(adddate.trainer_id);
             System.out.println(BioUser.getFullname());
+
+            setrecruitment.setTrainer(userServiceImpl.getById(adddate.trainer_id));
+            setrecruitment.setDateInterviewTrainer(adddate.dateInterviewTrainer);
+            iArrangeInterviewService.Save(setrecruitment);
+
             Map<String, Object> AddMap = new HashMap<String,Object>();
             System.out.println(user.getEmail());
             String[] to = new String[2];
@@ -155,9 +176,7 @@ public class ArrangeInterviewRestController {
 
                 emailSender.sendHtmlMessage(email);
             // }
-                setrecruitment.setTrainer(userServiceImpl.getById(adddate.trainer_id));
-                setrecruitment.setDateInterviewTrainer(adddate.dateInterviewTrainer);
-                iArrangeInterviewService.Save(setrecruitment);
+;
                 return ResponseHandler.generateResponse("Data status Trainer terupdatee", HttpStatus.OK);
             } catch (MessagingException e) {
 

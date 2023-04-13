@@ -16,7 +16,7 @@ import { NavLink } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import APIINTERVIEW from '../../../../services/ArrangeInterview';
-import Input from '@mui/material/Input';
+// import Input from '@mui/material/Input';
 
 import MenuItem from '@mui/material/MenuItem';
 import Swal from "sweetalert2";
@@ -40,7 +40,7 @@ const style = {
     p: 4,
 };
 
-function TemplateArrangeinterview () {
+function TemplateInterviewhr () {
 
     const [ alldatainterview, setdatainterview ] = useState( null );
     const [ getFullname, setfullname ] = useState( null );
@@ -57,7 +57,6 @@ function TemplateArrangeinterview () {
     const [ selectedDate, setSelectedDate ] = useState("");
     const [ getid, setid ] = useState( null );
 
-
     const handleChange = (event) => {
         setnamerole(event.target.value);
 
@@ -69,7 +68,9 @@ function TemplateArrangeinterview () {
          const handleSubmit = () => {
          if ( getRole == "HR" )
          {
-             APIINTERVIEW.putInterviewHr( getrecId ,selectedDate ,geturl ,getnamerole ).then( ( res ) => {
+            console.log("    ");
+            console.log(getrecId,selectedDate,geturl , getnamerole)
+             APIINTERVIEW.putInterviewHr( getrecId,selectedDate,geturl, getnamerole ).then( ( res ) => {
                 handleClose(false);
                  Swal.fire( {
                      icon: "success",
@@ -79,13 +80,17 @@ function TemplateArrangeinterview () {
                  sethttpstatus( res.status );
                  setSelectedDate("");
                  setnamerole("");
+                 seturl("");
                  console.log(getrecId,selectedDate, getnamerole);
              } ).catch( ( err ) => {
                  console.log( err );
+
              } )
          } else if ( getRole == "Trainer" )
          {
-             APIINTERVIEW.putInterviewTrainer( getrecId ,selectedDate ,geturl , getnamerole ).then( ( res ) => {
+            console.log("    ");
+            console.log(getrecId,selectedDate,geturl , getnamerole)
+             APIINTERVIEW.putInterviewTrainer( getrecId,selectedDate ,geturl , getnamerole ).then( ( res ) => {
                 handleClose(false);
                  Swal.fire( {
                      icon: "success",
@@ -97,8 +102,11 @@ function TemplateArrangeinterview () {
                  sethttpstatus( res.status );
                  setSelectedDate("");
                  setnamerole("");
+                 seturl("");
                  }).catch( ( err ) => {
                  console.log( err );
+                 console.log("    ");
+                 console.log(getrecId,selectedDate,geturl , getnamerole)
              } )
          }
      }
@@ -125,6 +133,9 @@ function TemplateArrangeinterview () {
         };
 
     }, [ getHttpstatus ] );
+
+    // console.log( selectedDate );
+
     return (
         <div>
             <Header />
@@ -186,8 +197,13 @@ function TemplateArrangeinterview () {
                                                 <div>
                                                 </div>
                                             </p>
+
                                         </AccordionDetails>
+
                                     </Accordion>
+
+
+
                                 );
                             }
                             ) }
@@ -210,25 +226,18 @@ function TemplateArrangeinterview () {
               </Typography>
               <Typography id="modal-modal-description" sx={ { mt: 2 } }>
 
-                  {/* <LocalizationProvider dateAdapter={ AdapterDayjs }>
-                      <DatePicker
-                          inputFormat="yyyy/MM/dd"
-                          value={ selectedDate }
-                          onChange={ handleDateChange }
-                          renderInput={ ( params ) => (
-                              <TextField  { ...params } />
-                          ) }
-                      />
-                  </LocalizationProvider> */}
                     <input className="form-control" type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />
-             
+                   
+                    <input className="form-control" placeholder="Masukan Link Interview" type="text" value={selectedDate} onChange={(e) => setRole(e.target.value)} />
+{/* 
                     <FormControl fullWidth sx={{ m: 1 }} variant="standard">
                             <Input
                                 id="standard-adornment-amount"
                                 placeholder="Masukan Link Interview"
                                 onChange={(e) => seturl(e.target.value)}
                             />
-                        </FormControl>
+                        </FormControl> */}
+                        
 
                               <FormControl fullWidth variant="standard" sx={{ m: 1, minWidth: 120 }}>
                                     <InputLabel id="demo-simple-select-standard-label">Silahkan Pilih</InputLabel>
@@ -248,6 +257,8 @@ function TemplateArrangeinterview () {
                                                 <MenuItem value={item.id}>{item.email}</MenuItem>
                                                 )  
                                         }
+        
+
                                     } )
                                     }
                                     </Select>
@@ -271,4 +282,4 @@ function TemplateArrangeinterview () {
 
 }
 
-export default TemplateArrangeinterview;
+export default TemplateInterviewhr;
