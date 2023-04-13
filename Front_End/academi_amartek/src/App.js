@@ -5,6 +5,7 @@ import ArrangeInterview from "./components/page/ta/arrangeinterview";
 // import HRInterview from "./components/page/hr/interview";
 // import TrainerInterview from "./components/page/trainer/interview";
 import LowonganKerja from "./components/template/user_management/lowongan_kerja";
+import JobVacancy from "./components/template/user_management/job-vacancy";
 import Register from "./components/page/user_management/register";
 import Dashboard from "./components/page/dashboard";
 import { useEffect, useState } from "react";
@@ -34,6 +35,7 @@ function App() {
         //ROUTE BELOM LOGIN
       <Routes>
         <Route exact path="/" element={<Tentang />} />
+        <Route path="/job-vacancy/:id" element={<JobVacancy />} />
         <Route path="/register" element={<Register />} />
         <Route path="/find-job" element={<CariLowongan />} />
         <Route path="/job-vacancy" element={<LowonganKerja />} />

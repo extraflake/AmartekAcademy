@@ -107,7 +107,7 @@
 /* kalo navbar active */
 .active {
   color: var(--main-color) !important;
-  font-weight: bold;
+  font-weight: bold;  
   text-decoration: underline !important;
   text-decoration-color: black;
 }

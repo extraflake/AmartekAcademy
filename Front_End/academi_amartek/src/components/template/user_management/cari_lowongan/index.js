@@ -2,19 +2,30 @@ import TemplateCardLowongan from "../card_lowongan";
 import Footer from "../footer";
 import Navbar from "../navbar";
 import "./index.css";
-import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { LoginModal } from "../../../molecule/modal/loginmodal";
 import { RegisterModal } from "../../../molecule/modal/registermodal";
+import API from "../../../../services/jobVacancy";
+import { useState, useEffect } from "react";
 
 function TemplateCariLowongan() {
 	const [showLoginModal, setShowLoginModal] = useState(false);
 	const [showRegisterModal, setShowRegisterModal] = useState(false);
-  useEffect(() => {
-    document.title = "Daftar Lowongan Pekerjaan";
-  }, []);
+	const [allDataJob, setAllDataJob] = useState([{}]);
+	const [httpStatus, setHttpStatus] = useState(null);
+
+	useEffect(() => {
+		API.getAllJob().then((response) => {
+            setAllDataJob(response.data.data);
+            // console.log(response.data.data);
+        });		
+		return () => {		
+			setHttpStatus(null);
+		}
+		// document.title = "Daftar Lowongan Pekerjaan";
+	}, [httpStatus]);
 
   // setingan untuk slider nya
   const settings = {
@@ -58,13 +69,12 @@ function TemplateCariLowongan() {
         hide={() => setShowRegisterModal(false)}
       />
 
-      {/* component card slider */}
-      <Slider {...settings} className="wrap-card-lowongan">
-        <TemplateCardLowongan />
-        <TemplateCardLowongan />
-        <TemplateCardLowongan />
-        <TemplateCardLowongan />
-      </Slider>
+			{/* component card slider */}
+			<Slider {...settings} className="wrap-card-lowongan">
+				{allDataJob.map((item) => (
+					<TemplateCardLowongan data={item} />
+				))}												
+			</Slider>
 
       <Footer />
     </div>
