@@ -1,8 +1,10 @@
 import "./index.css";
 import { MdAccessTimeFilled } from "react-icons/md";
 import { NavLink } from "react-router-dom";
+import JobVacancy from "../job-vacancy";
+import React from "react";
 
-function TemplateCardLowongan() {
+function TemplateCardLowongan({data}) {
 	return (
 		<div className="card">
 			{/* container card info */}
@@ -11,31 +13,31 @@ function TemplateCardLowongan() {
 				<div className="img-card">				
 					<img src="https://i.ibb.co/MZn1w9s/image0.jpg" alt="Gambar Lowongan Pekerjan" />
 				</div>
-
+				
 				{/* container card judul */}
 				<div className="judul-card">
-					<NavLink to="/">Lowongan AMARTEK GDP Batch 22</NavLink>
+					<NavLink to="/">{data.titleJob}</NavLink>
 				</div>
 
 				{/* container deskripsi card */}
 				<div className="desc-card">
 					<span>
-						Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus amet esse
-						sit ad sapiente quisquam eos natus nemo autem? Provident!
+						{data.jobDesc}
 					</span>
 				</div>
 
 				{/* container tanggal card */}
 				<div className="tanggal-card">
 					<MdAccessTimeFilled />
-					<p>Kamis, 23 Maret 2023</p>
+					<p>{data.openDate}</p>
 				</div>
-			</div>
 
-			{/* container button card */}
-			<div className="button-card">
-				<NavLink to="/">daftar</NavLink>
-			</div>
+				{/* container button card */}
+				<div className="button-card">
+					{/* <NavLink to="/user_management/job-vacancy">daftar</NavLink> */}
+					<NavLink to={`/user_management/job-vacancy/${data.id}`}>Lihat</NavLink>
+				</div>
+			</div>			
 		</div>
 	);
 }
