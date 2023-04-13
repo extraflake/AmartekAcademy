@@ -10,7 +10,7 @@ public class RegisterDTO {
     private String reTypePassword;
     private String role;
     private String fullname;
-    private Integer noTelp;
+    private Long noTelp;
     private Date datebirth;
     private String user;
     private Integer univ;
@@ -20,7 +20,7 @@ public class RegisterDTO {
         super();
     }
 
-    public RegisterDTO(String user, Integer univ, Integer major, String email, String password, String reTypePassword ,String role, String fullname, Integer noTelp, Date datebirth){
+    public RegisterDTO(String user, Integer univ, Integer major, String email, String password, String reTypePassword ,String role, String fullname, Long noTelp, Date datebirth){
         this.email = email;
         this.password = password;
         this.role = role;
@@ -74,11 +74,11 @@ public class RegisterDTO {
         this.fullname = fullname;
     }
 
-    public Integer getNoTelp(){
+    public Long getNoTelp(){
         return noTelp;
     }
 
-    public void setNoTelp(Integer noTelp){
+    public void setNoTelp(Long noTelp){
         this.noTelp = noTelp;
     }
 

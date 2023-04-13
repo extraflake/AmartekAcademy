@@ -81,7 +81,7 @@ public class ArrangeInterviewRestController {
         public ResponseEntity<Object> SaveInterviewHr(@RequestBody StatusDTO adddate, @PathVariable(required = true) Integer id) {
             System.out.println(adddate.hr_id + adddate.dateInterviewHr);
             Recruitment setrecruitment = iArrangeInterviewService.Get(id);
-            if (adddate.statusHr != null && adddate.hr_id != null) {
+            if (adddate.statusHr != null && setrecruitment.getHr().getId() != null) {
 
                 setrecruitment.setStatusHr(adddate.statusHr);
                 iArrangeInterviewService.Save(setrecruitment);

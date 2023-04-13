@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 function Sidebar () {
 	return (
 		<div className="dash-sidebar">
-			<NavLink exact="true" to="/hr/arrangeInterview" className="dash-dashboard">
+			<NavLink exact="true" to="/interview/hr" className="dash-dashboard">
 				Interview
 			</NavLink>
 		</div>
