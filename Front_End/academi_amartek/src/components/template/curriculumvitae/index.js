@@ -188,7 +188,7 @@ function CurriculumVitae(){
                                     <h4 className="card-title mt-2 text-center">{data.fullname}</h4>
                         <table width={"100%"}>
                             <tr>
-                                <td style={{ paddingRight: "10px" }}><strong>Date of Birth </strong></td><td> {data.birth_date}
+                                <td width={"12%"}><strong>Date of Birth </strong></td><td> {data.birth_date}
                             </td>
                             </tr>
                             <tr>
@@ -356,7 +356,7 @@ function CurriculumVitae(){
     hide={handleCloseBioModal}
     bioById={bioById}
     methodreqBioModal={methodReq}
-    httpStatus={setHttpStatus}
+    httpstatus={setHttpStatus}
 />
 <EducationModal
     show={showEduModal}

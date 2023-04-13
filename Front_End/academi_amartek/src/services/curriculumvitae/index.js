@@ -65,6 +65,9 @@ const APICV = {
     updateEducation: (id, data) => {
         return axios.put("cv/education/"+id, data);
     },
+    updateBiodata: (id, data) => {
+        return axios.put("cv/biodata/"+id, data);
+    },
 
     deleteProject: (id) =>{
         return axios.delete("cv/project/" + id)

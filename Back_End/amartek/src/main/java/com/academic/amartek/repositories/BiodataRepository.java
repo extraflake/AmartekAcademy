@@ -24,5 +24,8 @@ public interface BiodataRepository extends JpaRepository<Biodata, String> {
     @Modifying
     @Query(value = "DELETE FROM tb_m_biodata WHERE id =:id", nativeQuery = true)
     public void deleteBiodata(@Param("id") String id);
+
+    @Query(value = "SELECT b.id, b.fullname, b.birth_date, b.no_telp, b.address, b.summary FROM tb_m_biodata b ", nativeQuery = true)
+    public List<Map<String, Object>> getAllBiodata();
     
 }

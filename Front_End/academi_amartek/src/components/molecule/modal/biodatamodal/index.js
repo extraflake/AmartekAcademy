@@ -3,14 +3,16 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { useState } from "react";
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css'; // Import CSS untuk styling
-//import Swal from "sweetalert2";
+import Swal from "sweetalert2";
+import APICV from '../../../../services/curriculumvitae';
 
 export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus}){
     const [fullname, setFullname] = useState("");
-    const [birthdate, setBirthdate] = useState("");
+    const [birthdate, setBirthdate] = useState(new Date());
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [summary, setSummary] = useState("");
+	
     const [startDate, setStartDate] = useState(new Date());
     const [closeModalAfterInsertBioModal, setCloseModalAfterInsertBioModal] = useState(true);
 	console.log(bioById);
@@ -21,8 +23,28 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
       };
     const handleSubmit = (e) => {
 		e.preventDefault();
-
-		
+		APICV.updateBiodata(bioById.data[0].id, {
+			fullname: fullname ? fullname: (bioById.data[0].fullname),
+			 dateBirth: birthdate ? birthdate: (bioById.data[0].birth_date), 
+			 noTelp: phone ? phone: (bioById.data[0].no_telp), 
+			 address: address ? address: (bioById.data[0].address), 
+			 summary: summary ? summary: (bioById.data[0].summary),
+			})
+				.then((res) => {
+					hide();
+					Swal.fire({
+						text: "Data berhasil ditambahkan!",
+						position: 'top-end',
+  						icon: 'success',
+  						title: 'Your Data has been updated',
+  						showConfirmButton: false,
+  						timer: 1500
+					})
+					httpstatus(res.status);
+				})
+				.catch((err) => {
+					console.log(err);
+				});	
 	};
 
     return(
@@ -35,54 +57,57 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
 			 {bioById && bioById ? (
 					<Form onKeyDown={handleKeyDown}>
 						<Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Full Name</Form.Label>
+							<Form.Label>FullName</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Update the Region Name"
+								placeholder="Update Full Name"
 								name="getname"
 								defaultValue={bioById.data[0].fullname}
 								// value={empById.data.fullname || ""}
-								// onChange={(e) => setName(e.target.value)}
+								onChange={(e) => setFullname(e.target.value)}
 							/>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Phone Number</Form.Label>
 							<Form.Control
 								type="number"
-								placeholder="Update the Region Name"
+								placeholder="Update Phone Number"
 								name="getname"
 								defaultValue={bioById.data[0].no_telp}
 								// value={empById.data.fullname || ""}
-								// onChange={(e) => setName(e.target.value)}
+								onChange={(e) => setPhone(0+e.target.value)}
 							/>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Birth Date</Form.Label>
-                            <DatePicker className="form-control" selected={new Date(bioById.data[0].birth_date)} onChange={(date) => setStartDate(date)} 
+                            <DatePicker className="form-control" 
+							value={new Date(bioById.data[0].birth_date)} 
+							selected={birthdate}
+							onChange={(date) => setBirthdate(date)} 
                              dateFormat="dd/MM/yyyy" />
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
 							<Form.Label>Address</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Update the Region Name"
+								placeholder="Update Address"
 								name="getname"
 								defaultValue={bioById.data[0].address}
                                 as="textarea" rows={3}
 								// value={empById.data.fullname || ""}
-								// onChange={(e) => setName(e.target.value)}
+								onChange={(e) => setAddress(e.target.value)}
 							/>
 						</Form.Group>
                         <Form.Group className="mb-3" controlId="formBasicFullname">
-							<Form.Label>Summary</Form.Label>
+							<Form.Label>Update Summary</Form.Label>
 							<Form.Control
 								type="text"
-								placeholder="Update the Region Name"
+								placeholder="Update Summary Name"
 								name="getname"
 								defaultValue={bioById.data[0].summary}
                                 as="textarea" rows={3}
 								// value={empById.data.fullname || ""}
-								// onChange={(e) => setName(e.target.value)}
+								onChange={(e) => setSummary(e.target.value)}
 							/>
 						</Form.Group>
 					</Form>

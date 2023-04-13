@@ -34,6 +34,10 @@ public class BiodataRestController {
     public ResponseEntity<Object> getBiodata(@PathVariable(required = true) String userId){
         return ResponseHandler.getResponse("Data Ditemukan", HttpStatus.OK, biodataRepository.getBiodata(userId));
     }
+    @GetMapping("cv/biodata")
+    public ResponseEntity<Object> getAllBiodata(){
+        return ResponseHandler.getResponse("Data Ditemukan", HttpStatus.OK, biodataRepository.getAllBiodata());
+    }
     @PostMapping("cv/biodata")
     public ResponseEntity<Object> saveBiodata(@RequestBody BiodataRequestDTO biodatareq){
         //User user = userRepository.getById(biodatareq.getUser());
