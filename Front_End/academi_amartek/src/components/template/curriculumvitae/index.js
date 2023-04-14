@@ -165,6 +165,7 @@ function CurriculumVitae(){
       };
     //  const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
       const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR-ddwqb";
+      console.log(sessionStorage.getItem('id'));
       
 
     useEffect(() => {

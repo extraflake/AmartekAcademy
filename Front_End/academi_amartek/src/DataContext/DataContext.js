@@ -48,9 +48,11 @@ export const DataProvider = ({ children }) => {
     await APIAUTH.login(dataLogin.email, dataLogin.password).then((res) => {
       if (res.data.statusCode === 200) {
         const token = res.data.data; //cara getbyid yg lg login
+        const decodedValue = jwtDecode(token)
         sessionStorage.setItem("token", token);
         sessionStorage.setItem("isLoggedIn", true);
-        const decodedValue = jwtDecode(token)
+        sessionStorage.setItem("userId", decodedValue.id);
+        console.log(decodedValue);
         if (decodedValue.role_id.id === 1) {
           //Masukin kondisi untuk route atau yang lainnya
           navigate(`/cari-lowongan`)
