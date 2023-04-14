@@ -14,6 +14,14 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
 	const [projectEnd, setprojectEnd] = useState("");
     const [closeModalAfterInsertEduModal, setCloseModalAfterInsertEduModal] = useState(true);
 	console.log(proById);
+	// const userId = sessionStorage.getItem('userId');
+	// var userId;
+    //     if (sessionStorage.getItem('userId') !== ""){
+    //         userId = sessionStorage.getItem('userId');
+    //     } else {
+    //         userId = "USR001";
+    //     }
+	const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
 
     const handleKeyDown = (e) => {
         if (e.key === "Enter") {
@@ -23,7 +31,7 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
     const handleSubmit = (e) => {
 		e.preventDefault();
 		if (methodreqProModal === "post") {
-		APICV.saveProject(name, projectDesc, projectStart, projectEnd)
+		APICV.saveProject(userId, name, projectDesc, projectStart, projectEnd)
 				.then((res) => {
 					hide();
 					setname("");

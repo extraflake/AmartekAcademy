@@ -7,6 +7,9 @@ import { useState, useEffect } from "react";
 import React from 'react'; // impor file CSS Bootstrap
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
 import Swal from "sweetalert2";
+import { FaDownload } from 'react-icons/fa';
+import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
 
 
 function CurriculumVitaeRead(){
@@ -33,7 +36,9 @@ function CurriculumVitaeRead(){
         // } else {
         //   console.error("Tidak dapat membuka jendela pencetakan.");
         // }
-        ReactPDF.render(<PdfDocument/>, `${__dirname}/example.pdf`);
+        // ReactPDF.render(<PdfDocument/>, `${__dirname}/example.pdf`);
+            window.open('/cetakcv');
+        
       };
     const styleimg ={
         "width" : "4cm",
@@ -56,17 +61,20 @@ function CurriculumVitaeRead(){
     const [showEduModal, setShowEduModal] = useState(false);
     const [showProModal, setShowProModal] = useState(false);
     const [showSkillModal, setShowSkillModal] = useState(false);
+
+    const { userId } = useParams();
+    
     useEffect(() => {
-        APICV.getBiodata().then((response) => {
+        APICV.getBiodata(userId).then((response) => {
             setDataBiodata(response.data);
         });
-        APICV.getEducation().then((response) => {
+        APICV.getEducation(userId).then((response) => {
             setDataEducation(response.data);
         });
-        APICV.getProject().then((response) => {
+        APICV.getProject(userId).then((response) => {
             setDataProject(response.data);
         });
-        APICV.getUserSkill().then((response) => {
+        APICV.getUserSkill(userId).then((response) => {
             setDataUserSkill(response.data);
         });
         return () =>{
@@ -86,6 +94,9 @@ function CurriculumVitaeRead(){
                                     return (
                                           
                         <div>
+                             <Helmet>
+                                <title>CurriculumVitae of {data.fullname} </title>
+                            </Helmet>
                                     <h4 className="card-title mt-2 text-center">{data.fullname}</h4>
                         <table>
                             <tr>
@@ -103,9 +114,10 @@ function CurriculumVitaeRead(){
                                 </td>
                             </tr>
                         </table>
-                        <PDFDownloadLink document={<PdfDocument/>} fileName='CV'>
+                        {/* <PDFDownloadLink document={<PdfDocument/>} fileName='CV'>
                             {({loading}) => (loading ? <button>Loading Document</button> : <button>Download</button>)}
-                        </PDFDownloadLink>
+                        </PDFDownloadLink> */}
+                         <button onClick={handlePrintCV} className='btn'><FaDownload style={{ fontSize: '24px' }}/></button>
                         <hr></hr>
                         <h4 class="card-title">Summary</h4>
                     <p className="card-text">{data.summary}</p>

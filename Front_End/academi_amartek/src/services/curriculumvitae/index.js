@@ -1,24 +1,31 @@
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:8088/api/";
-var userses = sessionStorage.getItem("userId");
+
+// var userses;
+// if (sessionStorage.getItem('userId') !== ""){
+//     userId = sessionStorage.getItem('userId');
+// } else {
+//     userId = "USR001";
+// }
+
 
 const APICV = {
     
-    getAllCv: () => {
-        return axios.get( "/cv/assemble/USR001" )
+    getAllCv: (userId) => {
+        return axios.get( "/cv/assemble/"+userId)
     },
-    getBiodata: ( id ) => {
-        return axios.get( "cv/biodata/USR001" )
+    getBiodata: (userId ) => {
+        return axios.get( "cv/biodata/"+userId)
     },
-    getProject: () => {
-        return axios.get( "cv/project/USR001" )
+    getProject: (userId) => {
+        return axios.get( "cv/project/"+userId)
     },
-    getEducation: () => {
-        return axios.get( "cv/education/USR001" )
+    getEducation: (userId) => {
+        return axios.get( "cv/education/"+userId)
     },
-    getUserSkill: () => {
-        return axios.get( "cv/userskill/USR001" )
+    getUserSkill: (userId) => {
+        return axios.get( "cv/userskill/"+userId)
     },
     getSkill: () => {
         return axios.get( "cv/skill" )
@@ -32,20 +39,20 @@ const APICV = {
     getMajor: () => {
         return axios.get( "cv/major" )
     },
-    saveProject: ( name, projectDesc, projectStart, projectEnd ) => {
-        let user = "USR001";
+    saveProject: ( userId, name, projectDesc, projectStart, projectEnd ) => {
+        //let user = "USR001";
         return axios.post( "cv/project", {
-            user: user,
+            user: userId,
             name: name,
             projectStart: projectStart,
             projectEnd: projectEnd,
             projectDesc: projectDesc
         } );
     },
-    saveEducation: (univId, degreeId, majorId, gpa) => {
-        let user = "USR001";
+    saveEducation: (userId, univId, degreeId, majorId, gpa) => {
+        //let user = "USR001";
         return axios.post("cv/education", {
-            user: user,
+            user: userId,
             univId: univId,
             degreeId: degreeId,
             majorId: majorId,
@@ -53,10 +60,10 @@ const APICV = {
         });
 
     },
-    saveUserSkill: (skillId) => {
+    saveUserSkill: (userId, skillId) => {
         let user = "USR001";
         return axios.post("cv/userskill", {
-            user: user,
+            user: userId,
             skill: skillId
         })
     },

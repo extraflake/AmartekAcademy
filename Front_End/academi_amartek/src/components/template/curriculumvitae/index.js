@@ -163,21 +163,35 @@ function CurriculumVitae(){
           }
         });
       };
-    //  const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
-      const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR-ddwqb";
-      
+    //   const userId = sessionStorage.getItem('userId');
+    // const userId = "USR001";
+    //   let userId;
+    //     if (sessionStorage.getItem('userId') !== ""){
+    //         userId = sessionStorage.getItem('userId');
+    //     } else {
+    //         userId = "USR001";
+    //     }
+    // const [userId, setUserId] = useState("");
+    // if (sessionStorage.getItem('userId') !== ""){
+    //     setUserId(sessionStorage.getItem('userId'));
+    // } else {
+    //     setUserId("USR001");
+    // }
+    const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+
+   
 
     useEffect(() => {
-        APICV.getBiodata().then((response) => {
+        APICV.getBiodata(userId).then((response) => {
             setDataBiodata(response.data);
         });
-        APICV.getEducation().then((response) => {
+        APICV.getEducation(userId).then((response) => {
             setDataEducation(response.data);
         });
-        APICV.getProject().then((response) => {
+        APICV.getProject(userId).then((response) => {
             setDataProject(response.data);
         });
-        APICV.getUserSkill().then((response) => {
+        APICV.getUserSkill(userId).then((response) => {
             setDataUserSkill(response.data);
         });
        // document.title = "Curriculum Vitae";

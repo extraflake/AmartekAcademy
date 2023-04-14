@@ -15,6 +15,7 @@ export function BiodataModal({show, hide, bioById, methodreqBioModal, httpstatus
     const [phone, setPhone] = useState("");
     const [address, setAddress] = useState("");
     const [summary, setSummary] = useState("");
+	const userId = sessionStorage.getItem('userId');
 	
     //const [startDate, setStartDate] = useState(new Date());
     const [closeModalAfterInsertBioModal, setCloseModalAfterInsertBioModal] = useState(true);
