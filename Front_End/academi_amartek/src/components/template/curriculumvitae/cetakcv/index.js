@@ -8,6 +8,7 @@ import React from 'react'; // impor file CSS Bootstrap
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
 import Swal from "sweetalert2";
 import { Helmet } from 'react-helmet';
+import { useParams } from 'react-router-dom';
 
 
 function CurriculumVitaeCetak(){
@@ -30,17 +31,18 @@ function CurriculumVitaeCetak(){
     const [dataProject, setDataProject] = useState(null);
     const [dataUserSkill, setDataUserSkill] = useState(null);
     const [httpStatus, setHttpStatus] = useState(null);
+    const { userId } = useParams();
     useEffect(() => {
-        APICV.getBiodata().then((response) => {
+        APICV.getBiodata(userId).then((response) => {
             setDataBiodata(response.data);
         });
-        APICV.getEducation().then((response) => {
+        APICV.getEducation(userId).then((response) => {
             setDataEducation(response.data);
         });
-        APICV.getProject().then((response) => {
+        APICV.getProject(userId).then((response) => {
             setDataProject(response.data);
         });
-        APICV.getUserSkill().then((response) => {
+        APICV.getUserSkill(userId).then((response) => {
             setDataUserSkill(response.data);
         });
         // document.title = "Curriculum Vitae";

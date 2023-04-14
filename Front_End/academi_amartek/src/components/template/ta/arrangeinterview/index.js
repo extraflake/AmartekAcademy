@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import { NavLink } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import APIINTERVIEW from '../../../../services/ArrangeInterview';
+import APIINTERVIEW from '../../../../services/arrangeinterview';
 import Input from '@mui/material/Input';
 
 import MenuItem from '@mui/material/MenuItem';

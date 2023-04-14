@@ -16,6 +16,14 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
 	const [degreeData, setDegreeData] = useState();
 	const [majorData, setMajorData] = useState();
     const [closeModalAfterInsertEduModal, setCloseModalAfterInsertEduModal] = useState(true);
+	// const userId = sessionStorage.getItem('userId');
+	// var userId;
+    //     if (sessionStorage.getItem('userId') !== ""){
+    //         userId = sessionStorage.getItem('userId');
+    //     } else {
+    //         userId = "USR001";
+    //     }
+	const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
 
 	useEffect(() => {
         APICV.getUniv().then((response) => {
@@ -37,7 +45,7 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
     const handleSubmit = (e) => {
 		e.preventDefault();
 		if (methodreqEduModal === "post") {
-		APICV.saveEducation(univId, degreeId, majorId, gpa)
+		APICV.saveEducation(userId, univId, degreeId, majorId, gpa)
 				.then((res) => {
 					hide();
 
