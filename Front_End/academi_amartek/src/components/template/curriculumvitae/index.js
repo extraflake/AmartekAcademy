@@ -16,6 +16,8 @@ import "./cetakcv/index.js";
 import {FaDownload} from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Navbar from '../user_management/navbar';
+import Footer from '../user_management/footer';
 
 
 function CurriculumVitae(){
@@ -161,6 +163,9 @@ function CurriculumVitae(){
           }
         });
       };
+    //  const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+      const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR-ddwqb";
+      
 
     useEffect(() => {
         APICV.getBiodata().then((response) => {
@@ -183,6 +188,7 @@ function CurriculumVitae(){
 
     return(
 <div>
+    <Navbar/>
         <div class="row justify-content-center">
             <div class="card isi-konten">    
                     <div className="card-body">
@@ -379,6 +385,7 @@ function CurriculumVitae(){
     hide={handleCloseSkillModal}
     httpstatus={setHttpStatus}
 />
+<Footer/>
 </div>        
     )
 }

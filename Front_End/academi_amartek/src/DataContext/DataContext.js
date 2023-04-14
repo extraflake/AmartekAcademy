@@ -53,8 +53,8 @@ export const DataProvider = ({ children }) => {
         const decodedValue = jwtDecode(token)
         if (decodedValue.role_id.id === 1) {
           //Masukin kondisi untuk route atau yang lainnya
-          // navigate(`/`)
-          window.location.reload();
+          navigate(`/cari-lowongan`)
+          // window.location.reload();
 
         }
         if (decodedValue.role_id.id === 2) {

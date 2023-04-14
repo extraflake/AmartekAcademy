@@ -7,8 +7,10 @@ import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { GrClose } from "react-icons/gr";
 import { Button } from "bootstrap";
+import { useNavigate } from "react-router-dom";
 
 function Navbar({ setShowLoginModal, setShowRegisterModal }) {
+  let navigate = useNavigate();
   // state buat bikin sticky navbar ketika di scroll
   const [stickyClass, setStickyClass] = useState("");
 
@@ -26,7 +28,8 @@ function Navbar({ setShowLoginModal, setShowRegisterModal }) {
   const handleLogOut = () => {
     sessionStorage.removeItem("token")
     sessionStorage.removeItem("isLoggedIn")
-    window.location.reload()
+    // window.location.reload()
+    navigate(`/`);
   } 
 
   //ambil id dr token(session)
