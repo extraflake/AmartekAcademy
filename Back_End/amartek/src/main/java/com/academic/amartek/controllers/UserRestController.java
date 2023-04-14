@@ -94,7 +94,9 @@ public ResponseEntity<Object> registerUser(@RequestBody RegisterDTO regist){
         customResponse.put("message","Password dan Re-Type Password tidak sama");
         return new ResponseEntity<>(customResponse, HttpStatus.BAD_REQUEST);
     }
-    Role roleId = roleRepository.findByName(regist.getRole());
+    // Role roleId = roleRepository.findByName(regist.getRole());
+    Role roleId = new Role();
+    roleId.setId(1);
     User setUser = new User();
     setUser.setEmail(regist.getEmail());
     setUser.setPassword(passwordEncoder.encode(regist.getPassword()));
