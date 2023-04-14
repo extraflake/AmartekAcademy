@@ -43,6 +43,7 @@ const APIINTERVIEW = {
   getUserAll: () => {
     return axios.get( "usersx" );
   },
+  //rest api
 };
 
 export default APIINTERVIEW;

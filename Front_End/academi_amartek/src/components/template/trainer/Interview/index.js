@@ -225,7 +225,9 @@ function TemplateInterviewtrainer () {
                                         >
                                             <div>
                                                 <p style={ { margin: "0 25px 0 25px" } }>  <span style={ { margin: " 0 25px 0 0" } }> { getFullname }</span>
-
+                                                <NavLink exact="true" to={ `/cv/applicant/${item.id}` } className="btn btn-outline-success" type="button">
+                                                        View CV
+                                                    </NavLink>    
                                                 </p>
                                             </div>
                                         </AccordionSummary>
