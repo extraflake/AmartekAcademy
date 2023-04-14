@@ -52,7 +52,6 @@ export const DataProvider = ({ children }) => {
         sessionStorage.setItem("token", token);
         sessionStorage.setItem("isLoggedIn", true);
         sessionStorage.setItem("userId", decodedValue.id);
-        console.log(decodedValue);
         if (decodedValue.role_id.id === 1) {
           //Masukin kondisi untuk route atau yang lainnya
           navigate(`/cari-lowongan`)
