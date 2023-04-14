@@ -7,6 +7,9 @@ import { useState, useEffect } from "react";
 import { FaFontAwesome } from "react-icons/fa";
 import React from "react";
 import { useParams } from 'react-router-dom';
+import Swal from "sweetalert2";
+import { Button } from "../../../atom/button";
+import SendRecruitment from "../../../../services/recruitment";
 
 function JobVacancy(props){
     // const id = props.match.params.id;
@@ -24,6 +27,31 @@ function JobVacancy(props){
 		}
 	}, [httpStatus]);
 
+    const applyNow = (id) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You will not be able to recover this item!",
+			icon: "question",
+			showCancelButton: true,
+			confirmButtonText: "Yes, apply now!",
+			cancelButtonText: "No, cancel",
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+		}).then((result) => {            
+			if (result.isConfirmed) {
+                console.log("masuk");
+                SendRecruitment.saveRecruitment("USR1", id).then((res) => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: "You have successfully applied!!",
+                    });                    
+                    setHttpStatus(res.status);
+                })				
+			}
+		});
+	};
+
     return (          
         <div>      
             <Navbar />
@@ -33,7 +61,7 @@ function JobVacancy(props){
             </div>   
 
             <div className="detailJob">
-                <h1>{dataJobById.titleJob}</h1>                
+                <h2>{dataJobById.titleJob}</h2>                
                 <table className="job-info">
                     <tr>
                         <td><i className="fa fa-briefcase"></i>Position <span>: {dataJobById.titleJob}</span></td>
@@ -45,15 +73,18 @@ function JobVacancy(props){
                     </tr>                    
                 </table>                                
                 <p className="description">{dataJobById.jobDesc}</p>
-                <h2>Requirement:</h2>
+                <h3>Requirement:</h3>
                 <ul>
                     <li>{dataJobById.jobRequire}</li>
                 </ul>
-                <h2>Benefit:</h2>
+                <h3>Benefit:</h3>
                 <ul>
                     <li>{dataJobById.jobBenefit}</li>
                 </ul>                          
-                <a href="#">Apply Now!</a>                                                 				                                   
+                <Button typeButton="danger" onclick={() => applyNow(id)}>
+					Apply Now!
+				</Button>                
+                {/* <a ></a> */}
             </div>                           
         </div>   
             <Footer />     

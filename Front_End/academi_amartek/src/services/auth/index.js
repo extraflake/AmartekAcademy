@@ -1,6 +1,6 @@
 import axios from "axios";
 
-axios.defaults.baseURL = "http://localhost:8080/api/";
+axios.defaults.baseURL = "http://localhost:8088/api/";
 
 const APIAUTH = {
   login: (email, password) => {
@@ -10,22 +10,22 @@ const APIAUTH = {
   register: (
     email,
     password,
+    reTypePassword,
     fullname,
     birthdate,
-    retypepassword,
     noTelp,
-    universitas,
-    jurusan
+    univ,
+    major
   ) => {
     return axios.post("auth/register", {
       email,
       password,
+      reTypePassword,
       fullname,
       birthdate,
-      retypepassword,
       noTelp,
-      universitas,
-      jurusan,
+      univ,
+      major,
     });
   },
 };

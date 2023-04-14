@@ -25,7 +25,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 
-// import { InterviewModal } from "../../../molecule/modal/Interviewmodal";
+// // import { InterviewModal } from "../../../molecule/modal/Interviewmodal";
 
 
 const style = {
@@ -40,7 +40,7 @@ const style = {
     p: 4,
 };
 
-function TemplateArrangeinterview () {
+function TemplateArrangeinterview() {
 
     const [ alldatainterview, setdatainterview ] = useState( null );
     const [ getFullname, setfullname ] = useState( null );
@@ -102,16 +102,16 @@ function TemplateArrangeinterview () {
         }
     }
 
-    useEffect( () => {
-        APIINTERVIEW.getallInterview().then( ( response ) => {
-            setdatainterview( response.data );
+    useEffect(() => {
+        APIINTERVIEW.getallInterview().then((response) => {
+            setdatainterview(response.data);
             // console.log("ini interview" + response.data)
             // console.log( response.data.data[ 0 ].applicant.id );
-            APIINTERVIEW.getBiodatabyid( response.data.data[ 0 ].applicant.id ).then( ( response ) => {
-                setfullname( response.data.data[ 0 ].fullname );
+            APIINTERVIEW.getBiodatabyid(response.data.data[0].applicant.id).then((response) => {
+                setfullname(response.data.data[0].fullname);
                 // console.log( response.data.data[ 0 ].fullname );
-            } )
-        } );
+            })
+        });
 
         APIINTERVIEW.getUserAll().then( ( response ) => {
             setUserAll( response.data );
@@ -119,37 +119,33 @@ function TemplateArrangeinterview () {
         } );
 
         return () => {
-            sethttpstatus( null );
+            sethttpstatus(null);
 
         };
 
-    }, [ getHttpstatus ] );
+    }, [getHttpstatus]);
+
     return (
         <div>
             <Header />
-            <div style={ { display: "flex" } }>
+            <div style={{ display: "flex" }}>
                 <Sidebar />
-                <Container maxWidth="xxlg" sx={ {
+                <Container maxWidth="xxlg" sx={{
                     bgcolor: "#D3D3D3"
-                } } margin="dense" >
-                    <Container maxWidth="xlg" sx={ {
+                }} margin="dense" >
+                    <Container maxWidth="xlg" sx={{
                         bgcolor: "red",
                         marginTop: "30px",
                         bgcolor: "background.paper",
                         height: "100hv"
-                    } }>
+                    }}>
                         <div className="accord-sidebar">
 
-                            { alldatainterview && alldatainterview.data.map( ( item, index ) => {
-                                // APIINTERVIEW.getBiodatabyid( item.applicant.id ).then( ( response ) => {
-                                //     setfullname( response.data );
-                                //     console.log( response.data );
-                                // } )
-                                // console.log( item );
+                            {alldatainterview && alldatainterview.data.map((item, index) => {
                                 return (
                                     <Accordion className="accord-container" >
                                         <AccordionSummary
-                                            expandIcon={ <MdExpandMore size={ 23 } color="white" /> }
+                                            expandIcon={<MdExpandMore size={23} color="white" />}
                                             aria-controls="panelia-content"
                                             id="panel1a-header"
                                         >
@@ -164,16 +160,16 @@ function TemplateArrangeinterview () {
                                                 </p>
                                             </div>
                                         </AccordionSummary>
-                                        <AccordionDetails sx={ {
+                                        <AccordionDetails sx={{
                                             bgcolor: "#D3D3D3",
                                             color: "black"
-                                        } }>
+                                        }}>
                                             <AiOutlineUser />
                                             Status HR  <span style={ { margin: "0 10px 0 36px" } }>: { item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" hidden={ item.dateInterviewHr != null ? true : false } onClick={ () => { setRole( "HR" ); setOpen( true ); setrecId( item.id ); } } >Set Time Interview</Button>
                                             <p style={ { margin: "10px 0 0 0" } }>
                                                 <AiOutlineUser />
 
-                                                Status Trainer <span style={ { margin: "0 10px 0 10px" } }>: { item.statusTrainer }</span>  <Button size="small" dir="rtl" variant="outlined" sx={ {
+                                                Status Trainer <span style={{ margin: "0 10px 0 10px" }}>: {item.statusTrainer}</span>  <Button size="small" dir="rtl" variant="outlined" sx={{
                                                     flexDirection: 'row-reverse',
                                                 } } onClick={ () => { setRole( "Trainer" ); setOpen( true ); setrecId( item.id ); } } hidden={ item.dateInterviewTrainer != null ? true : false }>Set Time Interview</Button>
 
@@ -184,7 +180,7 @@ function TemplateArrangeinterview () {
                                     </Accordion>
                                 );
                             }
-                            ) }
+                            )}
 
                         </div>
                     </Container>
@@ -267,10 +263,8 @@ function TemplateArrangeinterview () {
             </div>
 
 
-        </div >
+       </div >
     );
-
-
-}
+}                      
 
 export default TemplateArrangeinterview;

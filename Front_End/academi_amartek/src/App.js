@@ -11,6 +11,8 @@ import Register from "./components/page/user_management/register";
 import Dashboard from "./components/page/dashboard";
 import CurriculumVitaeRead from "./components/template/curriculumvitae/readCV";
 import { useEffect, useState } from "react";
+import CurriculumVitae from "./components/template/curriculumvitae";
+import CurriculumVitaeCetak from "./components/template/curriculumvitae/cetakcv";
 
 // ini untuk route url aplikasi
 function App () {
@@ -29,34 +31,24 @@ function App () {
     <div>
       { isLoggedIn ? (
         //ROUTE PAS UDAH LOGIN 
-        <Routes>
-          <Route path="/cari-lowongan" element={ <CariLowongan /> } />
-          {/* <Route path="/lowongan-kerja" element={<LowonganKerja/>} /> */ }
-          <Route path="/interview/ta" element={ <ArrangeInterview /> } />
-          <Route path="/interview/hr" element={ <InterviewhrPage /> } />
-
-        </Routes>
+      <Routes>
+        <Route path="/find-job" element={<CariLowongan/>} />
+        <Route path="/job-vacancy/:id" element={<JobVacancy />} />
+        <Route path="/cv" element={ <CurriculumVitae/> } />
+        <Route path="/cv/print" element={ <CurriculumVitaeCetak/>} />
+        <Route path="/interview/ta" element={<ArrangeInterview />} />
+        <Route path="/interview/hr" element={ <InterviewhrPage />}/>
+        <Route path="/interview/trainer" element={ <InterviewtrainerPage />}/>
+      </Routes>
       ) : (
         //ROUTE BELOM LOGIN
-        <Routes>
-          <Route exact path="/" element={ <Tentang /> } />
-          <Route path="/job-vacancy/:id" element={ <JobVacancy /> } />
-          <Route path="/register" element={ <Register /> } />
-          <Route path="/find-job" element={ <CariLowongan /> } />
-          <Route path="/job-vacancy" element={ <LowonganKerja /> } />
-          <Route path="/about" element={ <Tentang /> } />
-          <Route path="/interview/ta" element={ <ArrangeInterview /> } />
-          <Route path="/interview/trainer" element={ <InterviewtrainerPage /> } />
-
-          {/* <Route path="/interview/hr" element={ <InterviewhrPage /> } /> */ }
-           {/* <Route path="/cv/" element={ <CurriculumVitae /> } />
-          <Route path="/cv/print" element={ <CurriculumVitaeCetak /> } />  */}
-          <Route path="/cv/applicant/:id" element={ <CurriculumVitaeRead /> } /> 
-
-          <Route path="/interview/hr" element={ <InterviewhrPage /> } />
-          {/* <Route path="/trainer/ArrangeInterview" element={ <TrainerInterview /> } /> */ }
-        </Routes>
-      ) }
+      <Routes>
+        <Route exact path="/" element={<Tentang />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/find-job" element={<CariLowongan />} />
+        <Route path="/about" element={<Tentang />} />
+      </Routes>
+      )}
     </div>
 
   );

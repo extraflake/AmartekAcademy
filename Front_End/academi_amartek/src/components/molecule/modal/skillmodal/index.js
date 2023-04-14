@@ -10,6 +10,14 @@ export function SkillModal({show, hide, httpstatus}){
     const [skillId, setSkillId] = useState();
     const [closeModalAfterInsertSkillModal, setCloseModalAfterInsertSkillModal] = useState(true);
     const [skillData, setSkillData] = useState("");
+	// const userId = sessionStorage.getItem('userId');
+	// var userId;
+    //     if (sessionStorage.getItem('userId') !== ""){
+    //         userId = sessionStorage.getItem('userId');
+    //     } else {
+    //         userId = "USR001";
+    //     }
+	const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
     
     useEffect(() => {
         APICV.getSkill().then((response) => {
@@ -25,7 +33,7 @@ export function SkillModal({show, hide, httpstatus}){
 
     const handleSubmit = (e) => {
 		e.preventDefault();
-		APICV.saveUserSkill(skillId)
+		APICV.saveUserSkill(userId, skillId)
 				.then((res) => {
 					hide();
 

@@ -6,14 +6,22 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import APICV from '../../../../services/curriculumvitae';
 
-export function ProjectModal ( { show, hide, proById, methodreqProModal, httpstatus } ) {
-	const [ name, setname ] = useState( "" );
-	const [ projectDesc, setprojectDesc ] = useState( "" );
-	const [ projectStart, setprojectStart ] = useState( "" );
-	const [ projetName, setprojetName ] = useState();
-	const [ projectEnd, setprojectEnd ] = useState( "" );
-	const [ closeModalAfterInsertEduModal, setCloseModalAfterInsertEduModal ] = useState( true );
-	console.log( proById );
+export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus}){
+    const [name, setname] = useState("");
+    const [projectDesc, setprojectDesc] = useState("");
+    const [projectStart, setprojectStart] = useState("");
+	const [projetName, setprojetName] = useState();
+	const [projectEnd, setprojectEnd] = useState("");
+    const [closeModalAfterInsertEduModal, setCloseModalAfterInsertEduModal] = useState(true);
+	console.log(proById);
+	// const userId = sessionStorage.getItem('userId');
+	// var userId;
+    //     if (sessionStorage.getItem('userId') !== ""){
+    //         userId = sessionStorage.getItem('userId');
+    //     } else {
+    //         userId = "USR001";
+    //     }
+	const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
 
 	const handleKeyDown = ( e ) => {
 		if ( e.key === "Enter" )
@@ -23,10 +31,9 @@ export function ProjectModal ( { show, hide, proById, methodreqProModal, httpsta
 	};
 	const handleSubmit = ( e ) => {
 		e.preventDefault();
-		if ( methodreqProModal === "post" )
-		{
-			APICV.saveProject( name, projectDesc, projectStart, projectEnd )
-				.then( ( res ) => {
+		if (methodreqProModal === "post") {
+		APICV.saveProject(userId, name, projectDesc, projectStart, projectEnd)
+				.then((res) => {
 					hide();
 					setname( "" );
 					setprojectDesc( "" );

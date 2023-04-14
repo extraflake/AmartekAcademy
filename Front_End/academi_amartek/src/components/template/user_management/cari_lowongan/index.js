@@ -7,8 +7,9 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { LoginModal } from "../../../molecule/modal/loginmodal";
 import { RegisterModal } from "../../../molecule/modal/registermodal";
-import API from "../../../../services/jobVacancy";
 import { useState, useEffect } from "react";
+import API from "../../../../services/jobVacancy";
+import jwtDecode from "jwt-decode"
 
 function TemplateCariLowongan() {
 	const [showLoginModal, setShowLoginModal] = useState(false);

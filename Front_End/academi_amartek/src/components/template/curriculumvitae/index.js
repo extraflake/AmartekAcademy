@@ -16,6 +16,8 @@ import "./cetakcv/index.js";
 import {FaDownload} from "react-icons/fa";
 import { NavLink } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
+import Navbar from '../user_management/navbar';
+import Footer from '../user_management/footer';
 
 
 function CurriculumVitae(){
@@ -161,18 +163,35 @@ function CurriculumVitae(){
           }
         });
       };
+    //   const userId = sessionStorage.getItem('userId');
+    // const userId = "USR001";
+    //   let userId;
+    //     if (sessionStorage.getItem('userId') !== ""){
+    //         userId = sessionStorage.getItem('userId');
+    //     } else {
+    //         userId = "USR001";
+    //     }
+    // const [userId, setUserId] = useState("");
+    // if (sessionStorage.getItem('userId') !== ""){
+    //     setUserId(sessionStorage.getItem('userId'));
+    // } else {
+    //     setUserId("USR001");
+    // }
+    const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+
+   
 
     useEffect(() => {
-        APICV.getBiodata().then((response) => {
+        APICV.getBiodata(userId).then((response) => {
             setDataBiodata(response.data);
         });
-        APICV.getEducation().then((response) => {
+        APICV.getEducation(userId).then((response) => {
             setDataEducation(response.data);
         });
-        APICV.getProject().then((response) => {
+        APICV.getProject(userId).then((response) => {
             setDataProject(response.data);
         });
-        APICV.getUserSkill().then((response) => {
+        APICV.getUserSkill(userId).then((response) => {
             setDataUserSkill(response.data);
         });
        // document.title = "Curriculum Vitae";
@@ -183,6 +202,7 @@ function CurriculumVitae(){
 
     return(
 <div>
+    <Navbar/>
         <div class="row justify-content-center">
             <div class="card isi-konten">    
                     <div className="card-body">
@@ -379,6 +399,7 @@ function CurriculumVitae(){
     hide={handleCloseSkillModal}
     httpstatus={setHttpStatus}
 />
+<Footer/>
 </div>        
     )
 }

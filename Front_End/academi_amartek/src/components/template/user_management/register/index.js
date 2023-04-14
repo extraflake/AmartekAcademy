@@ -6,10 +6,31 @@ import { Col, Form, Row } from "react-bootstrap";
 import { useState } from "react";
 import { LoginModal } from "../../../molecule/modal/loginmodal";
 import { RegisterModal } from "../../../molecule/modal/registermodal";
+import { useContext } from "react";
+import DataContext from "../../../../DataContext/DataContext";
+import { useEffect } from "react";
+import APICV from "../../../../services/curriculumvitae";
 
 function TemplateRegister() {
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showRegisterModal, setShowRegisterModal] = useState(false);
+  const [startDate, setStartDate] = useState(new Date());
+  const { registerHandleChange, registerHandleSubmit } = useContext(DataContext);
+  const [univ, setDataUniv] = useState(null);
+  const [major, setDataMajor] = useState(null);
+
+  useEffect(() => {
+    APICV.getUniv().then((res) => {
+      setDataUniv(res?.data)
+    }).catch((err) => console.log(err))
+  }, [])
+
+  useEffect(() => {
+    APICV.getMajor().then((res) => {
+      setDataMajor(res?.data)
+    }).catch((err) => console.log(err))
+  }, [])
+
   return (
     <div>
       <Navbar
@@ -24,14 +45,14 @@ function TemplateRegister() {
       <div className="wrap-register">
         <div className="cards">
           <h1 className="registtitle">Daftar Akun Baru</h1>
-          <Form className="mt-5">
+          <Form className="mt-5" onSubmit={registerHandleSubmit}>
             <Form.Group>
               <Form.Label>Fullname</Form.Label>
-              <Form.Control type="text" placeholder="Enter Full Name" />
+              <Form.Control type="text" placeholder="Enter Full Name" onChange={registerHandleChange} name={"fullname"} id={"fullname"} />
             </Form.Group>
             <Form.Group className="mt-3">
               <Form.Label>Email</Form.Label>
-              <Form.Control type="email" placeholder="Enter email" />
+              <Form.Control type="email" placeholder="Enter email" onChange={registerHandleChange} name={"email"} id={"email"} />
               <Form.Text className="text-muted">
                 We'll never share your email with anyone else.
               </Form.Text>
@@ -40,15 +61,17 @@ function TemplateRegister() {
               <Col>
                 <Form.Group>
                   <Form.Label>No. Telp</Form.Label>
-                  <Form.Control type="number" placeholder="Nomor HP" />
+                  <Form.Control type="number" placeholder="Nomor HP" onChange={registerHandleChange} name={"noTelp"} id={"noTelp"} />
                 </Form.Group>
               </Col>
               <Col>
                 <Form.Group>
                   <Form.Label>Birth Date</Form.Label>
                   <Form.Control
-                    type="text"
+                    type="date"
                     placeholder="Masukan Tanggal Lahir Tahun-Bulan-Tanggal"
+                    onChange={registerHandleChange}
+                    name={"birthdate"} id={"birthdate"}
                   />
                 </Form.Group>
               </Col>
@@ -60,6 +83,8 @@ function TemplateRegister() {
                   <Form.Control
                     type="password"
                     placeholder="Masukan Password"
+                    onChange={registerHandleChange}
+                    name={"password"} id={"password"}
                   />
                 </Form.Group>
               </Col>
@@ -69,22 +94,35 @@ function TemplateRegister() {
                   <Form.Control
                     type="password"
                     placeholder="Masukan Konfirmasi Password"
+                    onChange={registerHandleChange}
+                    name={"reTypePassword"} id={"reTypePassword"}
                   />
                 </Form.Group>
               </Col>
             </Row>
             <Row className="mt-3">
               <Col>
-                <Form.Group>
-                  <Form.Label>Universitas</Form.Label>
-                  <Form.Control type="text" placeholder="Masukan Universitas" />
-                </Form.Group>
+                <Form.Label>Universitas</Form.Label>
+                <Form.Select  onChange={registerHandleChange} name={"univ"} id={"univ"}>
+                  {/* <Form.Control type="dropdown" placeholder="Masukan Universitas" onChange={registerHandleChange} name={"univ"} id={"univ"}/>
+                   */}
+                   <option selected disabled hidden>Choose Here</option>
+                  {univ?.data?.map((item, index) => (
+                    <option value={item.id} key={index + 1}>{item.univ_name}</option>
+
+                  ))}
+
+                </Form.Select>
               </Col>
               <Col>
-                <Form.Group>
-                  <Form.Label>Jurusan</Form.Label>
-                  <Form.Control type="text" placeholder="Masukan Jurusan" />
-                </Form.Group>
+                <Form.Label>Jurusan</Form.Label>
+                <Form.Select  onChange={registerHandleChange} name={"major"}  id={"major"} >
+                <option selected disabled hidden>Choose Here</option>
+
+                  {major?.data?.map((item, index) => (
+                    <option value={item.id} key={index +1}>{item.major_name}</option>
+                  ))}
+                </Form.Select>
               </Col>
             </Row>
             <Form.Group className="mt-3">
@@ -115,7 +153,7 @@ function TemplateRegister() {
                 label="Dengan mendaftar Anda dianggap telah membaca dan menyetujui Aturan Penggunaan dan kebijakan yang berlaku"
               />
             </Form.Group>
-            <div className="hshshs ">
+            <div className="hshshs">
               <button
                 type="submit"
                 style={{ width: "100px" }}
