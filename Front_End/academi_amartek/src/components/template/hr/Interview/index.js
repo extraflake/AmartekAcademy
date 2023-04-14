@@ -1,6 +1,6 @@
 import Header from "../header";
 import Sidebar from "../sidebar";
-import 'bootstrap' ;
+import 'bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min.js'
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import { NavLink } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import APIINTERVIEW from '../../../../services/arrangeinterview/index';
+import APIINTERVIEW from "../../../../services/arrangeinterview";
 // import Input from '@mui/material/Input';
 
 import MenuItem from '@mui/material/MenuItem';
@@ -44,72 +44,101 @@ function TemplateInterviewhr () {
 
     const [ alldatainterview, setdatainterview ] = useState( null );
     const [ getFullname, setfullname ] = useState( null );
-    const [ getHttpstatus, sethttpstatus ] = useState( null );
+    const [ getHttpstatus, sethttpStatus ] = useState( null );
     const [ open, setOpen ] = useState( false );
-    const [getUserbyId, setUserid] = useState(null);
-    const [geturl, seturl] = useState("");
+    const [ getUserbyId, setUserid ] = useState( null );
+    const [ geturl, seturl ] = useState( "" );
     const [ getRole, setRole ] = useState( null );
-    const [getnamerole, setnamerole] = useState(null);
-    const [getUserAll, setUserAll] = useState( null );
-    const[getrecId, setrecId] = useState(null)
+    const [ getnamerole, setnamerole ] = useState( null );
+    const [ getUserAll, setUserAll ] = useState( null );
+    const [ getrecId, setrecId ] = useState( null )
+    const [ statusinterview, setstatusinterview ] = useState( null );
     const handleOpen = () => { setOpen( true ) }
     const handleClose = () => setOpen( false );
-    const [ selectedDate, setSelectedDate ] = useState("");
+    const [ selectedDate, setSelectedDate ] = useState( "" );
     const [ getid, setid ] = useState( null );
+    const [ getstatus, setstatus ] = useState( null );
 
-    const handleChange = (event) => {
-        setnamerole(event.target.value);
+    const handleChange = ( event ) => {
+        setnamerole( event.target.value );
 
-      };
+    };
     const handleChangeid = ( id ) => {
         setid( id );
     }
+    const hendlestatus = () => {
 
-         const handleSubmit = () => {
-         if ( getRole == "HR" )
-         {
-            console.log("    ");
-            console.log(getrecId,selectedDate,geturl , getnamerole)
-             APIINTERVIEW.putInterviewHr( getrecId,selectedDate,geturl, getnamerole ).then( ( res ) => {
-                handleClose(false);
-                 Swal.fire( {
-                     icon: "success",
-                     title: "Berhasil!",
-                     text: "Data berhasil ditambahkan!",
-                 } );
-                 sethttpstatus( res.status );
-                 setSelectedDate("");
-                 setnamerole("");
-                 seturl("");
-                 console.log(getrecId,selectedDate, getnamerole);
-             } ).catch( ( err ) => {
-                 console.log( err );
+        Swal.fire( {
+            title: "Are you sure?",
+            text: "please change the status of the applicant",
+            // icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Accept",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+        } ).then( ( result ) => {
+            if ( result.isConfirmed )
+            {
+                APIINTERVIEW.putInterviewHrstatus( getrecId, statusinterview ).then( ( res ) => {
+                    Swal.fire( {
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: "Data di update!",
+                    } )
+                    sethttpStatus( res.status );
+                    setstatusinterview( "" )
+                } );
+            }
+        } );
+    }
 
-             } )
-         } else if ( getRole == "Trainer" )
-         {
-            console.log("    ");
-            console.log(getrecId,selectedDate,geturl , getnamerole)
-             APIINTERVIEW.putInterviewTrainer( getrecId,selectedDate ,geturl , getnamerole ).then( ( res ) => {
-                handleClose(false);
-                 Swal.fire( {
-                     icon: "success",
-                     title: "Berhasil!",
-                     text: "Data berhasil ditambahkan!",
-                 } );
+
+    const handleSubmit = () => {
+        if ( getRole == "HR" )
+        {
+            console.log( "    " );
+            console.log( getrecId, selectedDate, geturl, getnamerole )
+            APIINTERVIEW.putInterviewHr( getrecId, selectedDate, geturl, getnamerole ).then( ( res ) => {
+                handleClose( false );
+                Swal.fire( {
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: "Data berhasil ditambahkan!",
+                } );
+                sethttpStatus( res.status );
+                setSelectedDate( "" );
+                setnamerole( "" );
+                seturl( "" );
+                console.log( getrecId, selectedDate, getnamerole );
+            } ).catch( ( err ) => {
+                console.log( err );
+
+            } )
+        } else if ( getRole == "Trainer" )
+        {
+            console.log( "    " );
+            console.log( getrecId, selectedDate, geturl, getnamerole )
+            APIINTERVIEW.putInterviewTrainer( getrecId, selectedDate, geturl, getnamerole ).then( ( res ) => {
+                handleClose( false );
+                Swal.fire( {
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: "Data berhasil ditambahkan!",
+                } );
                 //  setSelectedUser( "" );
 
-                 sethttpstatus( res.status );
-                 setSelectedDate("");
-                 setnamerole("");
-                 seturl("");
-                 }).catch( ( err ) => {
-                 console.log( err );
-                 console.log("    ");
-                 console.log(getrecId,selectedDate,geturl , getnamerole)
-             } )
-         }
-     }
+                sethttpStatus( res.status );
+                setSelectedDate( "" );
+                setnamerole( "" );
+                seturl( "" );
+            } ).catch( ( err ) => {
+                console.log( err );
+                console.log( "    " );
+                console.log( getrecId, selectedDate, geturl, getnamerole )
+            } )
+        }
+    }
 
     useEffect( () => {
         APIINTERVIEW.getallInterview().then( ( response ) => {
@@ -122,13 +151,13 @@ function TemplateInterviewhr () {
             } )
         } );
 
-        APIINTERVIEW.getUserAll().then((response) => {
-            setUserAll(response.data);
+        APIINTERVIEW.getUserAll().then( ( response ) => {
+            setUserAll( response.data );
 
-        });
+        } );
 
         return () => {
-            sethttpstatus( null );
+            sethttpStatus( null );
 
         };
 
@@ -167,17 +196,7 @@ function TemplateInterviewhr () {
                                         >
                                             <div>
                                                 <p style={ { margin: "0 25px 0 25px" } }>  <span style={ { margin: " 0 25px 0 0" } }> { getFullname }</span>
-                                                    {/* <Button color="success" dir="rtl" variant="outlined" fontSize="small" size="small" sx={ {
-                                                    } } >View CV</Button> */}
-                                                    	<NavLink exact="true" to={"/ta/readcv/"+{getFullname} +"/"  + item.id} className="btn btn-outline-success" type="button">
-                                                                View CV
-                                                        </NavLink>
-                                                        <Routes>
-                                                            <Route  exact="true" path={"/ta/readcv/"+{getFullname} +"/" + item.id} element={ <CurriculumVitaeRead /> } />
-                                                            <Route render={function () {
-                                                            return <p>Not found</p>
-                                                            }} />
-                                                        </Routes>
+
                                                 </p>
                                             </div>
                                         </AccordionSummary>
@@ -186,13 +205,12 @@ function TemplateInterviewhr () {
                                             color: "black"
                                         } }>
                                             <AiOutlineUser />
-                                            Status HR  <span style={ { margin: "0 10px 0 36px" } }>: { item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" onClick={ () => { setRole( "HR" ); setOpen( true );  setrecId(item.id);}  } >Set Time Interview</Button>
+                                            Status HR  <span style={ { margin: "0 10px 0 36px" } }>: { item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatus(); setstatusinterview( "accept" ); setrecId( item.id ); } } >Accept</Button>
+                                            <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatus(); setstatusinterview( "reject" ); setrecId( item.id ); } } >reject</Button>
                                             <p style={ { margin: "10px 0 0 0" } }>
                                                 <AiOutlineUser />
 
-                                                Status Trainer <span style={ { margin: "0 10px 0 10px" } }>: { item.statusTrainer }</span>  <Button size="small" dir="rtl" variant="outlined" sx={ {
-                                                    flexDirection: 'row-reverse',
-                                                } } onClick={ () => { setRole( "Trainer" ); setOpen( true ); setrecId(item.id);} } >Set Time Interview</Button>
+                                                Status Trainer <span style={ { margin: "0 10px 0 10px" } }>: { item.statusTrainer }</span>
 
                                                 <div>
                                                 </div>
@@ -213,23 +231,23 @@ function TemplateInterviewhr () {
 
 
                 </Container>
-              
- <Modal
-          open={ open }
-           onClose={ handleClose }
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-      >
-          <Box sx={ style }>
-              <Typography id="modal-modal-title" variant="h6" component="h2">
-                  Set Interview
-              </Typography>
-              <Typography id="modal-modal-description" sx={ { mt: 2 } }>
 
-                    <input className="form-control" type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />
-                   
-                    <input className="form-control" placeholder="Masukan Link Interview" type="text" value={selectedDate} onChange={(e) => setRole(e.target.value)} />
-{/* 
+                <Modal
+                    open={ open }
+                    onClose={ handleClose }
+                    aria-labelledby="modal-modal-title"
+                    aria-describedby="modal-modal-description"
+                >
+                    <Box sx={ style }>
+                        <Typography id="modal-modal-title" variant="h6" component="h2">
+                            Set Interview
+                        </Typography>
+                        <Typography id="modal-modal-description" sx={ { mt: 2 } }>
+
+                            <input className="form-control" type="date" value={ selectedDate } onChange={ ( e ) => setSelectedDate( e.target.value ) } />
+
+                            <input className="form-control" placeholder="Masukan Link Interview" type="text" value={ selectedDate } onChange={ ( e ) => setRole( e.target.value ) } />
+                            {/* 
                     <FormControl fullWidth sx={{ m: 1 }} variant="standard">
                             <Input
                                 id="standard-adornment-amount"
@@ -237,41 +255,43 @@ function TemplateInterviewhr () {
                                 onChange={(e) => seturl(e.target.value)}
                             />
                         </FormControl> */}
-                        
 
-                              <FormControl fullWidth variant="standard" sx={{ m: 1, minWidth: 120 }}>
-                                    <InputLabel id="demo-simple-select-standard-label">Silahkan Pilih</InputLabel>
-                                    <Select
+
+                            <FormControl fullWidth variant="standard" sx={ { m: 1, minWidth: 120 } }>
+                                <InputLabel id="demo-simple-select-standard-label">Silahkan Pilih</InputLabel>
+                                <Select
                                     labelId="demo-simple-select-autowidth"
                                     id="demo-simple-select-autowidth"
-                                    value={getnamerole}
-                                    onChange={handleChange}
+                                    value={ getnamerole }
+                                    onChange={ handleChange }
                                     label="Silahkan Pilih"
-                                    >
+                                >
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
                                     { getUserAll && getUserAll.data.map( ( item, index ) => {
-                                        if (item.role.name == getRole) {
-                                            return(
-                                                <MenuItem value={item.id}>{item.email}</MenuItem>
-                                                )  
+                                        // APIINTERVIEW.getBiodatabyid( id )
+                                        if ( item.role.name == getRole )
+                                        {
+                                            return (
+                                                <MenuItem value={ item.id }>{ item.email }</MenuItem>
+                                            )
                                         }
-        
+
 
                                     } )
                                     }
-                                    </Select>
-                                </FormControl>
+                                </Select>
+                            </FormControl>
 
 
-                          
 
-              </Typography>
-           <Button sx={{ m: 1 }} onClick={ handleSubmit } variant="outlined" >Save</Button>
-                                  
-          </Box>
-      </Modal>
+
+                        </Typography>
+                        <Button sx={ { m: 1 } } onClick={ handleSubmit } variant="outlined" >Save</Button>
+
+                    </Box>
+                </Modal>
 
             </div>
 

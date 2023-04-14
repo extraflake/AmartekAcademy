@@ -8,6 +8,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -44,8 +46,10 @@ public class Job {
     @Column(name = "job_benefit")
     private String jobBenefit;
 
-    // penghubung ke FK    
-    @OneToOne (mappedBy = "job", fetch = FetchType.LAZY)       
+    // penghubung ke FK
+    // @ManyToOne(mappedBy = "job")    
+    @OneToOne (mappedBy = "job", fetch = FetchType.LAZY)     
+    // @OneToMany (mappedBy = "job")         
     @JsonBackReference
     public Recruitment recruitment;
 

@@ -81,7 +81,7 @@ public class ArrangeInterviewRestController {
         public ResponseEntity<Object> SaveInterviewHr(@RequestBody StatusDTO adddate, @PathVariable(required = true) Integer id) {
             System.out.println(adddate.hr_id + adddate.dateInterviewHr);
             Recruitment setrecruitment = iArrangeInterviewService.Get(id);
-            if (adddate.statusHr != null && adddate.hr_id != null) {
+            if (adddate.statusHr != null && setrecruitment.getHr().getId() != null) {
 
                 setrecruitment.setStatusHr(adddate.statusHr);
                 iArrangeInterviewService.Save(setrecruitment);
@@ -103,7 +103,7 @@ public class ArrangeInterviewRestController {
                     // to.add(setrecruitment.getHr().getEmail());
         
                     // for (String sendto : to) {
-        
+                        System.out.println(adddate.url);
                     AddMap.put("name", BioUser.getFullname());
                     AddMap.put("url", adddate.url);
                     AddMap.put("time", adddate.dateInterviewHr);

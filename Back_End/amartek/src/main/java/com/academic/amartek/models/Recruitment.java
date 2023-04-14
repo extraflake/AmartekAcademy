@@ -1,6 +1,7 @@
 package com.academic.amartek.models;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -36,7 +39,8 @@ public class Recruitment {
     @JsonManagedReference   
     private User trainer;
 
-    @OneToOne
+    // @OneToOne
+    @ManyToOne
     @JoinColumn(name="job_id")    
     @JsonManagedReference 
     private Job job;

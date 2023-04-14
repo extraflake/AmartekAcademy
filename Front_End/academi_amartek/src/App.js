@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from "react-route
 import CariLowongan from "./components/page/user_management/cari_lowongan";
 import Tentang from "./components/page/user_management/tentang";
 import ArrangeInterview from "./components/page/ta/arrangeinterview";
+import InterviewhrPage from "./components/page/hr/Interview";;
 import JobVacancy from "./components/template/user_management/job-vacancy";
 import Register from "./components/page/user_management/register";
 import Dashboard from "./components/page/dashboard";
@@ -10,24 +11,21 @@ import CurriculumVitae from "./components/template/curriculumvitae";
 import CurriculumVitaeCetak from "./components/template/curriculumvitae/cetakcv";
 
 // ini untuk route url aplikasi
-function App() {
+function App () {
   let navigate = useNavigate();
-
-  const [infoLogin, setInfoLogin] = useState();
-  const [isLoggedIn, setIsLoggedIn] = useState([]);
-
-  useEffect(() => {
-    setInfoLogin(sessionStorage.getItem("token"));
-    setIsLoggedIn(sessionStorage.getItem("isLoggedIn"));
-    if (!isLoggedIn) {
-      sessionStorage.getItem("isLoggedIn")
+  const [ infoLogin, setInfoLogin ] = useState();
+  const [ isLoggedIn, setIsLoggedIn ] = useState( [] );
+  useEffect( () => {
+    setInfoLogin( sessionStorage.getItem( "token" ) );
+    setIsLoggedIn( sessionStorage.getItem( "isLoggedIn" ) );
+    if ( !isLoggedIn )
+    {
+      sessionStorage.getItem( "isLoggedIn" )
     }
-  
-
-  });
+  } );
   return (
     <div>
-      {isLoggedIn ? (
+      { isLoggedIn ? (
         //ROUTE PAS UDAH LOGIN 
       <Routes>
         <Route path="/find-job" element={<CariLowongan/>} />
