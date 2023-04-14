@@ -9,6 +9,7 @@ import { LoginModal } from "../../../molecule/modal/loginmodal";
 import { RegisterModal } from "../../../molecule/modal/registermodal";
 import { useState, useEffect } from "react";
 import API from "../../../../services/jobVacancy";
+import jwtDecode from "jwt-decode"
 
 function TemplateCariLowongan() {
 	const [showLoginModal, setShowLoginModal] = useState(false);
