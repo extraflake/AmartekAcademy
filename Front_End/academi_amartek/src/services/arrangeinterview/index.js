@@ -23,7 +23,7 @@ const APIINTERVIEW = {
     } );
   },
   putInterviewTrainerstatus: ( id, statusTrainer ) => {
-    return axios.put( "interview/hr/" + id, {
+    return axios.put( "interview/trainer/" + id, {
       statusTrainer: statusTrainer,
     } );
   },

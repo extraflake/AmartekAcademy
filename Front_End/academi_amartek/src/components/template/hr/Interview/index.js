@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import { NavLink } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import APIINTERVIEW from "../../../../services/arrangeinterview";
+import APIINTERVIEW from "../../../../services/arrangeInterview";
 // import Input from '@mui/material/Input';
 
 import MenuItem from '@mui/material/MenuItem';
@@ -51,8 +51,9 @@ function TemplateInterviewhr () {
     const [ getRole, setRole ] = useState( null );
     const [ getnamerole, setnamerole ] = useState( null );
     const [ getUserAll, setUserAll ] = useState( null );
-    const [ getrecId, setrecId ] = useState( null )
+    const [ getrecId, setrecId ] = useState( 0 )
     const [ statusinterview, setstatusinterview ] = useState( null );
+    const [statushr, setstatushr] = useState("");
     const handleOpen = () => { setOpen( true ) }
     const handleClose = () => setOpen( false );
     const [ selectedDate, setSelectedDate ] = useState( "" );
@@ -63,10 +64,8 @@ function TemplateInterviewhr () {
         setnamerole( event.target.value );
 
     };
-    const handleChangeid = ( id ) => {
-        setid( id );
-    }
-    const hendlestatus = () => {
+
+    const hendlestatusaccept = (id) => {
 
         Swal.fire( {
             title: "Are you sure?",
@@ -80,7 +79,7 @@ function TemplateInterviewhr () {
         } ).then( ( result ) => {
             if ( result.isConfirmed )
             {
-                APIINTERVIEW.putInterviewHrstatus( getrecId, statusinterview ).then( ( res ) => {
+                APIINTERVIEW.putInterviewHrstatus( id, "approve" ).then( ( res ) => {
                     Swal.fire( {
                         icon: "success",
                         title: "Berhasil!",
@@ -89,6 +88,37 @@ function TemplateInterviewhr () {
                     sethttpStatus( res.status );
                     setstatusinterview( "" )
                 } );
+            }else {
+                setstatusinterview( "" )
+            }
+        } );
+    }
+
+    const hendlestatusreject = (id) => {
+        Swal.fire( {
+            title: "Are you sure?",
+            text: "please change the status of the applicant",
+            // icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Accept",
+            cancelButtonText: "Cancel",
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+        } ).then( ( result ) => {
+            if ( result.isConfirmed )
+            {
+                APIINTERVIEW.putInterviewHrstatus( id, "reject" ).then( ( res ) => {
+                    Swal.fire( {
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: "Data di update!",
+                    } )
+                    sethttpStatus( res.status );
+                    setstatusinterview( "" )
+                } );
+                setstatusinterview( "" )
+            }else {
+                setstatusinterview( "" )
             }
         } );
     }
@@ -117,8 +147,7 @@ function TemplateInterviewhr () {
             } )
         } else if ( getRole == "Trainer" )
         {
-            console.log( "    " );
-            console.log( getrecId, selectedDate, geturl, getnamerole )
+           
             APIINTERVIEW.putInterviewTrainer( getrecId, selectedDate, geturl, getnamerole ).then( ( res ) => {
                 handleClose( false );
                 Swal.fire( {
@@ -186,7 +215,7 @@ function TemplateInterviewhr () {
                                 //     setfullname( response.data );
                                 //     console.log( response.data );
                                 // } )
-                                // console.log( item );
+                                console.log( item );
                                 return (
                                     <Accordion className="accord-container" >
                                         <AccordionSummary
@@ -205,8 +234,8 @@ function TemplateInterviewhr () {
                                             color: "black"
                                         } }>
                                             <AiOutlineUser />
-                                            Status HR  <span style={ { margin: "0 10px 0 36px" } }>: { item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatus(); setstatusinterview( "accept" ); setrecId( item.id ); } } >Accept</Button>
-                                            <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatus(); setstatusinterview( "reject" ); setrecId( item.id ); } } >reject</Button>
+                                            Status HR  <span style={ { margin: "0 10px 0 36px" } }>: { item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatusaccept(item.id);  } } hidden={ item.statusHr == "approve" || item.statusHr == "reject" ? true : false}>Accept</Button>
+                                            <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatusreject(item.id); } } hidden={ item.statusHr == "approve" || item.statusHr == "reject" ? true : false} >reject</Button>
                                             <p style={ { margin: "10px 0 0 0" } }>
                                                 <AiOutlineUser />
 
