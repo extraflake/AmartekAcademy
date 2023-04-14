@@ -3,11 +3,11 @@
     width: 720px; 	
 	padding-top: 30px;
 }
-.detailJob h1 {
+.detailJob h2 {
 	margin-top: 0;
 	color: #17479D;
 }
-.detailJob h2 {
+.detailJob h3 {
 	margin-top: 20px;
 	margin-bottom: 10px;
 	color: #17479D;
@@ -48,4 +48,13 @@
 .jobInfoVacancy .detailJob .description{
     margin-top: 20px;
     margin-bottom: 20px;
+}
+.jobInfoVacancy Button{
+	display: inline-block;
+	background-color: #17479D;
+	color: #fff;
+	padding: 10px 20px;
+	margin-top: 20px;
+	border-radius: 5px;
+	text-decoration: none;
 }

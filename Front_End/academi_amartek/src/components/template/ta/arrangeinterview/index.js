@@ -25,7 +25,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 
-// import { InterviewModal } from "../../../molecule/modal/Interviewmodal";
+// // import { InterviewModal } from "../../../molecule/modal/Interviewmodal";
 
 
 const style = {
@@ -58,8 +58,8 @@ function TemplateArrangeinterview() {
     const [getid, setid] = useState(null);
 
 
-    const handleChange = (event) => {
-        setnamerole(event.target.value);
+//     const handleChange = (event) => {
+//         setnamerole(event.target.value);
 
     };
     const handleChangeid = (id) => {
@@ -123,6 +123,7 @@ function TemplateArrangeinterview() {
         };
 
     }, [getHttpstatus]);
+
     return (
         <div>
             <Header />
@@ -140,11 +141,6 @@ function TemplateArrangeinterview() {
                         <div className="accord-sidebar">
 
                             {alldatainterview && alldatainterview.data.map((item, index) => {
-                                // APIINTERVIEW.getBiodatabyid( item.applicant.id ).then( ( response ) => {
-                                //     setfullname( response.data );
-                                //     console.log( response.data );
-                                // } )
-                                // console.log( item );
                                 return (
                                     <Accordion className="accord-container" >
                                         <AccordionSummary
@@ -154,8 +150,6 @@ function TemplateArrangeinterview() {
                                         >
                                             <div>
                                                 <p style={{ margin: "0 25px 0 25px" }}>  <span style={{ margin: " 0 25px 0 0" }}> {getFullname}</span>
-                                                    {/* <Button color="success" dir="rtl" variant="outlined" fontSize="small" size="small" sx={ {
-                                                    } } >View CV</Button> */}
                                                     <NavLink exact="true" to={"/ta/readcv/" + { getFullname } + "/" + item.id} className="btn btn-outline-success" type="button">
                                                         View CV
                                                     </NavLink>
@@ -263,10 +257,8 @@ function TemplateArrangeinterview() {
             </div>
 
 
-        </div >
+       </div >
     );
-
-
-}
+                                
 
 export default TemplateArrangeinterview;

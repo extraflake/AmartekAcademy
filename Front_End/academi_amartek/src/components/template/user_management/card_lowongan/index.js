@@ -35,7 +35,7 @@ function TemplateCardLowongan({data}) {
 				{/* container button card */}
 				<div className="button-card">
 					{/* <NavLink to="/user_management/job-vacancy">daftar</NavLink> */}
-					<NavLink to={`/user_management/job-vacancy/${data.id}`}>Lihat</NavLink>
+					<NavLink to={`/job-vacancy/${data.id}`}>Lihat</NavLink>
 				</div>
 			</div>			
 		</div>
