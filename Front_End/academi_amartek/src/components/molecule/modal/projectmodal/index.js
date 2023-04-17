@@ -21,7 +21,7 @@ export function ProjectModal({show, hide, proById, methodreqProModal, httpstatus
     //     } else {
     //         userId = "USR001";
     //     }
-	const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+	const userId = sessionStorage.getItem('userId');
 
 	const handleKeyDown = ( e ) => {
 		if ( e.key === "Enter" )

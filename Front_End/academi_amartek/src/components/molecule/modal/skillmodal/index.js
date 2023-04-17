@@ -17,7 +17,8 @@ export function SkillModal({show, hide, httpstatus}){
     //     } else {
     //         userId = "USR001";
     //     }
-	const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+	// const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+	const userId = sessionStorage.getItem('userId');
     
     useEffect(() => {
         APICV.getSkill().then((response) => {

@@ -14,6 +14,7 @@ import SendRecruitment from "../../../../services/recruitment";
 function JobVacancy(props){
     // const id = props.match.params.id;
     const { id } = useParams();
+    const userId = sessionStorage.getItem("userId");
     const [dataJobById, setDataJobById] = useState([]);
     const [httpStatus, setHttpStatus] = useState(null);
     console.log(id);
@@ -40,7 +41,7 @@ function JobVacancy(props){
 		}).then((result) => {            
 			if (result.isConfirmed) {
                 console.log("masuk");
-                SendRecruitment.saveRecruitment("USR1", id).then((res) => {
+                SendRecruitment.saveRecruitment(userId, id).then((res) => {
                     Swal.fire({
                         icon: "success",
                         title: "Success!",

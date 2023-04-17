@@ -23,7 +23,8 @@ export function EducationModal({show, hide, eduById, methodreqEduModal, httpstat
     //     } else {
     //         userId = "USR001";
     //     }
-	const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+	// const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+	const userId = sessionStorage.getItem('userId');
 
 	useEffect(() => {
         APICV.getUniv().then((response) => {

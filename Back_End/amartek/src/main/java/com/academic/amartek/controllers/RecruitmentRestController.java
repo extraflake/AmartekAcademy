@@ -90,13 +90,13 @@ public class RecruitmentRestController {
 
             try {
                 Email email = new Email();
-                email.setTo("farhanabdulaziz86@gmail.com");
+                email.setTo("naufal.aji@batmandiri.com");
                 email.setFrom("farhanaziz939@gmail.com");
                 email.setSubject("Offering from PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
                 email.setTemplate("approved-email.html");
                 Map<String, Object> properties = new HashMap<>();
-                properties.put("name", "Farhan");                
-                properties.put("position", "Graduate Development Program");
+                properties.put("name", "Naufal Aji Wibowo");                
+                properties.put("position", "Graduate Development Program 2");
                 properties.put("location", "Jakarta Selatan");            
                 email.setProperties(properties);
                 emailSenderService.sendHtmlMessage(email);
@@ -108,12 +108,12 @@ public class RecruitmentRestController {
         }else{
             try {
                 Email email = new Email();
-                email.setTo("farhanabdulaziz86@gmail.com");
+                email.setTo("naufal.aji@batmandiri.com");
                 email.setFrom("farhanaziz939@gmail.com");
                 email.setSubject("Offering from PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
                 email.setTemplate("rejected-email.html");
                 Map<String, Object> properties = new HashMap<>();
-                properties.put("name", "Farhan");                
+                properties.put("name", "Naufal Aji Wibowo");                
                 properties.put("position", "Graduate Development Program");
                 properties.put("location", "Jakarta Selatan");            
                 email.setProperties(properties);
