@@ -1,4 +1,4 @@
-import TemplateInterviewhr from "../../../template/hr/interview";
+import TemplateInterviewhr from "../../../template/hr/Interview";
 
 function InterviewhrPage () {
     return <TemplateInterviewhr />;
