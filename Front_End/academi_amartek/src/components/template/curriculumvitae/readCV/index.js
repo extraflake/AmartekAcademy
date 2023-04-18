@@ -12,7 +12,7 @@ import { Helmet } from 'react-helmet';
 import { useParams } from 'react-router-dom';
 
 
-function CurriculumVitaeRead(){
+function CurriculumVitaeRead(props){
     const handlePrintCV = () => {
         // // Logika pencetakan PDF
         // // Panggil PdfDocument di sini

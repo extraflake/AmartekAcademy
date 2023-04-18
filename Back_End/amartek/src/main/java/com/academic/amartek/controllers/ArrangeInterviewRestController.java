@@ -92,17 +92,18 @@ public class ArrangeInterviewRestController {
                     User user = userServiceImpl.getById(setrecruitment.getApplicant().getId());
                     Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
                     Biodata BioHr = biodataService.getid(adddate.hr_id);
+                    User hr = userServiceImpl.getById(adddate.hr_id);
                     System.out.println(BioUser.getFullname());
                     setrecruitment.setHr(userServiceImpl.getById(adddate.hr_id));
                     setrecruitment.setDateInterviewHr(adddate.dateInterviewHr);
                     iArrangeInterviewService.Save(setrecruitment);
                     
                     Map<String, Object> AddMap = new HashMap<String,Object>();
-                    // List<String> to = new ArrayList<>();
-                    // to.add(user.getEmail());
-                    // to.add(setrecruitment.getHr().getEmail());
+                    String[] to = new String[2];
+                    to [0] = user.getEmail();
+                    to [1] = hr.getEmail();
         
-                    // for (String sendto : to) {
+                    for (String sendto : to) {
                         System.out.println(adddate.url);
                     AddMap.put("name", BioUser.getFullname());
                     AddMap.put("url", adddate.url);
@@ -114,11 +115,11 @@ public class ArrangeInterviewRestController {
                     email.setFrom("farhanaziz939@gmail.com");
                     email.setTemplate("interview-email.html");
                     email.setSubject("Interview HR - PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
-                    email.setTo(user.getEmail());
+                    email.setTo(sendto);
                     email.setProperties(AddMap);
                     // email.setCc(to);
                         emailSender.sendHtmlMessage(email);
-                    // }
+                    }
 
                 System.out.println(setrecruitment.getDateInterviewHr());
 
@@ -135,7 +136,7 @@ public class ArrangeInterviewRestController {
         public ResponseEntity<Object> SaveInterviewTrainer(@RequestBody StatusDTO adddate, @PathVariable(required = true) Integer id) {
         Recruitment setrecruitment = iArrangeInterviewService.Get(id);
 
-        if (adddate.statusTrainer != null && adddate.dateInterviewTrainer != null && adddate.trainer_id != null) {
+        if (adddate.statusTrainer != null && setrecruitment.getTrainer().getId() != null) {
             
             setrecruitment.setStatusTrainer(adddate.statusTrainer);
             iArrangeInterviewService.Save(setrecruitment);
@@ -147,6 +148,7 @@ public class ArrangeInterviewRestController {
             Biodata BioUser =  biodataService.getid(setrecruitment.getApplicant().getId());
             Biodata BioTrainer =  biodataService.getid(adddate.trainer_id);
             System.out.println(BioUser.getFullname());
+            User trainer = userServiceImpl.getById(adddate.trainer_id);
 
             setrecruitment.setTrainer(userServiceImpl.getById(adddate.trainer_id));
             setrecruitment.setDateInterviewTrainer(adddate.dateInterviewTrainer);
@@ -154,13 +156,12 @@ public class ArrangeInterviewRestController {
 
             Map<String, Object> AddMap = new HashMap<String,Object>();
             System.out.println(user.getEmail());
-            String[] to = new String[2];
-            to[0] = setrecruitment.getHr().getEmail();
-            // List<String> to = new ArrayList<>();
-            // to.add(user.getEmail());
-            // to.add(setrecruitment.getTrainer().getEmail());
 
-            // for (String sendto : to) {
+            String[] to = new String[2];
+            to [0] = user.getEmail();
+            to [1] = trainer.getEmail();
+
+            for (String sendto : to) {
                 AddMap.put("name", BioUser.getFullname());
                 AddMap.put("url", adddate.url);
                 AddMap.put("time", adddate.dateInterviewTrainer);
@@ -171,11 +172,11 @@ public class ArrangeInterviewRestController {
             email.setFrom("farhanaziz939@gmail.com");
             email.setTemplate("interview-email.html");
             email.setSubject("Interview trainer - PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
-            email.setTo(user.getEmail());
+            email.setTo(sendto);
             email.setProperties(AddMap);
 
                 emailSender.sendHtmlMessage(email);
-            // }
+            }
 ;
                 return ResponseHandler.generateResponse("Data status Trainer terupdatee", HttpStatus.OK);
             } catch (MessagingException e) {

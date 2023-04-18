@@ -177,7 +177,8 @@ function CurriculumVitae(){
     // } else {
     //     setUserId("USR001");
     // }
-    const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+    //const userId = sessionStorage.getItem('userId') === "" ? sessionStorage.getItem('userId') : "USR001";
+    const userId = sessionStorage.getItem("userId");
 
    
 
@@ -213,7 +214,7 @@ function CurriculumVitae(){
                                           
                         <div>
                              <Helmet>
-                                <title>CurriculumVitae of {data.fullname} </title>
+                                <title>CurriculumVitae </title>
                             </Helmet>
                                     <h4 className="card-title mt-2 text-center">{data.fullname}</h4>
                         <table width={"100%"}>
@@ -251,7 +252,8 @@ function CurriculumVitae(){
                         {/* <PDFDownloadLink document={<PdfDocument/>} fileName='CV'>
                             {({loading}) => (loading ? <button  className="btn">Loading Document</button> : <button className="btn"><FaDownload  style={{ fontSize: '24px' }}/></button>)}
                         </PDFDownloadLink> */}
-                        <button onClick={handlePrint} className='btn'><FaDownload style={{ fontSize: '24px' }}/></button>
+                        <NavLink to={ `print/${data.id}`}> <button className='btn'><FaDownload style={{ fontSize: '24px' }}/></button></NavLink>
+                       
                     {/* <NavLink to="/cetakcv"><FaDownload style={{ fontSize: '24px' }}/></NavLink> */}
                         <hr></hr>
                         <h5 class="card-title"><strong>Summary</strong></h5>

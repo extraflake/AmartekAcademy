@@ -54,25 +54,25 @@ export const DataProvider = ({ children }) => {
         sessionStorage.setItem("userId", decodedValue.id);
         if (decodedValue.role_id.id === 1) {
           //Masukin kondisi untuk route atau yang lainnya
-          navigate(`/cari-lowongan`)
+          navigate(`/`)
           // window.location.reload();
 
         }
         if (decodedValue.role_id.id === 2) {
           //Masukin kondisi untuk route atau yang lainnya
-          // navigate(`/`)
-          window.location.reload();
+          navigate(`/interview/ta`)
+          //window.location.reload();
 
         }
         if (decodedValue.role_id.id === 3) {
           //Masukin kondisi untuk route atau yang lainnya
-          // navigate(`/`)
-          window.location.reload();
+          navigate(`/interview/hr`)
+         // window.location.reload();
 
         }
         if (decodedValue.role_id.id === 4) {
           //Masukin kondisi untuk route atau yang lainnya
-
+          navigate(`/find-job`)
         }
         // console.log(decodedValue.role_id.id)
         // buat kondisi untuk dapetin role

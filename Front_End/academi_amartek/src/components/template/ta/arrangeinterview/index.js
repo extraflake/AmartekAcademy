@@ -24,6 +24,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
+import { RiContactsBookLine } from "react-icons/ri";
 
 // // import { InterviewModal } from "../../../molecule/modal/Interviewmodal";
 
@@ -79,7 +80,6 @@ function TemplateArrangeinterview() {
                 sethttpstatus( res.status );
                 setSelectedDate( "" );
                 setnamerole( "" );
-                console.log( getrecId, selectedDate, getnamerole );
             } ).catch( ( err ) => {
                 console.log( err );
             } )
@@ -152,17 +152,11 @@ function TemplateArrangeinterview() {
                                         >
                                             <div>
                                                 <p style={ { margin: "0 25px 0 25px" } }>  <span style={ { margin: " 0 25px 0 0" } }> { getFullname }</span>
-                                                    {/* <Button color="success" dir="rtl" variant="outlined" fontSize="small" size="small" sx={ {
-                                                    } } >View CV</Button> */}
-                                                    <NavLink exact="true" to={ "/ta/readcv/" + { getFullname } + "/" + item.id } className="btn btn-outline-success" type="button">
+                                             
+                                                    <NavLink exact="true" to={ `/cv/applicant/${item.id}` } className="btn btn-outline-success" type="button">
                                                         View CV
                                                     </NavLink>
-                                                    <Routes>
-                                                        <Route exact="true" path={ "/ta/readcv/" + { getFullname } + "/" + item.id } element={ <CurriculumVitaeRead /> } />
-                                                        <Route render={ function () {
-                                                            return <p>Not found</p>
-                                                        } } />
-                                                    </Routes>
+
                                                 </p>
                                             </div>
                                         </AccordionSummary>
@@ -238,15 +232,23 @@ function TemplateArrangeinterview() {
                                     <MenuItem value="">
                                         <em>None</em>
                                     </MenuItem>
-                                    { getUserAll && getUserAll.data.map( ( item, index ) => {
-                                        if ( item.role.name == getRole )
+                                    { getUserAll && getUserAll.data.map( ( item, index ) => 
+                                    {     
+                                        console.log( item)
+                                        if ( item.role.name == getRole  )
                                         {
+
                                             return (
-                                                <MenuItem value={ item.id }>{ item.email }</MenuItem>
+                                                <MenuItem value={ item.id }>{ item.email}</MenuItem>
                                             )
                                         }
-                                    })
                                     }
+                                    )
+                                }
+    
+
+                            
+                                
                                 </Select>
                             </FormControl>
 

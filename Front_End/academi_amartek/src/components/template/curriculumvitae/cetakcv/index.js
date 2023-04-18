@@ -8,10 +8,11 @@ import React from 'react'; // impor file CSS Bootstrap
 import ReactPDF, { PDFDownloadLink } from '@react-pdf/renderer';
 import Swal from "sweetalert2";
 import { Helmet } from 'react-helmet';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 function CurriculumVitaeCetak(){
+    let navigate = useNavigate();
     
     // window.onload = () => {
     //     window.print();
@@ -50,9 +51,10 @@ function CurriculumVitaeCetak(){
             setTimeout(() => {
                 window.print(); // Memicu pencetakan setelah 3 detik
               }, 1000); 
-            setTimeout(() => {
-                window.close(); // Memicu pencetakan setelah 3 detik
-            }, 2000); 
+            // setTimeout(() => {
+            //     window.close(); // Memicu pencetakan setelah 3 detik
+            // }, 2000); 
+            
               
         }
 

@@ -60,6 +60,7 @@ function Navbar({ setShowLoginModal, setShowRegisterModal }) {
       windowHeight > 250 ? setStickyClass("sticky-nav") : setStickyClass("");
     }
   };
+  console.log(dataUser)
 
   return (
     <div className={`wrap-nav ${stickyClass}`}>
@@ -73,10 +74,18 @@ function Navbar({ setShowLoginModal, setShowRegisterModal }) {
           <ul>
             <li>
               <NavLink
-                to="/"
+                to="/find-job"
                 className={({ isActive }) => (isActive ? "active" : "inactive")}
               >
                 Cari Lowongan
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/cv"
+                className={({ isActive }) => (isActive ? "active" : "inactive")}
+              >
+                Curriculum Vitae
               </NavLink>
             </li>
             <li>
@@ -95,7 +104,7 @@ function Navbar({ setShowLoginModal, setShowRegisterModal }) {
               <NavLink onClick={handleShowRegister}>Daftar</NavLink>
             </div>) :
             (<>
-              <p>Welcome ! <br />{dataUser?.id}</p>
+              <p>Welcome ! <br />{dataUser?.email}</p>
               <button onClick={handleLogOut} className="btn btn-primary">Logout </button>
             </>
             )}
