@@ -25,6 +25,7 @@ import Select from '@mui/material/Select';
 import InputLabel from '@mui/material/InputLabel';
 import TextareaAutosize from '@mui/base/TextareaAutosize';
 import { RiContactsBookLine } from "react-icons/ri";
+import OFFERING from "../../../../services/offering";
 
 // // import { InterviewModal } from "../../../molecule/modal/Interviewmodal";
 
@@ -126,6 +127,31 @@ function TemplateArrangeinterview() {
 
     }, [getHttpstatus]);
 
+    const sendOffering = (id) => {
+		Swal.fire({
+			title: "Are you sure?",
+			text: "You will not be able to recover this item!",
+			icon: "question",
+			showCancelButton: true,
+			confirmButtonText: "Yes, send now!",
+			cancelButtonText: "No, cancel",
+			confirmButtonColor: "#3085d6",
+			cancelButtonColor: "#d33",
+		}).then((result) => {            
+			if (result.isConfirmed) {
+                console.log("masuk");
+                OFFERING.getContoh(id).then((res) => {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Success!",
+                        text: "You have successfully applied!!",
+                    });                    
+                    sethttpstatus(res.status);    
+                })                			
+			}
+		});
+	};
+
     return (
         <div>
             <Header />
@@ -173,8 +199,22 @@ function TemplateArrangeinterview() {
                                                     flexDirection: 'row-reverse',
                                                 } } onClick={ () => { setRole( "Trainer" ); setOpen( true ); setrecId( item.id ); } } hidden={ item.dateInterviewTrainer != null ? true : false }>Set Time Interview</Button>
 
+                                            <p style={ { margin: "10px 0 0 0" } }> 
+                                                                                        
+                                            {/* button send offering */}
+                                            <Button 
+                                                size="small" 
+                                                dir="rtl" 
+                                                variant="outlined" 
+                                                hidden={ item.statusHr == "reviewing" || item.statusTrainer == "reviewing" ? true : false } 
+                                                onClick={ () => sendOffering(item.id) } >                                                    
+                                            
+                                            Send Offering
+                                            </Button>                                            
+
                                                 <div>
                                                 </div>
+                                                </p>
                                             </p>
                                         </AccordionDetails>
                                     </Accordion>

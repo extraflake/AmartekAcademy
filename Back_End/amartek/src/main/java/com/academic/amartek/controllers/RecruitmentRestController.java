@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.academic.amartek.dto.RecruitmentDTO;
 import com.academic.amartek.dto.ResponseHandler;
+import com.academic.amartek.models.Biodata;
 import com.academic.amartek.models.Email;
 import com.academic.amartek.models.Job;
 import com.academic.amartek.models.Recruitment;
 import com.academic.amartek.models.User;
+import com.academic.amartek.services.BiodataService;
 import com.academic.amartek.services.EmailSenderService;
 import com.academic.amartek.services.JobService;
 import com.academic.amartek.services.RecruitmentService;
@@ -34,16 +36,18 @@ public class RecruitmentRestController {
     private RecruitmentService iRecService;
     private UserService iUserService;
     private JobService iJobService;
+    private BiodataService iBiodataService;
 
     @Autowired
     private EmailSenderService emailSenderService;
     
 
-    public RecruitmentRestController(RecruitmentService iRecService, UserService iUserService, JobService iJobService, EmailSenderService emailSenderService) {
+    public RecruitmentRestController(RecruitmentService iRecService, UserService iUserService, JobService iJobService, EmailSenderService emailSenderService, BiodataService iBiodataService) {
         this.iRecService = iRecService;
         this.iUserService = iUserService;
         this.iJobService = iJobService;
         this.emailSenderService = emailSenderService;
+        this.iBiodataService = iBiodataService;
     }
 
     @GetMapping("recruitment")
@@ -82,7 +86,10 @@ public class RecruitmentRestController {
 
     @PutMapping("recruitment/offering/{id}")
     public ResponseEntity<Object> getContoh(@PathVariable(required = true) Integer id){        
-        Recruitment recruitment = iRecService.Get(id);   
+        Recruitment recruitment = iRecService.Get(id);  
+        User user = iUserService.getById(recruitment.getApplicant().getId());
+        Job job = iJobService.Get(recruitment.getJob().getId());
+        Biodata biodata = iBiodataService.getid(recruitment.getApplicant().getId());
 
         if((recruitment.getStatusTrainer().equalsIgnoreCase("approve")) && (recruitment.getStatusHr().equalsIgnoreCase("approve"))){
             recruitment.setStatusApplicant("approve");
@@ -90,14 +97,16 @@ public class RecruitmentRestController {
 
             try {
                 Email email = new Email();
-                email.setTo("naufal.aji@batmandiri.com");
+                // email.setTo(user.getEmail());
+                email.setTo("farhanabdulaziz86@gmail.com");
                 email.setFrom("farhanaziz939@gmail.com");
                 email.setSubject("Offering from PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
                 email.setTemplate("approved-email.html");
                 Map<String, Object> properties = new HashMap<>();
+                // properties.put("name", biodata.getFullname());            
                 properties.put("name", "Naufal Aji Wibowo");                
-                properties.put("position", "Graduate Development Program 2");
-                properties.put("location", "Jakarta Selatan");            
+                properties.put("position", job.getTitleJob());
+                properties.put("location", job.getLocation());            
                 email.setProperties(properties);
                 emailSenderService.sendHtmlMessage(email);
             } catch (Exception e) {
@@ -106,16 +115,20 @@ public class RecruitmentRestController {
             return ResponseHandler.generateResponse("offering accepted dikirim", HttpStatus.OK);    
                 
         }else{
+            recruitment.setStatusApplicant("reject");
+            iRecService.Save(recruitment);
             try {
                 Email email = new Email();
-                email.setTo("naufal.aji@batmandiri.com");
+                // email.setTo(user.getEmail());
+                email.setTo("farhanabdulaziz86@gmail.com");
                 email.setFrom("farhanaziz939@gmail.com");
                 email.setSubject("Offering from PT. Bumi Amartha Teknologi Mandiri Graduate Development Program");
                 email.setTemplate("rejected-email.html");
                 Map<String, Object> properties = new HashMap<>();
+                // properties.put("name", biodata.getFullname());            
                 properties.put("name", "Naufal Aji Wibowo");                
-                properties.put("position", "Graduate Development Program");
-                properties.put("location", "Jakarta Selatan");            
+                properties.put("position", job.getTitleJob());
+                properties.put("location", job.getLocation());            
                 email.setProperties(properties);
                 emailSenderService.sendHtmlMessage(email);
             } catch (Exception e) {

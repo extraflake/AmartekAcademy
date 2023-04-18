@@ -9,7 +9,7 @@ import Register from "./components/page/user_management/register";
 import { useEffect, useState } from "react";
 import CurriculumVitae from "./components/template/curriculumvitae";
 import CurriculumVitaeCetak from "./components/template/curriculumvitae/cetakcv";
-import JobVacancy from "./components/template/user_management/job-vacancy";
+// import JobVacancy from "./components/template/user_management/job-vacancy";
 
 // ini untuk route url aplikasi
 function App () {  
@@ -45,7 +45,7 @@ function App () {
         <Route exact path="/" element={<Tentang />} />
         <Route path="/register" element={<Register />} />
         <Route path="/find-job" element={<CariLowongan />} />
-        <Route path="/about" element={<Tentang />} />
+        <Route path="/about" element={<Tentang />} />                    
       </Routes>
       )}
     </div>
