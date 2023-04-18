@@ -15,7 +15,7 @@ import Button from '@mui/material/Button';
 import { NavLink } from "react-router-dom";
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
-import APIINTERVIEW from "../../../../services/arrangeInterview";
+import APIINTERVIEW from "../../../../services/arrangeinterview";
 // import Input from '@mui/material/Input';
 
 import MenuItem from '@mui/material/MenuItem';
@@ -53,7 +53,7 @@ function TemplateInterviewhr () {
     const [ getUserAll, setUserAll ] = useState( null );
     const [ getrecId, setrecId ] = useState( 0 )
     const [ statusinterview, setstatusinterview ] = useState( null );
-    const [statushr, setstatushr] = useState("");
+    const [ statushr, setstatushr ] = useState( "" );
     const handleOpen = () => { setOpen( true ) }
     const handleClose = () => setOpen( false );
     const [ selectedDate, setSelectedDate ] = useState( "" );
@@ -65,7 +65,7 @@ function TemplateInterviewhr () {
 
     };
 
-    const hendlestatusaccept = (id) => {
+    const hendlestatusaccept = ( id ) => {
 
         Swal.fire( {
             title: "Are you sure?",
@@ -88,13 +88,14 @@ function TemplateInterviewhr () {
                     sethttpStatus( res.status );
                     setstatusinterview( "" )
                 } );
-            }else {
+            } else
+            {
                 setstatusinterview( "" )
             }
         } );
     }
 
-    const hendlestatusreject = (id) => {
+    const hendlestatusreject = ( id ) => {
         Swal.fire( {
             title: "Are you sure?",
             text: "please change the status of the applicant",
@@ -117,7 +118,8 @@ function TemplateInterviewhr () {
                     setstatusinterview( "" )
                 } );
                 setstatusinterview( "" )
-            }else {
+            } else
+            {
                 setstatusinterview( "" )
             }
         } );
@@ -147,7 +149,7 @@ function TemplateInterviewhr () {
             } )
         } else if ( getRole == "Trainer" )
         {
-           
+
             APIINTERVIEW.putInterviewTrainer( getrecId, selectedDate, geturl, getnamerole ).then( ( res ) => {
                 handleClose( false );
                 Swal.fire( {
@@ -225,7 +227,7 @@ function TemplateInterviewhr () {
                                         >
                                             <div>
                                                 <p style={ { margin: "0 25px 0 25px" } }>  <span style={ { margin: " 0 25px 0 0" } }> { getFullname }</span>
-                                                <NavLink exact="true" to={ `/cv/applicant/${item.id}` } className="btn btn-outline-success" type="button">
+                                                    <NavLink exact="true" to={ `/cv/applicant/${ item.id }` } className="btn btn-outline-success" type="button">
                                                         View CV
                                                     </NavLink>
                                                 </p>
@@ -236,8 +238,8 @@ function TemplateInterviewhr () {
                                             color: "black"
                                         } }>
                                             <AiOutlineUser />
-                                            Status HR  <span style={ { margin: "0 10px 0 36px" } }>: { item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatusaccept(item.id);  } } hidden={ item.statusHr == "approve" || item.statusHr == "reject" ? true : false}>Accept</Button>
-                                            <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatusreject(item.id); } } hidden={ item.statusHr == "approve" || item.statusHr == "reject" ? true : false} >reject</Button>
+                                            Status HR  <span style={ { margin: "0 10px 0 36px" } }>: { item.statusHr }</span> <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatusaccept( item.id ); } } hidden={ item.statusHr == "approve" || item.statusHr == "reject" ? true : false }>Accept</Button>
+                                            <Button size="small" dir="rtl" variant="outlined" onClick={ () => { hendlestatusreject( item.id ); } } hidden={ item.statusHr == "approve" || item.statusHr == "reject" ? true : false } >reject</Button>
                                             <p style={ { margin: "10px 0 0 0" } }>
                                                 <AiOutlineUser />
 

@@ -68,6 +68,12 @@ public class ArrangeInterviewRestController {
         return recruitment;
     }
 
+    @GetMapping("usersx/{id}")
+    public User Get(@PathVariable(required = true) String id){
+        User user = userService.getById(id);
+        return user;
+    }
+
     @GetMapping("usersx")
     public ResponseEntity<Object> getAllUsersx(){
         List<User> user = userService.getAllUsers();

@@ -10,6 +10,11 @@ const APIINTERVIEW = {
     return axios.get( "interview/" + id );
   },
 
+  userbyId: ( id ) => {
+    return axios.get( "usersx/" + id );
+  },
+
+
   putInterviewHr: ( id, selectedDate, url, hr_id ) => {
     return axios.put( "interview/hr/" + id, {
       dateInterviewHr: selectedDate,
